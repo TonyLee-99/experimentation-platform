@@ -1,6 +1,468 @@
 {
-  "n_train": 6989354,
   "n_holdout": 6990238,
+  "qini_visit": {
+    "x_learner": {
+      "qini_coefficient": 0.09101351921691272,
+      "qini_area_above_random_share": 0.3710054927306359,
+      "qini_area_above_random_share_ci95": [
+        0.35241865941857664,
+        0.38815159662397497
+      ]
+    },
+    "t_learner": {
+      "qini_coefficient": 0.08628188485718251,
+      "qini_area_above_random_share": 0.3517175632872186,
+      "qini_area_above_random_share_ci95": [
+        0.33480852375356623,
+        0.3703415341213797
+      ]
+    },
+    "response_model": {
+      "qini_coefficient": 0.08494693599111837,
+      "qini_area_above_random_share": 0.34627580731419727,
+      "qini_area_above_random_share_ci95": [
+        0.33987905008383573,
+        0.35330260847475853
+      ]
+    },
+    "exposure_propensity": {
+      "qini_coefficient": 0.0905303817118367,
+      "qini_area_above_random_share": 0.36903604171204396
+    },
+    "random": {
+      "qini_coefficient": 0.0007542587267663733,
+      "qini_area_above_random_share": 0.0030746435582104104,
+      "qini_area_above_random_share_ci95": [
+        -0.005761193689464167,
+        0.01598641589232069
+      ]
+    }
+  },
+  "qini_conversion": {
+    "x_learner": {
+      "qini_coefficient": 0.16088265442999422,
+      "qini_area_above_random_share": 0.35287915518809654,
+      "qini_area_above_random_share_ci95": [
+        0.3280548835861059,
+        0.3797330536878884
+      ]
+    },
+    "t_learner": {
+      "qini_coefficient": 0.12491587786776179,
+      "qini_area_above_random_share": 0.2739898195223781,
+      "qini_area_above_random_share_ci95": [
+        0.23819615206720024,
+        0.30250891901821314
+      ]
+    },
+    "response_model": {
+      "qini_coefficient": 0.1849745407728823,
+      "qini_area_above_random_share": 0.40572217005310374,
+      "qini_area_above_random_share_ci95": [
+        0.39485840460915334,
+        0.4179460824497474
+      ]
+    },
+    "exposure_propensity": {
+      "qini_coefficient": 0.17035977352759385,
+      "qini_area_above_random_share": 0.3736662176133573
+    },
+    "random": {
+      "qini_coefficient": -0.0008932902058018473,
+      "qini_area_above_random_share": -0.001959337967650965,
+      "qini_area_above_random_share_ci95": [
+        -0.027320023291971574,
+        0.022178205813791187
+      ]
+    }
+  },
+  "qini_note": "qini_coefficient = standard Radcliffe (normalized by the perfect curve); qini_area_above_random_share = area between curve and random line / total increment (non-standard)",
+  "causalml_check": {
+    "n": 300000,
+    "max_abs_diff": 0.0,
+    "max_rel_diff": 0.0
+  },
+  "targeting": {
+    "definition": "IPW-weighted increments; every ranking shares one denominator (IPW increment over the whole holdout). share_of_exposures = share of exposed treated users (exposure is binary per user). efficiency = increment share / exposure share; tail = same ratio for the excluded users. CIs: Poisson bootstrap.",
+    "outcome_conversion": {
+      "rank_by_conversion_x_learner": [
+        {
+          "top": 0.1,
+          "share_of_incremental": 0.8197700730502939,
+          "share_of_incremental_ci90": [
+            0.7905546871780725,
+            0.8604734485378204
+          ],
+          "share_of_exposures": 0.5299986014638012,
+          "efficiency": 1.546740068343905,
+          "efficiency_ci90": [
+            1.4874007474728503,
+            1.6229716000236962
+          ],
+          "tail_marginal_efficiency": 0.3834667886330237
+        },
+        {
+          "top": 0.2,
+          "share_of_incremental": 0.8735090809120745,
+          "share_of_incremental_ci90": [
+            0.8508019339015501,
+            0.9057592906092143
+          ],
+          "share_of_exposures": 0.6911379422870728,
+          "efficiency": 1.2638708244283476,
+          "efficiency_ci90": [
+            1.2312486472702002,
+            1.3096188083181448
+          ],
+          "tail_marginal_efficiency": 0.4095385494241993
+        },
+        {
+          "top": 0.3,
+          "share_of_incremental": 0.893273037611801,
+          "share_of_incremental_ci90": [
+            0.8692479244108519,
+            0.9224167042917031
+          ],
+          "share_of_exposures": 0.7506736282690784,
+          "efficiency": 1.189961927491088,
+          "efficiency_ci90": [
+            1.1583830971696918,
+            1.2292252587753159
+          ],
+          "tail_marginal_efficiency": 0.42806126623212176
+        },
+        {
+          "top": 0.5,
+          "share_of_incremental": 0.9138599850629723,
+          "share_of_incremental_ci90": [
+            0.892077138283083,
+            0.9368044462460542
+          ],
+          "share_of_exposures": 0.8052258635961027,
+          "efficiency": 1.134911366336042,
+          "efficiency_ci90": [
+            1.1084265765790837,
+            1.162313169085036
+          ],
+          "tail_marginal_efficiency": 0.4422559202542259
+        }
+      ],
+      "rank_by_visit_x_learner": [
+        {
+          "top": 0.1,
+          "share_of_incremental": 0.8014759683174046,
+          "share_of_incremental_ci90": [
+            0.7720121896445804,
+            0.8389179081980899
+          ],
+          "share_of_exposures": 0.616651904340124,
+          "efficiency": 1.2997218733558602,
+          "efficiency_ci90": [
+            1.2504955093336434,
+            1.362659166235494
+          ],
+          "tail_marginal_efficiency": 0.5178688349576019
+        },
+        {
+          "top": 0.2,
+          "share_of_incremental": 0.8998913257025628,
+          "share_of_incremental_ci90": [
+            0.8676979853080565,
+            0.9404434117892259
+          ],
+          "share_of_exposures": 0.7848352058179106,
+          "efficiency": 1.1465990809685294,
+          "efficiency_ci90": [
+            1.10575386216106,
+            1.19746035476272
+          ],
+          "tail_marginal_efficiency": 0.4652651223820442
+        },
+        {
+          "top": 0.3,
+          "share_of_incremental": 0.9194594547579884,
+          "share_of_incremental_ci90": [
+            0.889425281188827,
+            0.9543492784084449
+          ],
+          "share_of_exposures": 0.8653908908675586,
+          "efficiency": 1.0624787763090802,
+          "efficiency_ci90": [
+            1.0272882042224287,
+            1.1039817772247935
+          ],
+          "tail_marginal_efficiency": 0.5983290860558929
+        },
+        {
+          "top": 0.5,
+          "share_of_incremental": 0.9269009588380978,
+          "share_of_incremental_ci90": [
+            0.8974952760439759,
+            0.9628426948809837
+          ],
+          "share_of_exposures": 0.9169968766024894,
+          "efficiency": 1.01080056267182,
+          "efficiency_ci90": [
+            0.9782414098945041,
+            1.0494178092011948
+          ],
+          "tail_marginal_efficiency": 0.8806781982386775
+        }
+      ],
+      "rank_by_conversion_response_model": [
+        {
+          "top": 0.1,
+          "share_of_incremental": 0.8742099927119368,
+          "share_of_incremental_ci90": [
+            0.8394903259945306,
+            0.9022428966253524
+          ],
+          "share_of_exposures": 0.5560346836977297,
+          "efficiency": 1.5722220543838823,
+          "efficiency_ci90": [
+            1.511237834951985,
+            1.6208238504423635
+          ],
+          "tail_marginal_efficiency": 0.28333296018651166
+        },
+        {
+          "top": 0.2,
+          "share_of_incremental": 0.9497516307854565,
+          "share_of_incremental_ci90": [
+            0.9276577533428432,
+            0.968172423534361
+          ],
+          "share_of_exposures": 0.7350146846300871,
+          "efficiency": 1.2921532734593468,
+          "efficiency_ci90": [
+            1.2593229412793774,
+            1.3161428836656768
+          ],
+          "tail_marginal_efficiency": 0.18962699553519782
+        },
+        {
+          "top": 0.3,
+          "share_of_incremental": 0.9691545615262238,
+          "share_of_incremental_ci90": [
+            0.9523615526119711,
+            0.9822067163542997
+          ],
+          "share_of_exposures": 0.8189035476201576,
+          "efficiency": 1.183478279392873,
+          "efficiency_ci90": [
+            1.1642804493392889,
+            1.1992304767218598
+          ],
+          "tail_marginal_efficiency": 0.17032602278193248
+        },
+        {
+          "top": 0.5,
+          "share_of_incremental": 0.980030552421655,
+          "share_of_incremental_ci90": [
+            0.9702930445857091,
+            0.9899276504249231
+          ],
+          "share_of_exposures": 0.939690457321337,
+          "efficiency": 1.0429291313815303,
+          "efficiency_ci90": [
+            1.0329570594933544,
+            1.0526865043613567
+          ],
+          "tail_marginal_efficiency": 0.33111588467425057
+        }
+      ],
+      "rank_by_exposure_propensity": [
+        {
+          "top": 0.1,
+          "share_of_incremental": 0.7787605264896289,
+          "share_of_incremental_ci90": [
+            0.7324257204527749,
+            0.8133398821349527
+          ],
+          "share_of_exposures": 0.7195095799729616,
+          "efficiency": 1.082349072431939,
+          "efficiency_ci90": [
+            1.0179067816283298,
+            1.1315842504099443
+          ],
+          "tail_marginal_efficiency": 0.7887594645444372
+        },
+        {
+          "top": 0.2,
+          "share_of_incremental": 0.8772126769605205,
+          "share_of_incremental_ci90": [
+            0.8462510645834829,
+            0.9060244858765177
+          ],
+          "share_of_exposures": 0.8784578807514801,
+          "efficiency": 0.9985825116738729,
+          "efficiency_ci90": [
+            0.9628640960046347,
+            1.0311532570197948
+          ],
+          "tail_marginal_efficiency": 1.0102450393218296
+        },
+        {
+          "top": 0.3,
+          "share_of_incremental": 0.9501507384322179,
+          "share_of_incremental_ci90": [
+            0.9318794010283853,
+            0.9704260315148779
+          ],
+          "share_of_exposures": 0.9345298587478439,
+          "efficiency": 1.016715228024179,
+          "efficiency_ci90": [
+            0.9978245948721031,
+            1.0384751510279175
+          ],
+          "tail_marginal_efficiency": 0.7614045214258716
+        },
+        {
+          "top": 0.5,
+          "share_of_incremental": 0.9807523201980244,
+          "share_of_incremental_ci90": [
+            0.9725392089154077,
+            0.9905221135103774
+          ],
+          "share_of_exposures": 0.9757447205258496,
+          "efficiency": 1.0051320796995715,
+          "efficiency_ci90": [
+            0.9965195636646982,
+            1.0148829869440243
+          ],
+          "tail_marginal_efficiency": 0.7935459916051867
+        }
+      ]
+    },
+    "outcome_visit": {
+      "rank_by_visit_x_learner": [
+        {
+          "top": 0.1,
+          "share_of_incremental": 0.7928021522958837,
+          "share_of_incremental_ci90": [
+            0.7629646209015453,
+            0.82051258694878
+          ],
+          "share_of_exposures": 0.616651904340124,
+          "efficiency": 1.2856558890290903,
+          "efficiency_ci90": [
+            1.2381865828475942,
+            1.3294395937110675
+          ],
+          "tail_marginal_efficiency": 0.5404953097457192
+        },
+        {
+          "top": 0.2,
+          "share_of_incremental": 0.9101873320894301,
+          "share_of_incremental_ci90": [
+            0.885705045775161,
+            0.9375137223434462
+          ],
+          "share_of_exposures": 0.7848352058179106,
+          "efficiency": 1.1597177666627285,
+          "efficiency_ci90": [
+            1.1289309597389696,
+            1.1949778909189872
+          ],
+          "tail_marginal_efficiency": 0.4174133981907992
+        },
+        {
+          "top": 0.3,
+          "share_of_incremental": 0.9380721770456815,
+          "share_of_incremental_ci90": [
+            0.916331919746764,
+            0.9599087639461327
+          ],
+          "share_of_exposures": 0.8653908908675586,
+          "efficiency": 1.0839866549846158,
+          "efficiency_ci90": [
+            1.0593079907242313,
+            1.1097108510170923
+          ],
+          "tail_marginal_efficiency": 0.4600567030971729
+        },
+        {
+          "top": 0.5,
+          "share_of_incremental": 0.9688669070866979,
+          "share_of_incremental_ci90": [
+            0.9516034587953732,
+            0.9885295246107073
+          ],
+          "share_of_exposures": 0.9169968766024894,
+          "efficiency": 1.0565651114062558,
+          "efficiency_ci90": [
+            1.0367373210129252,
+            1.0787596079840442
+          ],
+          "tail_marginal_efficiency": 0.3750833901057254
+        }
+      ],
+      "rank_by_conversion_x_learner": [
+        {
+          "top": 0.1,
+          "share_of_incremental": 0.6774766371463862,
+          "share_of_incremental_ci90": [
+            0.6556869409550651,
+            0.708881887087235
+          ],
+          "share_of_exposures": 0.5299986014638012,
+          "efficiency": 1.2782611789451255,
+          "efficiency_ci90": [
+            1.2354801856536666,
+            1.338458209601321
+          ],
+          "tail_marginal_efficiency": 0.6862178790490845
+        },
+        {
+          "top": 0.2,
+          "share_of_incremental": 0.8031293636909285,
+          "share_of_incremental_ci90": [
+            0.77753859767345,
+            0.8261665059985654
+          ],
+          "share_of_exposures": 0.6911379422870728,
+          "efficiency": 1.1620391741672584,
+          "efficiency_ci90": [
+            1.1252929311540316,
+            1.1952340226539488
+          ],
+          "tail_marginal_efficiency": 0.6374063482153368
+        },
+        {
+          "top": 0.3,
+          "share_of_incremental": 0.8435883214558509,
+          "share_of_incremental_ci90": [
+            0.8220289497653898,
+            0.8658006248650117
+          ],
+          "share_of_exposures": 0.7506736282690784,
+          "efficiency": 1.1237750863861005,
+          "efficiency_ci90": [
+            1.094915519920223,
+            1.1526814203736213
+          ],
+          "tail_marginal_efficiency": 0.6273370821476995
+        },
+        {
+          "top": 0.5,
+          "share_of_incremental": 0.8805556578891249,
+          "share_of_incremental_ci90": [
+            0.8638936906988045,
+            0.8983924544007216
+          ],
+          "share_of_exposures": 0.8052258635961027,
+          "efficiency": 1.093551136021144,
+          "efficiency_ci90": [
+            1.0724354390382766,
+            1.1150401317357583
+          ],
+          "tail_marginal_efficiency": 0.6132453944664753
+        }
+      ]
+    },
+    "total_ipw_incremental_conversions_holdout": 6850.661995042038
+  },
+  "n_train": 6989354,
   "balance": {
     "method": "classifier two-sample test (LightGBM, train fold 0, test fold 1)",
     "auc": 0.5099666758214452,
@@ -12,314 +474,5 @@
     "n_test": 6990238,
     "paper_reference": "Diemert et al. (2021) report a C2ST on 300 samples with p = 0.137"
   },
-  "qini_visit": {
-    "t_learner": {
-      "normalized_qini": 0.3517175632872186,
-      "share_of_incremental_top20": 0.7834891758279036,
-      "normalized_qini_ci95": [
-        0.3354570750940638,
-        0.3670272912444477
-      ],
-      "share_top20_ci95": [
-        0.7627568016724507,
-        0.8027664673324667
-      ]
-    },
-    "x_learner": {
-      "normalized_qini": 0.3710054927306359,
-      "share_of_incremental_top20": 0.7894060862366324,
-      "normalized_qini_ci95": [
-        0.35752802726196625,
-        0.389037795322256
-      ],
-      "share_top20_ci95": [
-        0.770198903495791,
-        0.8125874368457308
-      ]
-    },
-    "response_model (P(visit|x) / P(conv|x))": {
-      "normalized_qini": 0.34627580731419727,
-      "share_of_incremental_top20": 0.7434291041126244
-    },
-    "exposure_propensity": {
-      "normalized_qini": 0.36903604171204396,
-      "share_of_incremental_top20": 0.8072024089095591
-    },
-    "random": {
-      "normalized_qini": 0.0030746435582104104,
-      "share_of_incremental_top20": 0.20430403102483333,
-      "normalized_qini_ci95": [
-        -0.0048375387762319795,
-        0.014313420654517099
-      ],
-      "share_top20_ci95": [
-        0.18573668404690524,
-        0.2188612873529277
-      ]
-    }
-  },
-  "qini_conversion": {
-    "t_learner": {
-      "normalized_qini": 0.2739898195223781,
-      "share_of_incremental_top20": 0.7377440926686035,
-      "normalized_qini_ci95": [
-        0.2403338330402782,
-        0.3020890145719768
-      ],
-      "share_top20_ci95": [
-        0.6934569140704471,
-        0.7672039734971946
-      ]
-    },
-    "x_learner": {
-      "normalized_qini": 0.35287915518809654,
-      "share_of_incremental_top20": 0.8120238359939943,
-      "normalized_qini_ci95": [
-        0.328407460695598,
-        0.3780273939339548
-      ],
-      "share_top20_ci95": [
-        0.7837885782423311,
-        0.8473345749640352
-      ]
-    },
-    "response_model (P(visit|x) / P(conv|x))": {
-      "normalized_qini": 0.40572217005310374,
-      "share_of_incremental_top20": 0.8650475344289895
-    },
-    "exposure_propensity": {
-      "normalized_qini": 0.3736662176133573,
-      "share_of_incremental_top20": 0.7931409314780619
-    },
-    "random": {
-      "normalized_qini": -0.007612096490121956,
-      "share_of_incremental_top20": 0.1830434531606592,
-      "normalized_qini_ci95": [
-        -0.02856415308458817,
-        0.011324925934055048
-      ],
-      "share_top20_ci95": [
-        0.14960933011023964,
-        0.21037828009218296
-      ]
-    }
-  },
-  "causalml_check": {
-    "n": 300000,
-    "max_abs_diff": 0.0,
-    "max_rel_diff": 0.0
-  },
-  "targeting": {
-    "rank_by_visit_x_learner__raw": [
-      {
-        "top": 0.1,
-        "share_of_exposures": 0.616651904340124,
-        "incremental_visits": 43708.200660840404,
-        "incremental_conversions": 5297.611251987962,
-        "share_of_incremental_visits": 0.6034374637357965,
-        "share_of_incremental_conversions": 0.6633603854477345
-      },
-      {
-        "top": 0.2,
-        "share_of_exposures": 0.7848352058179106,
-        "incremental_visits": 56633.104086369916,
-        "incremental_conversions": 6554.775887692035,
-        "share_of_incremental_visits": 0.7818792852752346,
-        "share_of_incremental_conversions": 0.8207809996913653
-      },
-      {
-        "top": 0.3,
-        "share_of_exposures": 0.8653908908675586,
-        "incremental_visits": 62933.94908558576,
-        "incremental_conversions": 7005.602005587641,
-        "share_of_incremental_visits": 0.8688690461949897,
-        "share_of_incremental_conversions": 0.8772328934057088
-      },
-      {
-        "top": 0.5,
-        "share_of_exposures": 0.9169968766024894,
-        "incremental_visits": 69354.98839127002,
-        "incremental_conversions": 7351.055231622725,
-        "share_of_incremental_visits": 0.9575182153345794,
-        "share_of_incremental_conversions": 0.9204901228014677
-      },
-      {
-        "top": 1.0,
-        "share_of_exposures": 1.0,
-        "incremental_visits": 72432.03030559137,
-        "incremental_conversions": 7986.022934445119,
-        "share_of_incremental_visits": 1.0,
-        "share_of_incremental_conversions": 1.0
-      }
-    ],
-    "rank_by_visit_x_learner__ipw": [
-      {
-        "top": 0.1,
-        "share_of_exposures": 0.616651904340124,
-        "incremental_visits": 41657.58347719912,
-        "incremental_conversions": 5490.640955917219,
-        "share_of_incremental_visits": 0.7928021522435595,
-        "share_of_incremental_conversions": 0.8014759682919558
-      },
-      {
-        "top": 0.2,
-        "share_of_exposures": 0.7848352058179106,
-        "incremental_visits": 47825.55730521197,
-        "incremental_conversions": 6164.851304455531,
-        "share_of_incremental_visits": 0.9101873320273801,
-        "share_of_incremental_conversions": 0.8998913256729288
-      },
-      {
-        "top": 0.3,
-        "share_of_exposures": 0.8653908908675586,
-        "incremental_visits": 49290.75925160493,
-        "incremental_conversions": 6298.905942496504,
-        "share_of_incremental_visits": 0.9380721769850238,
-        "share_of_incremental_conversions": 0.9194594547293604
-      },
-      {
-        "top": 0.5,
-        "share_of_exposures": 0.9169968766024894,
-        "incremental_visits": 50908.8603539459,
-        "incremental_conversions": 6349.885171617991,
-        "share_of_incremental_visits": 0.9688669070054471,
-        "share_of_incremental_conversions": 0.9269009587998255
-      },
-      {
-        "top": 1.0,
-        "share_of_exposures": 1.0,
-        "incremental_visits": 52544.74065100841,
-        "incremental_conversions": 6850.661995042038,
-        "share_of_incremental_visits": 1.0,
-        "share_of_incremental_conversions": 1.0
-      }
-    ],
-    "rank_by_conversion_x_learner__raw": [
-      {
-        "top": 0.1,
-        "share_of_exposures": 0.5299986014638012,
-        "incremental_visits": 38440.1122641577,
-        "incremental_conversions": 5436.683030884453,
-        "share_of_incremental_visits": 0.5307059888005146,
-        "share_of_incremental_conversions": 0.6807747830819624
-      },
-      {
-        "top": 0.2,
-        "share_of_exposures": 0.6911379422870728,
-        "incremental_visits": 51602.48609352262,
-        "incremental_conversions": 6435.021647854433,
-        "share_of_incremental_visits": 0.7124263378482044,
-        "share_of_incremental_conversions": 0.8057855206124007
-      },
-      {
-        "top": 0.3,
-        "share_of_exposures": 0.7506736282690784,
-        "incremental_visits": 57948.03407740571,
-        "incremental_conversions": 6866.58261016036,
-        "share_of_incremental_visits": 0.8000332702662406,
-        "share_of_incremental_conversions": 0.8598250551652667
-      },
-      {
-        "top": 0.5,
-        "share_of_exposures": 0.8052258635961027,
-        "incremental_visits": 64043.761872563846,
-        "incremental_conversions": 7274.05773652799,
-        "share_of_incremental_visits": 0.8841911734679072,
-        "share_of_incremental_conversions": 0.910848590874151
-      },
-      {
-        "top": 1.0,
-        "share_of_exposures": 1.0,
-        "incremental_visits": 72432.03030559137,
-        "incremental_conversions": 7986.022934445119,
-        "share_of_incremental_visits": 1.0,
-        "share_of_incremental_conversions": 1.0
-      }
-    ],
-    "rank_by_conversion_x_learner__ipw": [
-      {
-        "top": 0.1,
-        "share_of_exposures": 0.5299986014638012,
-        "incremental_visits": 35597.83419310783,
-        "incremental_conversions": 5615.967683900148,
-        "share_of_incremental_visits": 0.6774766370918354,
-        "share_of_incremental_conversions": 0.8197700730184224
-      },
-      {
-        "top": 0.2,
-        "share_of_exposures": 0.6911379422870728,
-        "incremental_visits": 42200.22412084615,
-        "incremental_conversions": 5984.115462687295,
-        "share_of_incremental_visits": 0.8031293636242596,
-        "share_of_incremental_conversions": 0.8735090808768722
-      },
-      {
-        "top": 0.3,
-        "share_of_exposures": 0.7506736282690784,
-        "incremental_visits": 44326.12956338966,
-        "incremental_conversions": 6119.5116497127665,
-        "share_of_incremental_visits": 0.8435883213849106,
-        "share_of_incremental_conversions": 0.8932730375752848
-      },
-      {
-        "top": 0.5,
-        "share_of_exposures": 0.8052258635961027,
-        "incremental_visits": 46268.56866787657,
-        "incremental_conversions": 6260.5458681490845,
-        "share_of_incremental_visits": 0.8805556577999516,
-        "share_of_incremental_conversions": 0.9138599850175009
-      },
-      {
-        "top": 1.0,
-        "share_of_exposures": 1.0,
-        "incremental_visits": 52544.74065100841,
-        "incremental_conversions": 6850.661995042044,
-        "share_of_incremental_visits": 1.0,
-        "share_of_incremental_conversions": 1.0
-      }
-    ],
-    "rank_by_exposure_propensity__raw": [
-      {
-        "top": 0.1,
-        "share_of_exposures": 0.7195095799729616,
-        "incremental_visits": 45734.556671711056,
-        "incremental_conversions": 4952.839520615635,
-        "share_of_incremental_visits": 0.6314134296492389,
-        "share_of_incremental_conversions": 0.6201884919780494
-      },
-      {
-        "top": 0.2,
-        "share_of_exposures": 0.8784578807514801,
-        "incremental_visits": 57838.74352056013,
-        "incremental_conversions": 6265.946144068326,
-        "share_of_incremental_visits": 0.7985243997239614,
-        "share_of_incremental_conversions": 0.7846140933357705
-      },
-      {
-        "top": 0.3,
-        "share_of_exposures": 0.9345298587478439,
-        "incremental_visits": 62221.627518079404,
-        "incremental_conversions": 7086.4557192727625,
-        "share_of_incremental_visits": 0.8590347012994916,
-        "share_of_incremental_conversions": 0.8873572962967129
-      },
-      {
-        "top": 0.5,
-        "share_of_exposures": 0.9757447205258496,
-        "incremental_visits": 67522.01880293948,
-        "incremental_conversions": 7622.280539728819,
-        "share_of_incremental_visits": 0.9322121514206283,
-        "share_of_incremental_conversions": 0.9544526233267607
-      },
-      {
-        "top": 1.0,
-        "share_of_exposures": 1.0,
-        "incremental_visits": 72432.03030559137,
-        "incremental_conversions": 7986.022934445119,
-        "share_of_incremental_visits": 1.0,
-        "share_of_incremental_conversions": 1.0
-      }
-    ]
-  },
-  "seconds": 964.6
+  "seconds_total": 1003.6
 }

@@ -1,0 +1,83 @@
+{
+  "label": "SIMULATION: A/A re-randomization of real Criteo control units (85% 'treatment')",
+  "share_treatment": 0.85,
+  "n_units": 2096937,
+  "n_reps": 10000,
+  "alpha": 0.05,
+  "methods": {
+    "visit": {
+      "fpr": 0.0514,
+      "fpr_ci95": [
+        0.047153336680560855,
+        0.05591025809440157
+      ],
+      "ks_pvalue": 0.042588375056523575,
+      "n_reps": 10000
+    },
+    "visit_cuped": {
+      "fpr": 0.0509,
+      "fpr_ci95": [
+        0.04667344868082044,
+        0.05539045811216987
+      ],
+      "ks_pvalue": 0.15771189523450868,
+      "n_reps": 10000
+    },
+    "visit_cupac": {
+      "fpr": 0.0538,
+      "fpr_ci95": [
+        0.04945835646536591,
+        0.05840374479204972
+      ],
+      "ks_pvalue": 0.40923269209250723,
+      "n_reps": 10000
+    },
+    "conversion": {
+      "fpr": 0.0477,
+      "fpr_ci95": [
+        0.04360496971801007,
+        0.05206094182017943
+      ],
+      "ks_pvalue": 0.28427095947626957,
+      "n_reps": 10000
+    },
+    "conversion_cuped": {
+      "fpr": 0.0473,
+      "fpr_ci95": [
+        0.043221764619582125,
+        0.05164439853147997
+      ],
+      "ks_pvalue": 0.7617334189040476,
+      "n_reps": 10000
+    },
+    "conversion_cupac": {
+      "fpr": 0.0482,
+      "fpr_ci95": [
+        0.044084089895404376,
+        0.052581507460036044
+      ],
+      "ks_pvalue": 0.5052319941412058,
+      "n_reps": 10000
+    },
+    "conversion_per_visit_delta": {
+      "fpr": 0.0463,
+      "fpr_ci95": [
+        0.04226411275474249,
+        0.05060268050045864
+      ],
+      "ks_pvalue": 0.8763349647794842,
+      "n_reps": 10000
+    }
+  },
+  "variance_reduction_aa": {
+    "visit_cuped": 0.2550982155519609,
+    "visit_cupac": 0.3058276449552164,
+    "visit_cuped_analytic": 0.2517921878391435,
+    "visit_cupac_analytic": 0.3040370665878316,
+    "conversion_cuped": 0.11131814942048301,
+    "conversion_cupac": 0.1301480963108449,
+    "conversion_cuped_analytic": 0.11056680428485499,
+    "conversion_cupac_analytic": 0.13220485277937521
+  },
+  "seconds": 167.4
+}

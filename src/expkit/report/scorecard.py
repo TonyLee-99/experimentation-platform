@@ -233,7 +233,8 @@ def _monotone_info(var: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     """Variance-based information fractions I_k / I_K at looks where information is a new running max."""
     info = 1.0 / var
     keep = info >= np.maximum.accumulate(info) - 1e-15
-    keep &= np.concatenate([[True], np.diff(np.maximum.accumulate(info)) > 0])
+    rm = np.maximum.accumulate(info)
+    keep &= np.concatenate([[True], np.diff(rm) / rm[1:] > 1e-3])
     return keep, info / info[keep][-1]
 
 

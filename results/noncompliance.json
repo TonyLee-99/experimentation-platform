@@ -30,6 +30,17 @@
       "se": 0.003499677140374033,
       "se_ratio_vs_wald": 0.8700370631183849
     },
+    "wald_on_adjusted_itt": {
+      "itt": 0.006329932691335888,
+      "cace": 0.17565226183377822,
+      "se": 0.003377483668029822
+    },
+    "headline_cace": {
+      "value": 0.18306827206314935,
+      "se": 0.003499677140374033,
+      "estimator": "2SLS with the CUPAC covariate",
+      "unadjusted_wald_upper_reference": 0.28699618005843747
+    },
     "complier_means": {
       "E[Y(1)|complier]": 0.4145376589166114,
       "E[Y(0)|complier]": 0.127541478858174,
@@ -39,103 +50,187 @@
     "dilution": {
       "n_total_needed_itt_at_observed_effect": 25773.597958280727,
       "n_ratio_itt_over_ideal_trigger": 7.021625285261411,
+      "n_ratio_itt_over_ideal_trigger_weighted_85_15": 8.083772181553192,
       "n_total_needed_ideal_trigger": 3670.6028748614985,
+      "formula_weighted": "(s2_T/0.85 + s2_C/0.15) / (pi * (s2_C1/0.85 + s2_C0/0.15)), complier variances from complier means (raw contrasts)",
       "note": "ideal trigger = counterfactual exposure logged in control too (ghost ads); Deng & Hu 2015"
+    },
+    "kitagawa": {
+      "strata": [
+        {
+          "decile": 1,
+          "y1_diff": -8.321168875068357e-05,
+          "y1_z": -1.9028755539567879,
+          "y0_diff": -0.0006725385850718801,
+          "y0_z": -13.323005347036062
+        },
+        {
+          "decile": 2,
+          "y1_diff": -0.00010032907621170342,
+          "y1_z": -1.5137846527520056,
+          "y0_diff": -0.001043339072925309,
+          "y0_z": -14.25883804426558
+        },
+        {
+          "decile": 3,
+          "y1_diff": -6.195891953219776e-05,
+          "y1_z": -0.6879075940874493,
+          "y0_diff": -0.0014678400971099848,
+          "y0_z": -15.141566433259214
+        },
+        {
+          "decile": 4,
+          "y1_diff": -2.3508633643623024e-05,
+          "y1_z": -0.20644035383665388,
+          "y0_diff": -0.0021897954927383445,
+          "y0_z": -17.98630552123626
+        },
+        {
+          "decile": 5,
+          "y1_diff": -0.0001223051311495995,
+          "y1_z": -0.8641335286886936,
+          "y0_diff": -0.0030408886387524037,
+          "y0_z": -20.19351694318429
+        },
+        {
+          "decile": 6,
+          "y1_diff": -0.00030262578877053147,
+          "y1_z": -1.5821812367049863,
+          "y0_diff": -0.0050030141977205345,
+          "y0_z": -24.713213488193947
+        },
+        {
+          "decile": 7,
+          "y1_diff": -0.0021065942048435135,
+          "y1_z": -4.403793595795765,
+          "y0_diff": -0.007312071524995467,
+          "y0_z": -15.050205706836598
+        },
+        {
+          "decile": 8,
+          "y1_diff": -0.002558608512989946,
+          "y1_z": -3.648424800734125,
+          "y0_diff": -0.017763034716887005,
+          "y0_z": -24.988539049578684
+        },
+        {
+          "decile": 9,
+          "y1_diff": -0.005850465743716962,
+          "y1_z": -9.283632821063856,
+          "y0_diff": -0.051206993214170216,
+          "y0_z": -77.59225952922041
+        },
+        {
+          "decile": 10,
+          "y1_diff": -0.053772287478272826,
+          "y1_z": -59.21847682281225,
+          "y0_diff": -0.20026066788129626,
+          "y0_z": -207.13243192729362
+        }
+      ],
+      "n_inequalities": 20,
+      "n_violations_z_gt_1.96": 0,
+      "max_z": -0.20644035383665388
+    },
+    "stratified_by_predicted_exposure": {
+      "itt": 0.008184925346118668,
+      "se": 0.0001453051562895794,
+      "se_ratio_vs_unstratified": 0.9930885085061758
     },
     "strata": [
       {
         "decile": 1,
-        "compliance": 0.0007580626277651387,
+        "compliance": 0.0007582778667116017,
         "share_of_all_exposures": 0.002101762678299534,
-        "itt": 9.218175809957128e-05,
-        "itt_se": 4.54499553686472e-05,
+        "itt": 9.287728251901063e-05,
+        "itt_se": 4.5393017586395384e-05,
         "itt_exceeds_bound": false,
-        "nevertaker_minus_control": -8.365083473200097e-05,
-        "nevertaker_minus_control_se": 4.379356783113963e-05,
+        "nevertaker_minus_control": -8.300517631312212e-05,
+        "nevertaker_minus_control_se": 4.373351529672103e-05,
         "nevertaker_diff_outside_bound": false,
-        "cace_stratum": 0.12160177104540079
+        "cace_stratum": 0.12248449624645967
       },
       {
         "decile": 2,
-        "compliance": 0.0011422627086210065,
+        "compliance": 0.0011419392572591099,
         "share_of_all_exposures": 0.0031643204767731873,
-        "itt": 0.00014288922870064533,
-        "itt_se": 6.772098600697157e-05,
+        "itt": 0.0001413450683081704,
+        "itt_se": 6.78065858167519e-05,
         "itt_exceeds_bound": false,
-        "nevertaker_minus_control": -9.824632366926605e-05,
-        "nevertaker_minus_control_se": 6.621079452192472e-05,
+        "nevertaker_minus_control": -9.972243051133882e-05,
+        "nevertaker_minus_control_se": 6.629920435678434e-05,
         "nevertaker_diff_outside_bound": false,
-        "cace_stratum": 0.1250931398024435
+        "cace_stratum": 0.12377634572913078
       },
       {
         "decile": 3,
-        "compliance": 0.0015290145703612508,
+        "compliance": 0.0015290132801385225,
         "share_of_all_exposures": 0.004231548858976395,
-        "itt": 0.00025822517311910147,
-        "itt_se": 9.153424286745794e-05,
+        "itt": 0.0002582167818491988,
+        "itt_se": 9.153458421083228e-05,
         "itt_exceeds_bound": false,
-        "nevertaker_minus_control": -5.9420835232770666e-05,
-        "nevertaker_minus_control_se": 9.007302438548539e-05,
+        "nevertaker_minus_control": -5.942896029381521e-05,
+        "nevertaker_minus_control_se": 9.007337373126936e-05,
         "nevertaker_diff_outside_bound": false,
-        "cace_stratum": 0.16888339596272925
+        "cace_stratum": 0.1688780504416583
       },
       {
         "decile": 4,
-        "compliance": 0.002213268642548254,
+        "compliance": 0.002213266775009577,
         "share_of_all_exposures": 0.006125470561310752,
-        "itt": 0.00043273631241447447,
-        "itt_se": 0.00011555496717925561,
+        "itt": 0.00043272292700652056,
+        "itt_se": 0.00011555539733938421,
         "itt_exceeds_bound": false,
-        "nevertaker_minus_control": -1.9442925578796056e-05,
-        "nevertaker_minus_control_se": 0.00011391973226208012,
+        "nevertaker_minus_control": -1.945593380211488e-05,
+        "nevertaker_minus_control_se": 0.00011392017133677053,
         "nevertaker_diff_outside_bound": false,
-        "cace_stratum": 0.19551910874960127
+        "cace_stratum": 0.19551322592128467
       },
       {
         "decile": 5,
-        "compliance": 0.003163244534428686,
-        "share_of_all_exposures": 0.008745668033590838,
-        "itt": 0.0005487353649504985,
-        "itt_se": 0.00014349702395057362,
+        "compliance": 0.0031624399440491396,
+        "share_of_all_exposures": 0.00874333274172606,
+        "itt": 0.0005482007134032991,
+        "itt_se": 0.00014348656071635493,
         "itt_exceeds_bound": false,
-        "nevertaker_minus_control": -0.00010983983781872111,
-        "nevertaker_minus_control_se": 0.00014159425398266938,
+        "nevertaker_minus_control": -0.00010954103247258354,
+        "nevertaker_minus_control_se": 0.0001415860830575551,
         "nevertaker_diff_outside_bound": false,
-        "cace_stratum": 0.17347231899970883
+        "cace_stratum": 0.17334739097097013
       },
       {
         "decile": 6,
-        "compliance": 0.005306421572186752,
-        "share_of_all_exposures": 0.014677309370125078,
-        "itt": 0.0008324412200788524,
-        "itt_se": 0.00019373743149037919,
+        "compliance": 0.005308060873419592,
+        "share_of_all_exposures": 0.014681979953854632,
+        "itt": 0.0008328697719735302,
+        "itt_se": 0.00019374721313154556,
         "itt_exceeds_bound": false,
-        "nevertaker_minus_control": -0.0002689597552592328,
-        "nevertaker_minus_control_se": 0.00019143173852273094,
+        "nevertaker_minus_control": -0.0002702034470347661,
+        "nevertaker_minus_control_se": 0.000191438036249316,
         "nevertaker_diff_outside_bound": false,
-        "cace_stratum": 0.15687430950492823
+        "cace_stratum": 0.15690659768884183
       },
       {
         "decile": 7,
-        "compliance": 0.009417924627889792,
-        "share_of_all_exposures": 0.026043174875996004,
-        "itt": 0.0006698709979479078,
-        "itt_se": 0.0004805692773132091,
+        "compliance": 0.009417056264187656,
+        "share_of_all_exposures": 0.026040839584131226,
+        "itt": 0.0006691464572205902,
+        "itt_se": 0.0004805746613650493,
         "itt_exceeds_bound": false,
-        "nevertaker_minus_control": -0.0017085652446379163,
-        "nevertaker_minus_control_se": 0.0004789927153549562,
+        "nevertaker_minus_control": -0.0017084679868973052,
+        "nevertaker_minus_control_se": 0.00047899875844940507,
         "nevertaker_diff_outside_bound": false,
-        "cace_stratum": 0.07112724134191772
+        "cace_stratum": 0.07105686091791794
       },
       {
         "decile": 8,
         "compliance": 0.02032166039189059,
         "share_of_all_exposures": 0.0561941281421352,
         "itt": 0.003954023164679715,
-        "itt_se": 0.0007044204292813961,
+        "itt_se": 0.0007044204292813985,
         "itt_exceeds_bound": false,
         "nevertaker_minus_control": -0.0005523541780644847,
-        "nevertaker_minus_control_se": 0.0007033698538257321,
+        "nevertaker_minus_control_se": 0.0007033698538257338,
         "nevertaker_diff_outside_bound": false,
         "cace_stratum": 0.19457185527308477
       },
@@ -144,10 +239,10 @@
         "compliance": 0.057057458957887226,
         "share_of_all_exposures": 0.15830242963765612,
         "itt": 0.010276828776369776,
-        "itt_se": 0.000639179278562993,
+        "itt_se": 0.0006391792785629916,
         "itt_exceeds_bound": false,
         "nevertaker_minus_control": -0.0015077749059699552,
-        "nevertaker_minus_control_se": 0.0006354833852908967,
+        "nevertaker_minus_control_se": 0.0006354833852908964,
         "nevertaker_diff_outside_bound": false,
         "cace_stratum": 0.18011367775692327
       },
@@ -156,26 +251,27 @@
         "compliance": 0.25403295535956916,
         "share_of_all_exposures": 0.7204141873651368,
         "itt": 0.06464302251785686,
-        "itt_se": 0.0009429381120547607,
+        "itt_se": 0.0009429381120547605,
         "itt_exceeds_bound": false,
         "nevertaker_minus_control": -0.016475533975797096,
-        "nevertaker_minus_control_se": 0.000939411386102256,
+        "nevertaker_minus_control_se": 0.0009394113861022559,
         "nevertaker_diff_outside_bound": false,
         "cace_stratum": 0.2544670726928258
       }
     ],
+    "retargeting_caveat": "Exposure is logged over the same 2-week window as the outcome, and retargeting means site visits can cause ad eligibility. Compliers are partly selected on outcome behaviour (complier baseline E[Y(0)|C] vs control mean shows it), so the CACE is a ratio of ITTs for this population, not the effect of a pre-defined ad opportunity. Ghost-ads designs log the counterfactual first opportunity to avoid this.",
     "predicted_trigger": [
       {
         "top_share_by_predicted_exposure": 0.1,
         "share_of_exposures_captured": 0.7204141873651368,
         "itt_triggered": 0.06464391196770239,
-        "itt_triggered_se": 0.0009429342325508514,
+        "itt_triggered_se": 0.0009429342325508515,
         "diluted_to_population": 0.006464394896100633,
         "diluted_se": 9.429347721570046e-05,
         "full_itt": 0.010342403129198284,
         "full_itt_se": 0.00014631642098864926,
         "z_full_itt": 70.68518392751429,
-        "z_triggered": 68.5561195427447,
+        "z_triggered": 68.55611954274468,
         "variance_ratio_full_over_diluted": 2.4078134508617013,
         "diluted_within_full_ci": false
       },
@@ -251,6 +347,17 @@
       "se": 0.0008980984497606678,
       "se_ratio_vs_wald": 0.9443427382231108
     },
+    "wald_on_adjusted_itt": {
+      "itt": 0.0008911386503736227,
+      "cace": 0.02472862306417237,
+      "se": 0.0008901871787276297
+    },
+    "headline_cace": {
+      "value": 0.02504479780104721,
+      "se": 0.0008980984497606678,
+      "estimator": "2SLS with the CUPAC covariate",
+      "unadjusted_wald_upper_reference": 0.031963863885825596
+    },
     "complier_means": {
       "E[Y(1)|complier]": 0.053784106937685074,
       "E[Y(0)|complier]": 0.021820243051859478,
@@ -260,115 +367,199 @@
     "dilution": {
       "n_total_needed_itt_at_observed_effect": 134930.00192126556,
       "n_ratio_itt_over_ideal_trigger": 2.23436571631172,
+      "n_ratio_itt_over_ideal_trigger_weighted_85_15": 2.266948386496649,
       "n_total_needed_ideal_trigger": 60388.50351857138,
+      "formula_weighted": "(s2_T/0.85 + s2_C/0.15) / (pi * (s2_C1/0.85 + s2_C0/0.15)), complier variances from complier means (raw contrasts)",
       "note": "ideal trigger = counterfactual exposure logged in control too (ghost ads); Deng & Hu 2015"
+    },
+    "kitagawa": {
+      "strata": [
+        {
+          "decile": 1,
+          "y1_diff": 3.4712012384252422e-06,
+          "y1_z": 0.38260533062999313,
+          "y0_diff": -0.000761687102373787,
+          "y0_z": -28.375129733460064
+        },
+        {
+          "decile": 2,
+          "y1_diff": -3.600853046667537e-06,
+          "y1_z": -0.2673750212559024,
+          "y0_diff": -0.001136748027970147,
+          "y0_z": -33.64781638460944
+        },
+        {
+          "decile": 3,
+          "y1_diff": -1.9724318263429896e-05,
+          "y1_z": -1.0995853990043187,
+          "y0_diff": -0.0015109572400615612,
+          "y0_z": -37.6412493674774
+        },
+        {
+          "decile": 4,
+          "y1_diff": 2.575590972388994e-06,
+          "y1_z": 0.13450839668557812,
+          "y0_diff": -0.002215881584956114,
+          "y0_z": -46.92529893899754
+        },
+        {
+          "decile": 5,
+          "y1_diff": -4.0100437417387575e-05,
+          "y1_z": -1.4497793546885895,
+          "y0_diff": -0.003121417395215542,
+          "y0_z": -53.325034970203845
+        },
+        {
+          "decile": 6,
+          "y1_diff": -7.206064146434888e-05,
+          "y1_z": -2.051991259640898,
+          "y0_diff": -0.005235964379790459,
+          "y0_z": -69.4161125784658
+        },
+        {
+          "decile": 7,
+          "y1_diff": -3.600677182864938e-05,
+          "y1_z": -0.6038540762868294,
+          "y0_diff": -0.00938208488228276,
+          "y0_z": -87.77652525690966
+        },
+        {
+          "decile": 8,
+          "y1_diff": 3.9484740597299853e-07,
+          "y1_z": 0.003729864231572897,
+          "y0_diff": -0.020322141049799125,
+          "y0_z": -121.55629482875236
+        },
+        {
+          "decile": 9,
+          "y1_diff": -0.0006321757679060712,
+          "y1_z": -4.641185606815095,
+          "y0_diff": -0.05642528318998108,
+          "y0_z": -223.7904936573156
+        },
+        {
+          "decile": 10,
+          "y1_diff": -0.008910118178415218,
+          "y1_z": -31.087891585734184,
+          "y0_diff": -0.2451228371811539,
+          "y0_z": -504.7127438515901
+        }
+      ],
+      "n_inequalities": 20,
+      "n_violations_z_gt_1.96": 0,
+      "max_z": 0.38260533062999313
+    },
+    "stratified_by_predicted_exposure": {
+      "itt": 0.0009321459385045231,
+      "se": 3.657308743852699e-05,
+      "se_ratio_vs_unstratified": 1.0640470187805506
     },
     "strata": [
       {
         "decile": 1,
-        "compliance": 0.0007580192115757956,
+        "compliance": 0.0007584491232328135,
         "share_of_all_exposures": 0.002101762678299534,
-        "itt": 3.797780623346204e-05,
-        "itt_se": 1.0563291557752601e-05,
+        "itt": 3.805277552483832e-05,
+        "itt_se": 1.0545289318490858e-05,
         "itt_exceeds_bound": false,
-        "nevertaker_minus_control": 3.459237271866043e-06,
-        "nevertaker_minus_control_se": 9.084239274127113e-06,
+        "nevertaker_minus_control": 3.514636928292418e-06,
+        "nevertaker_minus_control_se": 9.061481312857973e-06,
         "nevertaker_diff_outside_bound": false,
-        "cace_stratum": 0.05010137692224516
+        "cace_stratum": 0.05017182347398883
       },
       {
         "decile": 2,
-        "compliance": 0.001140653637530118,
-        "share_of_all_exposures": 0.0031596498930436326,
-        "itt": 4.2824605497826434e-05,
-        "itt_se": 1.4832537473305169e-05,
+        "compliance": 0.0011417237247662204,
+        "share_of_all_exposures": 0.0031643204767731873,
+        "itt": 4.2683516310207415e-05,
+        "itt_se": 1.486211702826416e-05,
         "itt_exceeds_bound": false,
-        "nevertaker_minus_control": -3.5097329251786947e-06,
-        "nevertaker_minus_control_se": 1.3452668447998641e-05,
+        "nevertaker_minus_control": -3.625804026147598e-06,
+        "nevertaker_minus_control_se": 1.3486837201241173e-05,
         "nevertaker_diff_outside_bound": false,
-        "cace_stratum": 0.0375439170040745
+        "cace_stratum": 0.03738515315423379
       },
       {
         "decile": 3,
-        "compliance": 0.0015306660591255627,
-        "share_of_all_exposures": 0.004236219442705949,
-        "itt": 2.5837402870952964e-05,
-        "itt_se": 1.898017567593024e-05,
+        "compliance": 0.0015289590927501013,
+        "share_of_all_exposures": 0.004231548858976395,
+        "itt": 2.5831998538193324e-05,
+        "itt_se": 1.8981192114691126e-05,
         "itt_exceeds_bound": false,
-        "nevertaker_minus_control": -1.966479514788608e-05,
-        "nevertaker_minus_control_se": 1.7941863068667874e-05,
+        "nevertaker_minus_control": -1.966969435448275e-05,
+        "nevertaker_minus_control_se": 1.794296203296438e-05,
         "nevertaker_diff_outside_bound": false,
-        "cace_stratum": 0.0168798430702209
+        "cace_stratum": 0.016895153481006443
       },
       {
         "decile": 4,
-        "compliance": 0.002213311596807701,
+        "compliance": 0.002213300391187976,
         "share_of_all_exposures": 0.006125470561310752,
-        "itt": 5.6580481381973336e-05,
-        "itt_se": 2.0302859891834508e-05,
+        "itt": 5.657800790763101e-05,
+        "itt_se": 2.0303263127392506e-05,
         "itt_exceeds_bound": false,
-        "nevertaker_minus_control": 2.728303188142498e-06,
-        "nevertaker_minus_control_se": 1.9154686012030273e-05,
+        "nevertaker_minus_control": 2.7261015889227538e-06,
+        "nevertaker_minus_control_se": 1.9155125356949138e-05,
         "nevertaker_diff_outside_bound": false,
-        "cace_stratum": 0.02556372155804017
+        "cace_stratum": 0.025562733433243147
       },
       {
         "decile": 5,
-        "compliance": 0.0031622796793124067,
+        "compliance": 0.003162434601629532,
         "share_of_all_exposures": 0.00874333274172606,
-        "itt": 2.7445918107818604e-05,
-        "itt_se": 2.867591976398817e-05,
+        "itt": 2.7493608720479285e-05,
+        "itt_se": 2.8669774086954654e-05,
         "itt_exceeds_bound": false,
-        "nevertaker_minus_control": -3.979191284578998e-05,
-        "nevertaker_minus_control_se": 2.767335804515039e-05,
+        "nevertaker_minus_control": -3.97474999325165e-05,
+        "nevertaker_minus_control_se": 2.7666890146117998e-05,
         "nevertaker_diff_outside_bound": false,
-        "cace_stratum": 0.008679155827793933
+        "cace_stratum": 0.00869381099811912
       },
       {
         "decile": 6,
-        "compliance": 0.005307234505298369,
+        "compliance": 0.005307230024433859,
         "share_of_all_exposures": 0.014679644661989856,
-        "itt": 1.4916481634310143e-05,
-        "itt_se": 3.6145674178917425e-05,
+        "itt": 1.4915174815774543e-05,
+        "itt_se": 3.614581128606362e-05,
         "itt_exceeds_bound": false,
-        "nevertaker_minus_control": -7.118092301026537e-05,
-        "nevertaker_minus_control_se": 3.5136620770756824e-05,
+        "nevertaker_minus_control": -7.118215787144661e-05,
+        "nevertaker_minus_control_se": 3.513676352557525e-05,
         "nevertaker_diff_outside_bound": false,
-        "cace_stratum": 0.0028105940333743645
+        "cace_stratum": 0.0028103501727090863
       },
       {
         "decile": 7,
-        "compliance": 0.009418210962182741,
-        "share_of_all_exposures": 0.026043174875996004,
-        "itt": 0.00019038093047614771,
-        "itt_se": 6.120457994203323e-05,
+        "compliance": 0.009416944927213122,
+        "share_of_all_exposures": 0.026040839584131226,
+        "itt": 0.00019018221870462993,
+        "itt_se": 6.121635747029423e-05,
         "itt_exceeds_bound": false,
-        "nevertaker_minus_control": -3.0115890830220943e-05,
-        "nevertaker_minus_control_se": 5.970786952003945e-05,
+        "nevertaker_minus_control": -3.030552570041918e-05,
+        "nevertaker_minus_control_se": 5.972006644983953e-05,
         "nevertaker_diff_outside_bound": false,
-        "cace_stratum": 0.02021412890840847
+        "cace_stratum": 0.020195745029265345
       },
       {
         "decile": 8,
-        "compliance": 0.02032181485131708,
-        "share_of_all_exposures": 0.0561941281421352,
-        "itt": 0.0006625476828707607,
-        "itt_se": 0.00010845639733687456,
+        "compliance": 0.020322384772399255,
+        "share_of_all_exposures": 0.056196463433999984,
+        "itt": 0.0006623590602945588,
+        "itt_se": 0.00010846265608921073,
         "itt_exceeds_bound": false,
-        "nevertaker_minus_control": 4.264133083302368e-05,
-        "nevertaker_minus_control_se": 0.00010619823935643657,
+        "nevertaker_minus_control": 4.246229263928829e-05,
+        "nevertaker_minus_control_se": 0.00010620470247553243,
         "nevertaker_diff_outside_bound": false,
-        "cace_stratum": 0.03260278118456631
+        "cace_stratum": 0.032592585354162686
       },
       {
         "decile": 9,
         "compliance": 0.057057458957887226,
         "share_of_all_exposures": 0.15830242963765612,
         "itt": 0.0009123746206304187,
-        "itt_se": 0.00014086896579265567,
+        "itt_se": 0.00014086896579265575,
         "itt_exceeds_bound": false,
         "nevertaker_minus_control": -0.0004637426824253368,
-        "nevertaker_minus_control_se": 0.00013727382879919855,
+        "nevertaker_minus_control_se": 0.00013727382879919864,
         "nevertaker_diff_outside_bound": false,
         "cace_stratum": 0.01599045308526307
       },
@@ -377,14 +568,15 @@
         "compliance": 0.25403295535956916,
         "share_of_all_exposures": 0.7204141873651368,
         "itt": 0.007350988403598499,
-        "itt_se": 0.0003084969162738133,
+        "itt_se": 0.00030849691627381334,
         "itt_exceeds_bound": false,
         "nevertaker_minus_control": -0.0070214442322560165,
-        "nevertaker_minus_control_se": 0.0002928319212559856,
+        "nevertaker_minus_control_se": 0.00029283192125598563,
         "nevertaker_diff_outside_bound": false,
         "cace_stratum": 0.028937144762157314
       }
     ],
+    "retargeting_caveat": "Exposure is logged over the same 2-week window as the outcome, and retargeting means site visits can cause ad eligibility. Compliers are partly selected on outcome behaviour (complier baseline E[Y(0)|C] vs control mean shows it), so the CACE is a ratio of ITTs for this population, not the effect of a pre-defined ad opportunity. Ghost-ads designs log the counterfactual first opportunity to avoid this.",
     "predicted_trigger": [
       {
         "top_share_by_predicted_exposure": 0.1,
@@ -404,13 +596,13 @@
         "top_share_by_predicted_exposure": 0.2,
         "share_of_exposures_captured": 0.878716617002793,
         "itt_triggered": 0.004596690035765745,
-        "itt_triggered_se": 0.00016428999005176694,
+        "itt_triggered_se": 0.00016428999005176697,
         "diluted_to_population": 0.0009193382044417409,
         "diluted_se": 3.285800506163171e-05,
         "full_itt": 0.0011518730521316279,
         "full_itt_se": 3.437168357507502e-05,
         "z_full_itt": 33.51226743420042,
-        "z_triggered": 27.979124195681987,
+        "z_triggered": 27.97912419568198,
         "variance_ratio_full_over_diluted": 1.0942567284375342,
         "diluted_within_full_ci": false
       },
@@ -418,13 +610,13 @@
         "top_share_by_predicted_exposure": 0.3,
         "share_of_exposures_captured": 0.934913080436793,
         "itt_triggered": 0.0034410876794556313,
-        "itt_triggered_se": 0.00011372362550928703,
+        "itt_triggered_se": 0.00011372362550928702,
         "diluted_to_population": 0.0010323497866224975,
         "diluted_se": 3.4117863729360704e-05,
         "full_itt": 0.0011518730521316279,
         "full_itt_se": 3.437168357507502e-05,
         "z_full_itt": 33.51226743420042,
-        "z_triggered": 30.258336067333882,
+        "z_triggered": 30.258336067333886,
         "variance_ratio_full_over_diluted": 1.0149343460716498,
         "diluted_within_full_ci": false
       },
@@ -432,17 +624,17 @@
         "top_share_by_predicted_exposure": 0.5,
         "share_of_exposures_captured": 0.9756358999747788,
         "itt_triggered": 0.0022021762181181604,
-        "itt_triggered_se": 6.876425875755478e-05,
+        "itt_triggered_se": 6.876425875755479e-05,
         "diluted_to_population": 0.0011011413535000998,
-        "diluted_se": 3.438379196803321e-05,
+        "diluted_se": 3.438379196803322e-05,
         "full_itt": 0.0011518730521316279,
         "full_itt_se": 3.437168357507502e-05,
         "z_full_itt": 33.51226743420042,
-        "z_triggered": 32.02501209069193,
-        "variance_ratio_full_over_diluted": 0.9992958158332622,
+        "z_triggered": 32.025012090691924,
+        "variance_ratio_full_over_diluted": 0.9992958158332618,
         "diluted_within_full_ci": true
       }
     ]
   },
-  "seconds": 82.1
+  "seconds": 74.9
 }

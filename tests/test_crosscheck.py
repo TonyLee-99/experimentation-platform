@@ -215,3 +215,15 @@ def test_wald_matches_linearmodels_iv2sls() -> None:
     )
     assert b == pytest.approx(ref2.params["d"], rel=1e-8)
     assert se == pytest.approx(ref2.std_errors["d"], rel=1e-6)
+
+
+def test_obf_type1_with_near_duplicate_looks() -> None:
+    """Regression test: looks with almost identical information (Δt ~ 1e-9) used to break the point-sampled
+    transition kernel (false-positive rates of 20-95% on some real ASOS schedules). Cell-integrated transitions
+    keep the Monte-Carlo type-I error at alpha."""
+    t = np.array([0.1067, 0.2928, 0.2949, 0.2949 + 1e-9, 0.5, 0.5 + 2e-9, 0.75, 1.0])
+    b = gsd_boundaries(t).z_bounds
+    rng = np.random.default_rng(11)
+    S = (rng.standard_normal((200_000, t.size)) * np.sqrt(np.diff(np.concatenate([[0.0], t])))).cumsum(axis=1)
+    fpr = float((np.abs(S / np.sqrt(t)) >= b).any(axis=1).mean())
+    assert 0.047 <= fpr <= 0.053

@@ -141,13 +141,26 @@ def gsd_boundaries(
             bounds[k] = optimize.brentq(lambda c, target=target: cross_prob(c) - target, 0.0, 40.0, xtol=1e-10)
         # propagate the continuation sub-density to look k
         b_score = min(bounds[k], 10.0) * sqrt_tk
-        new_grid = np.linspace(-b_score, b_score, grid_points)
-        kern = stats.norm.pdf((new_grid[:, None] - grid[None, :]) / sd) / sd
-        dens = kern @ mass
-        grid = new_grid
-        weights = _trapezoid_weights(grid)
+        grid, weights, dens = _propagate(grid, mass, sd, b_score, grid_points)
 
     return GSDBoundaries(t, bounds, cum)
+
+
+def _propagate(
+    grid: FloatArray, mass: FloatArray, sd: float, b: float, grid_points: int
+) -> tuple[FloatArray, FloatArray, FloatArray]:
+    """Move probability mass from the old grid through a N(0, sd²) increment onto a new grid on [−b, b].
+
+    Each new point owns a cell (midpoints between points; outer edges at ±b). The mass reaching a cell is a
+    difference of normal CDFs, so this is exact for any increment size, including near-duplicate looks where a
+    point-sampled kernel would be far narrower than the grid spacing.
+    """
+    new_grid = np.linspace(-b, b, grid_points)
+    edges = np.concatenate([[-b], 0.5 * (new_grid[1:] + new_grid[:-1]), [b]])
+    cdf = stats.norm.cdf((edges[:, None] - grid[None, :]) / sd)
+    cell_mass = (cdf[1:] - cdf[:-1]) @ mass
+    widths = np.diff(edges)
+    return new_grid, widths, cell_mass / widths
 
 
 def _trapezoid_weights(grid: FloatArray) -> FloatArray:
@@ -181,10 +194,7 @@ def crossing_probabilities(info_fraction: ArrayLike, z_bounds: ArrayLike, grid_p
         sd = math.sqrt(t[k] - t[k - 1])
         mass = dens * _trapezoid_weights(grid)
         bk = min(c[k], 10.0) * math.sqrt(t[k])
-        new_grid = np.linspace(-bk, bk, grid_points)
-        kern = stats.norm.pdf((new_grid[:, None] - grid[None, :]) / sd) / sd
-        dens = kern @ mass
-        grid = new_grid
-        cont = float(np.sum(dens * _trapezoid_weights(grid)))
+        grid, w_new, dens = _propagate(grid, mass, sd, bk, grid_points)
+        cont = float(np.sum(dens * w_new))
         out[k] = 1.0 - cont
     return out

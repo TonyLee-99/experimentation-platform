@@ -81,7 +81,7 @@ def _design(u: dict[str, np.ndarray]) -> tuple[np.ndarray, list[str]]:
     return np.column_stack(cols), names
 
 
-def run_aa(n_reps: int = 10_000, batch: int = 25, seed: int = SEED) -> dict[str, Any]:
+def run_aa(n_reps: int = 10_000, batch: int = 25, seed: int = SEED, share_t: float = 0.5) -> dict[str, Any]:
     t0 = time.time()
     u = load_control_units()
     n = u["visit"].size
@@ -97,7 +97,7 @@ def run_aa(n_reps: int = 10_000, batch: int = 25, seed: int = SEED) -> dict[str,
     check_against_engine(u["conversion"], first.astype(int), u["visit"])
 
     for _ in range(n_reps // batch):
-        W = (rng.random((batch, n)) < 0.5).astype(np.float64)
+        W = (rng.random((batch, n)) < share_t).astype(np.float64)
         T = W @ D  # treatment-arm sums, shape (batch, k)
         C = total[None, :] - T
         for s in SERIES:
@@ -130,7 +130,8 @@ def run_aa(n_reps: int = 10_000, batch: int = 25, seed: int = SEED) -> dict[str,
         pvals["conversion_per_visit_delta"].append(p)
 
     res: dict[str, Any] = {
-        "label": "SIMULATION: A/A re-randomization of real Criteo control units",
+        "label": f"SIMULATION: A/A re-randomization of real Criteo control units ({share_t:.0%} 'treatment')",
+        "share_treatment": share_t,
         "n_units": n,
         "n_reps": (n_reps // batch) * batch,
         "alpha": ALPHA,
@@ -326,6 +327,7 @@ def run_peeking_aa(
 
 def main() -> None:
     write_json("aa_tests", run_aa())
+    write_json("aa_tests_85_15", run_aa(share_t=0.85, seed=SEED + 85))
     write_json("aa_bootstrap", run_bootstrap_aa())
     write_json("power_curves", run_power())
     write_json("criteo_peeking", run_peeking_aa())
