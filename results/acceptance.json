@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-29 10:16",
+  "generated": "2026-10-29 16:06",
   "rows": [
     {
       "id": "D1",
@@ -19,7 +19,7 @@
     {
       "id": "D4",
       "status": "PASS",
-      "evidence": "data/ = 358 MB"
+      "evidence": "data/ = 603 MB"
     },
     {
       "id": "C1",
@@ -94,7 +94,7 @@
     {
       "id": "V6",
       "status": "PASS",
-      "evidence": "naive 21.7%, mSPRT 1.14%, OBF 5.02%, fixed 5.04%"
+      "evidence": "MODEL-BASED (Brownian null on real look schedules, variance-based information; OBF ~5% by construction): naive 24.9%, mSPRT 1.22%, OBF 5.06%, fixed 5.05%"
     },
     {
       "id": "V7",
@@ -104,7 +104,7 @@
     {
       "id": "V8",
       "status": "INFO",
-      "evidence": "361 real trajectories: naive declared 218, fixed-horizon significant 105, mSPRT 104, OBF 140; SRM flagged 11/99 under an equal-allocation assumption"
+      "evidence": "trajectories 396 -> 381 (valid variance, >=2 daily looks) -> 361 (>=3 looks). Declared significant: naive 218, fixed-horizon 105, mSPRT 100, OBF 136; SRM flagged 11/99 (equal-split assumption)"
     },
     {
       "id": "H1",
@@ -114,7 +114,7 @@
     {
       "id": "H2",
       "status": "PASS",
-      "evidence": "normalized Qini (visit, holdout): T 0.352 [0.335, 0.367], X 0.371 [0.358, 0.389], random 0.003"
+      "evidence": "Qini area above random / total increment (non-standard; visit, holdout): T 0.352 [0.335, 0.370], X 0.371 [0.352, 0.388], random 0.003; standard Qini coefficient X 0.091"
     },
     {
       "id": "H3",
@@ -124,7 +124,7 @@
     {
       "id": "H4",
       "status": "PASS",
-      "evidence": "top 20% by X-learner keeps 78.2% of incremental visits (Qini-curve share, bootstrap 95% CI 77.0%\u201381.3%) using 78.5% of exposures; ranking by conversion uplift keeps 80.6% of incremental conversions"
+      "evidence": "top 20% by visit X-learner keeps 91.0% of IPW incremental visits (90% CI 88.6%-93.8%) on 78.5% of exposures (efficiency 1.16x); conversion X-learner keeps 87.4% of incremental conversions on 69.1% (response model 95.0% on 73.5%)"
     },
     {
       "id": "N1",
@@ -139,42 +139,42 @@
     {
       "id": "N3",
       "status": "PASS",
-      "evidence": "exposed users in control = 0; bound violations across 2\u00d710 predicted-exposure deciles = 0"
+      "evidence": "exposed users in control = 0; sharp IV inequalities (Kitagawa 2015) by predicted-exposure decile: 0/40 violated; retargeting caveat recorded"
     },
     {
       "id": "N4",
       "status": "FAIL",
-      "evidence": "ideal-trigger sample-size ratio: visit 7.0\u00d7, conversion 2.2\u00d7; predicted-trigger diluted estimate within full-ITT CI at top 10/20/30/50%: [False, False, False, False]"
+      "evidence": "ideal-trigger sample-size ratio (85/15-weighted): visit 8.1x, conversion 2.3x; top-k predicted-trigger diluted estimate within full-ITT CI at top 10/20/30/50%: [False, False, False, False] (the unbiased stratified use is reported separately)"
     },
     {
       "id": "W1",
       "status": "PASS",
-      "evidence": "metric_1: logL normal 356.7 vs NPMLE 406.3; metric_2: logL normal 314.9 vs NPMLE 357.1; metric_3: logL normal 313.4 vs NPMLE 347.6; metric_4: logL normal 313.9 vs NPMLE 339.8"
+      "evidence": "fitted; NPMLE logL >= normal logL holds by construction (it nests the normal), so it is a sanity check, not evidence of non-normality; metric_1: 356.7 vs 406.3; metric_2: 314.9 vs 357.1; metric_3: 313.4 vs 347.6; metric_4: 313.9 vs 339.8"
     },
     {
       "id": "W2",
       "status": "PASS",
-      "evidence": "coverage metric_1=94.8%, metric_2=94.6%, metric_3=94.9%, metric_4=94.8%; EB MSE < raw MSE for all: True"
+      "evidence": "self-consistent (truth from normal prior) coverage metric_1=95.0%, metric_2=95.0%, metric_3=94.8%, metric_4=94.8%; EB MSE < raw MSE: True. Misspecified (truth from NPMLE prior), coverage among winners: metric_1=85%, metric_2=84%, metric_3=84%, metric_4=85%"
     },
     {
       "id": "W3",
       "status": "INFO",
-      "evidence": "metric_1: 16 winners overstated \u00d71.09, FDR 4.4%, P(true lift>+0.1%) 23%; metric_2: 12 winners overstated \u00d71.06, FDR 4.5%, P(true lift>+0.1%) 19%; metric_3: 12 winners overstated \u00d71.14, FDR 1.2%, P(true lift>+0.1%) 28%; metric_4: 16 winners overstated \u00d71.21, FDR 2.6%, P(true lift>+0.1%) 43%"
+      "evidence": "metric_1: 16 winners, small (<1%) winners overstated x1.34 (median, NPMLE), FDR normal 0.6% vs NPMLE 4.4%, P(true lift>+0.1%) 23% [12%, 39%]; metric_2: 12 winners, small (<1%) winners overstated x1.48 (median, NPMLE), FDR normal 0.3% vs NPMLE 4.5%, P(true lift>+0.1%) 19% [12%, 43%]; metric_3: 12 winners, small (<1%) winners overstated x1.85 (median, NPMLE), FDR normal 0.7% vs NPMLE 1.2%, P(true lift>+0.1%) 28% [15%, 64%]; metric_4: 16 winners, small (<1%) winners overstated x1.81 (median, NPMLE), FDR normal 0.8% vs NPMLE 2.6%, P(true lift>+0.1%) 43% [30%, 58%]"
     },
     {
       "id": "W4",
       "status": "INFO",
-      "evidence": "metric_1 NPMLE excess kurtosis 8.2, metric_2 NPMLE excess kurtosis 6.8, metric_3 NPMLE excess kurtosis 6.9, metric_4 NPMLE excess kurtosis 5.1"
+      "evidence": "metric_1 NPMLE excess kurtosis 8.2 [4.2, 16.0], metric_2 NPMLE excess kurtosis 6.8 [3.0, 12.1], metric_3 NPMLE excess kurtosis 6.9 [3.3, 13.9], metric_4 NPMLE excess kurtosis 5.1 [2.0, 10.4]"
     },
     {
       "id": "P1",
       "status": "PASS",
-      "evidence": "of 361 real trajectories, declared but unsupported by final analysis: naive 116 (32.1%), mSPRT 35, OBF 41"
+      "evidence": "real trajectories (n=361): naive declared 218, not supported by final 116, sign reversals 33 vs MODEL expectation (NPMLE effects) 162 / 60 / 8; OBF 38 unsupported, 4 reversals; mSPRT 32, 9"
     },
     {
       "id": "P2",
       "status": "INFO",
-      "evidence": "naive: detects 97% of final-significant, median stop day 9 (horizon median 45); msprt: detects 66% of final-significant, median stop day 12 (horizon median 45); obf: detects 94% of final-significant, median stop day 19 (horizon median 45)"
+      "evidence": "detection among final-significant: naive 97%, obf 93%, msprt 65%; on the 68 trajectories both detect, median stop day mSPRT 11.5 vs OBF 13 (horizon median 45)"
     },
     {
       "id": "B1",
@@ -184,7 +184,7 @@
     {
       "id": "B2",
       "status": "PASS",
-      "evidence": "scorecard panel present (Criteo: Bayes ship, p-value rule SHIP); ASOS metric 1, \u03b5=0.1%: p-value ships 16, Bayes ships 66, p-yes/Bayes-no 0, p-no/Bayes-yes 50"
+      "evidence": "panel shown when informative (ASOS d53f0e: framework HOLD, expected-loss rule ship). ASOS metric 1 under the NPMLE truth model: p-value rule ships 16 (expected harmful 0.7), fixed eps=0.1% loss rule ships 66 (14 with negative posterior mean; expected harmful 25.1)"
     },
     {
       "id": "T1",
@@ -208,23 +208,48 @@
     },
     {
       "id": "E4",
-      "status": "PASS",
-      "evidence": "ruff check exit 0, ruff format --check exit 0, mypy src exit 0"
+      "status": "FAIL",
+      "evidence": "ruff check exit 1, ruff format --check exit 1, mypy src exit 0"
     },
     {
       "id": "E5",
       "status": "PASS",
-      "evidence": "38 tests, 0 failed; coverage of expkit/stats = 92.1%"
+      "evidence": "41 tests, 0 failed; coverage of expkit/stats = 92.1%"
     },
     {
       "id": "E6",
       "status": "PASS",
-      "evidence": "Dockerfile + .github/workflows/ci.yml present; Docker daemon not available \u2192 image not built; CI not run remotely (by rule)"
+      "evidence": "Dockerfile + .github/workflows/ci.yml included, not run (no remote; Docker daemon unavailable)"
     },
     {
       "id": "E7",
       "status": "FAIL",
-      "evidence": "71.3 min"
+      "evidence": "71.3 min wall clock (shared host)"
+    },
+    {
+      "id": "R1",
+      "status": "PASS",
+      "evidence": "scorecard HOLD \u2014 balance check failed [R1b]; conversion post-stratified lift over negative-sampling corrections k=1..20: +46.8% to +59.8% (visit +17.4% to +25.7%); odds ratios crude/MH: conversion 1.596/1.474, visit 1.285/1.261"
+    },
+    {
+      "id": "R2",
+      "status": "PASS",
+      "evidence": "test_negative_sampling_creates_imbalance_that_adjustment_cannot_fix=PASS"
+    },
+    {
+      "id": "R3",
+      "status": "PASS",
+      "evidence": "10,000 A/A reps at 85/15: FPR 4.63%-5.38%; min KS p 0.043"
+    },
+    {
+      "id": "R4",
+      "status": "PASS",
+      "evidence": "test_obf_type1_with_near_duplicate_looks=PASS"
+    },
+    {
+      "id": "R5",
+      "status": "FAIL",
+      "evidence": "test_rendered_docs_match_results=MISSING"
     }
   ]
 }

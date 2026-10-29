@@ -6,15 +6,15 @@
   "reason": "Sample ratio mismatch (p = 2.2e-10 < 0.0005). Do not interpret any metric; debug assignment/logging first.",
   "srm_p": 2.2165487567475706e-10,
   "balance": {
-    "chi2": 6014.080612670405,
+    "chi2": 6014.080613628077,
     "p": 0.0,
-    "max_abs_smd": 0.04908900295332412
+    "max_abs_smd": 0.049089002949690146
   },
   "variance_reduction": {
-    "conversion_cupac": 0.12894063563862257,
-    "conversion_cuped": 0.10660538228564431,
-    "visit_cupac": 0.3081084556477123,
-    "visit_cuped": 0.25189062811020413
+    "conversion_cupac": 0.12894063563862623,
+    "conversion_cuped": 0.1066053821878663,
+    "visit_cupac": 0.30810845564771483,
+    "visit_cuped": 0.25189062840565357
   },
   "metrics": {
     "conversion": {
@@ -29,38 +29,38 @@
         "p": 6.139415526550567e-252,
         "method": "welch"
       },
-      "bh_q": 2.4433344529053738e-172,
+      "bh_q": 2.443334452869944e-172,
       "adjusted": {
-        "delta": 0.000898744619491563,
-        "se": 3.211285151240227e-05,
-        "rel_lift": 0.4638471194099876,
+        "delta": 0.0008987446194915778,
+        "se": 3.21128515124022e-05,
+        "rel_lift": 0.46384711940999523,
         "rel_ci": [
-          0.4313634053848458,
-          0.4963308334351294
+          0.43136340538485346,
+          0.49633083343513695
         ],
-        "p": 2.4433344529053738e-172,
+        "p": 2.443334452869944e-172,
         "method": "cupac[cupac_conversion]"
       },
       "cuped[cuped]": {
-        "delta": 0.0009238751492089271,
-        "se": 3.2521956157444374e-05,
-        "rel_lift": 0.47681712620150624,
+        "delta": 0.0009238751486847969,
+        "se": 3.2521956159224065e-05,
+        "rel_lift": 0.47681712593099973,
         "rel_ci": [
-          0.44391958291021694,
-          0.5097146694927956
+          0.44391958263791015,
+          0.5097146692240893
         ],
-        "p": 1.703089406271959e-177,
+        "p": 1.7030902620557648e-177,
         "method": "cuped[cuped]"
       },
       "post-stratified": {
-        "delta": 0.0009167452422122531,
-        "se": 3.560171508059003e-05,
-        "rel_lift": 0.47313734136569907,
+        "delta": 0.0009167388478037639,
+        "se": 3.5601740551844416e-05,
+        "rel_lift": 0.4731340411757522,
         "rel_ci": [
-          0.4371244847648694,
-          0.5091501979665288
+          0.4371211588095168,
+          0.5091469235419875
         ],
-        "p": 3.2209088697083307e-146,
+        "p": 3.23740007837266e-146,
         "method": "post-stratified[100 bins]"
       }
     },
@@ -78,34 +78,34 @@
       },
       "bh_q": 0.0,
       "adjusted": {
-        "delta": 0.0064752053673695145,
-        "se": 0.00012180888138654358,
-        "rel_lift": 0.16950374779896046,
+        "delta": 0.006475205367369466,
+        "se": 0.00012180888138654336,
+        "rel_lift": 0.1695037477989592,
         "rel_ci": [
-          0.16325413693892082,
-          0.1757533586590001
+          0.16325413693891958,
+          0.17575335865899883
         ],
         "p": 0.0,
         "method": "cupac[cupac_visit]"
       },
       "cuped[cuped]": {
-        "delta": 0.0071368414090455315,
-        "se": 0.00012666087709207763,
-        "rel_lift": 0.18682362915872555,
+        "delta": 0.007136841407199404,
+        "se": 0.00012666087706706666,
+        "rel_lift": 0.18682362911039882,
         "rel_ci": [
-          0.18032507844804135,
-          0.19332217986940975
+          0.18032507840099787,
+          0.19332217981979977
         ],
         "p": 0.0,
         "method": "cuped[cuped]"
       },
       "post-stratified": {
-        "delta": 0.006812490709173501,
-        "se": 0.00012811405473959637,
-        "rel_lift": 0.17833298583386997,
+        "delta": 0.0068124923082077075,
+        "se": 0.00012811411734199848,
+        "rel_lift": 0.1783330276923556,
         "rel_ci": [
-          0.17175987998911743,
-          0.18490609167862251
+          0.1717599186356821,
+          0.1849061367490291
         ],
         "p": 0.0,
         "method": "post-stratified[100 bins]"
@@ -141,34 +141,34 @@
     },
     {
       "estimator": "cuped[cuped]",
-      "rel_lift": 0.47681712620150624,
+      "rel_lift": 0.47681712593099973,
       "rel_ci": [
-        0.44391958291021694,
-        0.5097146694927956
+        0.44391958263791015,
+        0.5097146692240893
       ],
-      "p": 1.703089406271959e-177,
+      "p": 1.7030902620557648e-177,
       "verdict_if_gates_waived": "SHIP",
       "note": ""
     },
     {
       "estimator": "post-stratified",
-      "rel_lift": 0.47313734136569907,
+      "rel_lift": 0.4731340411757522,
       "rel_ci": [
-        0.4371244847648694,
-        0.5091501979665288
+        0.4371211588095168,
+        0.5091469235419875
       ],
-      "p": 3.2209088697083307e-146,
+      "p": 3.23740007837266e-146,
       "verdict_if_gates_waived": "SHIP",
       "note": ""
     },
     {
       "estimator": "cupac[cupac_conversion] (decision estimate)",
-      "rel_lift": 0.4638471194099876,
+      "rel_lift": 0.46384711940999523,
       "rel_ci": [
-        0.4313634053848458,
-        0.4963308334351294
+        0.43136340538485346,
+        0.49633083343513695
       ],
-      "p": 2.4433344529053738e-172,
+      "p": 2.443334452869944e-172,
       "verdict_if_gates_waived": "SHIP",
       "note": ""
     },
@@ -197,39 +197,39 @@
   ],
   "economics": {
     "compliance": 0.03610755335638539,
-    "cace": 0.024890764838615846,
-    "cace_se": 0.0008893665875238074,
+    "cace": 0.024890764838616256,
+    "cace_se": 0.0008893665875238055,
     "cace_sensitivity_high": 0.03210335821480259,
-    "exposed_users_per_incremental": 40.17554327814738,
+    "exposed_users_per_incremental": 40.17554327814672,
     "grid": [
       {
         "value_per_conversion": 20.0,
         "cells": [
           {
             "cost": 0.25,
-            "iroas": 1.9912611870892678,
-            "iroas_low": 1.8518110686412714,
+            "iroas": 1.9912611870893004,
+            "iroas_low": 1.8518110686413045,
             "iroas_sensitivity_high": 2.5682686571842073,
             "verdict": "profitable"
           },
           {
             "cost": 0.5,
-            "iroas": 0.9956305935446339,
-            "iroas_low": 0.9259055343206357,
+            "iroas": 0.9956305935446502,
+            "iroas_low": 0.9259055343206523,
             "iroas_sensitivity_high": 1.2841343285921036,
             "verdict": "depends on magnitude"
           },
           {
             "cost": 1.0,
-            "iroas": 0.49781529677231695,
-            "iroas_low": 0.46295276716031786,
+            "iroas": 0.4978152967723251,
+            "iroas_low": 0.46295276716032613,
             "iroas_sensitivity_high": 0.6420671642960518,
             "verdict": "unprofitable"
           },
           {
             "cost": 2.0,
-            "iroas": 0.24890764838615848,
-            "iroas_low": 0.23147638358015893,
+            "iroas": 0.24890764838616256,
+            "iroas_low": 0.23147638358016306,
             "iroas_sensitivity_high": 0.3210335821480259,
             "verdict": "unprofitable"
           }
@@ -240,29 +240,29 @@
         "cells": [
           {
             "cost": 0.25,
-            "iroas": 3.9825223741785356,
-            "iroas_low": 3.703622137282543,
+            "iroas": 3.982522374178601,
+            "iroas_low": 3.703622137282609,
             "iroas_sensitivity_high": 5.1365373143684145,
             "verdict": "profitable"
           },
           {
             "cost": 0.5,
-            "iroas": 1.9912611870892678,
-            "iroas_low": 1.8518110686412714,
+            "iroas": 1.9912611870893004,
+            "iroas_low": 1.8518110686413045,
             "iroas_sensitivity_high": 2.5682686571842073,
             "verdict": "profitable"
           },
           {
             "cost": 1.0,
-            "iroas": 0.9956305935446339,
-            "iroas_low": 0.9259055343206357,
+            "iroas": 0.9956305935446502,
+            "iroas_low": 0.9259055343206523,
             "iroas_sensitivity_high": 1.2841343285921036,
             "verdict": "depends on magnitude"
           },
           {
             "cost": 2.0,
-            "iroas": 0.49781529677231695,
-            "iroas_low": 0.46295276716031786,
+            "iroas": 0.4978152967723251,
+            "iroas_low": 0.46295276716032613,
             "iroas_sensitivity_high": 0.6420671642960518,
             "verdict": "unprofitable"
           }
@@ -273,29 +273,29 @@
         "cells": [
           {
             "cost": 0.25,
-            "iroas": 7.965044748357071,
-            "iroas_low": 7.407244274565086,
+            "iroas": 7.965044748357202,
+            "iroas_low": 7.407244274565218,
             "iroas_sensitivity_high": 10.273074628736829,
             "verdict": "profitable"
           },
           {
             "cost": 0.5,
-            "iroas": 3.9825223741785356,
-            "iroas_low": 3.703622137282543,
+            "iroas": 3.982522374178601,
+            "iroas_low": 3.703622137282609,
             "iroas_sensitivity_high": 5.1365373143684145,
             "verdict": "profitable"
           },
           {
             "cost": 1.0,
-            "iroas": 1.9912611870892678,
-            "iroas_low": 1.8518110686412714,
+            "iroas": 1.9912611870893004,
+            "iroas_low": 1.8518110686413045,
             "iroas_sensitivity_high": 2.5682686571842073,
             "verdict": "profitable"
           },
           {
             "cost": 2.0,
-            "iroas": 0.9956305935446339,
-            "iroas_low": 0.9259055343206357,
+            "iroas": 0.9956305935446502,
+            "iroas_low": 0.9259055343206523,
             "iroas_sensitivity_high": 1.2841343285921036,
             "verdict": "depends on magnitude"
           }
@@ -318,9 +318,9 @@
   "bayes_panel": true,
   "bayes_informative": false,
   "bayes_verdict": "ship",
-  "bayes_loss_ship": 4.772302043535036e-174,
+  "bayes_loss_ship": 4.772302043259242e-174,
   "bayes_prob_positive": 1.0,
-  "bayes_post_mean_relative": 0.45144656183503823,
+  "bayes_post_mean_relative": 0.4514465618350456,
   "sequential": {
     "shown": false,
     "reason": "N/A: single fixed-horizon analysis. The dataset has no timestamps, so any look schedule would be simulated."

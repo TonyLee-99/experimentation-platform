@@ -207,7 +207,7 @@ def _figure(out: dict[str, Any]) -> None:
     )
     ax.set_xscale("log")
     ax.set_xticks(k, [f"{val:g}" for val in k])
-    ax.set_xlabel("assumed negative-sampling correction k (non-visitors re-weighted ×k)")
+    ax.set_xlabel("non-visitors re-weighted ×k (assumed sampling correction)")
     ax.set_ylabel("relative visit lift (%)")
     ax.set_title("The adjusted lift depends on the unknown sampling rate", fontsize=9, loc="left")
     ax.legend(frameon=False, fontsize=7)

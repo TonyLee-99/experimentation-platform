@@ -71,6 +71,15 @@ def validate(
 
 
 @app.command()
+def docs() -> None:
+    """Render README.md and docs/*.md from docs/templates and results/*.json."""
+    from expkit.docs import render_all
+
+    for path in render_all():
+        typer.echo(f"wrote {path}")
+
+
+@app.command()
 def acceptance() -> None:
     """Evaluate every acceptance criterion from results/*.json (writes results/acceptance.json)."""
     from expkit.validation.acceptance import evaluate, update_doc

@@ -6,15 +6,15 @@
   "reason": "Pre-treatment features differ across arms (\u03c7\u00b2 = 5,945 on 12 df, p = <1e-300; worst SMD -0.049 on f3) although the overall split passes SRM. Until the cause is known, the effect size is not identified: regression adjustment assumes selection on observables, and outcome-dependent sampling would break that. Act on the direction only if it holds under every estimator and sensitivity scenario (table below).",
   "srm_p": 0.9989242531220275,
   "balance": {
-    "chi2": 5944.772327406194,
+    "chi2": 5944.772327438257,
     "p": 0.0,
-    "max_abs_smd": 0.048836340181832874
+    "max_abs_smd": 0.04883634018190982
   },
   "variance_reduction": {
-    "conversion_cupac": 0.12893295963067086,
-    "conversion_cuped": 0.10662022942384575,
-    "visit_cupac": 0.3080242239640032,
-    "visit_cuped": 0.2518426310556071
+    "conversion_cupac": 0.12893295963067053,
+    "conversion_cuped": 0.10662022942408467,
+    "visit_cupac": 0.308024223964003,
+    "visit_cuped": 0.25184263105581806
   },
   "metrics": {
     "conversion": {
@@ -29,38 +29,38 @@
         "p": 3.5063591600193013e-246,
         "method": "welch"
       },
-      "bh_q": 8.105458644550233e-170,
+      "bh_q": 8.10545864456156e-170,
       "adjusted": {
-        "delta": 0.000891138650373663,
-        "se": 3.207943276795633e-05,
-        "rel_lift": 0.4599216362536544,
+        "delta": 0.0008911386503736617,
+        "se": 3.2079432767956334e-05,
+        "rel_lift": 0.4599216362536537,
         "rel_ci": [
-          0.42747172687397555,
-          0.4923715456333332
+          0.4274717268739749,
+          0.4923715456333325
         ],
-        "p": 8.105458644550233e-170,
+        "p": 8.10545864456156e-170,
         "method": "cupac[cupac_conversion]"
       },
       "cuped[cuped]": {
-        "delta": 0.0009158323056984393,
-        "se": 3.248769856929663e-05,
-        "rel_lift": 0.4726661697303392,
+        "delta": 0.0009158323057118188,
+        "se": 3.2487698569292286e-05,
+        "rel_lift": 0.47266616973724446,
         "rel_ci": [
-          0.4398032796157096,
-          0.5055290598449689
+          0.43980327962261917,
+          0.5055290598518697
         ],
-        "p": 8.099458837202194e-175,
+        "p": 8.099458742211913e-175,
         "method": "cuped[cuped]"
       },
       "post-stratified": {
-        "delta": 0.0009068205252145027,
-        "se": 3.552440225626266e-05,
-        "rel_lift": 0.4680151394737198,
+        "delta": 0.0009068691455317882,
+        "se": 3.552384621370495e-05,
+        "rel_lift": 0.4680402326911128,
         "rel_ci": [
-          0.43208048853375797,
-          0.5039497904136816
+          0.4321061442150898,
+          0.5039743211671357
         ],
-        "p": 9.965908525999598e-144,
+        "p": 9.525405552477621e-144,
         "method": "post-stratified[100 bins]"
       }
     },
@@ -78,34 +78,34 @@
       },
       "bh_q": 0.0,
       "adjusted": {
-        "delta": 0.006329932691336339,
-        "se": 0.00012171345852037348,
-        "rel_lift": 0.16570089342703637,
+        "delta": 0.006329932691336346,
+        "se": 0.00012171345852037349,
+        "rel_lift": 0.16570089342703656,
         "rel_ci": [
-          0.1594561783922791,
-          0.17194560846179363
+          0.15945617839227927,
+          0.17194560846179383
         ],
         "p": 0.0,
         "method": "cupac[cupac_visit]"
       },
       "cuped[cuped]": {
-        "delta": 0.006979598232476236,
-        "se": 0.00012655800972891017,
-        "rel_lift": 0.18270741874806842,
+        "delta": 0.006979598232497254,
+        "se": 0.00012655800972889234,
+        "rel_lift": 0.18270741874861862,
         "rel_ci": [
-          0.1762141458149356,
-          0.18920069168120127
+          0.1762141458154867,
+          0.18920069168175055
         ],
         "p": 0.0,
         "method": "cuped[cuped]"
       },
       "post-stratified": {
-        "delta": 0.006656376620986853,
-        "se": 0.0001279142741173051,
-        "rel_lift": 0.17424633197031783,
+        "delta": 0.006656381267379244,
+        "se": 0.0001279142571785463,
+        "rel_lift": 0.1742464536005796,
         "rel_ci": [
-          0.16768347620451812,
-          0.18080918773611754
+          0.16768359870385124,
+          0.18080930849730797
         ],
         "p": 0.0,
         "method": "post-stratified[100 bins]"
@@ -141,34 +141,34 @@
     },
     {
       "estimator": "cuped[cuped]",
-      "rel_lift": 0.4726661697303392,
+      "rel_lift": 0.47266616973724446,
       "rel_ci": [
-        0.4398032796157096,
-        0.5055290598449689
+        0.43980327962261917,
+        0.5055290598518697
       ],
-      "p": 8.099458837202194e-175,
+      "p": 8.099458742211913e-175,
       "verdict_if_gates_waived": "SHIP",
       "note": ""
     },
     {
       "estimator": "post-stratified",
-      "rel_lift": 0.4680151394737198,
+      "rel_lift": 0.4680402326911128,
       "rel_ci": [
-        0.43208048853375797,
-        0.5039497904136816
+        0.4321061442150898,
+        0.5039743211671357
       ],
-      "p": 9.965908525999598e-144,
+      "p": 9.525405552477621e-144,
       "verdict_if_gates_waived": "SHIP",
       "note": ""
     },
     {
       "estimator": "cupac[cupac_conversion] (decision estimate)",
-      "rel_lift": 0.4599216362536544,
+      "rel_lift": 0.4599216362536537,
       "rel_ci": [
-        0.42747172687397555,
-        0.4923715456333332
+        0.4274717268739749,
+        0.4923715456333325
       ],
-      "p": 8.105458644550233e-170,
+      "p": 8.10545864456156e-170,
       "verdict_if_gates_waived": "SHIP",
       "note": ""
     },
@@ -197,39 +197,39 @@
   ],
   "economics": {
     "compliance": 0.036036727482199896,
-    "cace": 0.02472862306417349,
-    "cace_se": 0.0008901871787276398,
+    "cace": 0.024728623064173453,
+    "cace_se": 0.00089018717872764,
     "cace_sensitivity_high": 0.03216645352252654,
-    "exposed_users_per_incremental": 40.43896813036821,
+    "exposed_users_per_incremental": 40.438968130368266,
     "grid": [
       {
         "value_per_conversion": 20.0,
         "cells": [
           {
             "cost": 0.25,
-            "iroas": 1.9782898451338793,
-            "iroas_low": 1.8387110603494397,
+            "iroas": 1.9782898451338762,
+            "iroas_low": 1.8387110603494365,
             "iroas_sensitivity_high": 2.573316281802123,
             "verdict": "profitable"
           },
           {
             "cost": 0.5,
-            "iroas": 0.9891449225669396,
-            "iroas_low": 0.9193555301747198,
+            "iroas": 0.9891449225669381,
+            "iroas_low": 0.9193555301747183,
             "iroas_sensitivity_high": 1.2866581409010616,
             "verdict": "depends on magnitude"
           },
           {
             "cost": 1.0,
-            "iroas": 0.4945724612834698,
-            "iroas_low": 0.4596777650873599,
+            "iroas": 0.49457246128346904,
+            "iroas_low": 0.45967776508735914,
             "iroas_sensitivity_high": 0.6433290704505308,
             "verdict": "unprofitable"
           },
           {
             "cost": 2.0,
-            "iroas": 0.2472862306417349,
-            "iroas_low": 0.22983888254367996,
+            "iroas": 0.24728623064173452,
+            "iroas_low": 0.22983888254367957,
             "iroas_sensitivity_high": 0.3216645352252654,
             "verdict": "unprofitable"
           }
@@ -240,29 +240,29 @@
         "cells": [
           {
             "cost": 0.25,
-            "iroas": 3.9565796902677586,
-            "iroas_low": 3.6774221206988793,
+            "iroas": 3.9565796902677524,
+            "iroas_low": 3.677422120698873,
             "iroas_sensitivity_high": 5.146632563604246,
             "verdict": "profitable"
           },
           {
             "cost": 0.5,
-            "iroas": 1.9782898451338793,
-            "iroas_low": 1.8387110603494397,
+            "iroas": 1.9782898451338762,
+            "iroas_low": 1.8387110603494365,
             "iroas_sensitivity_high": 2.573316281802123,
             "verdict": "profitable"
           },
           {
             "cost": 1.0,
-            "iroas": 0.9891449225669396,
-            "iroas_low": 0.9193555301747198,
+            "iroas": 0.9891449225669381,
+            "iroas_low": 0.9193555301747183,
             "iroas_sensitivity_high": 1.2866581409010616,
             "verdict": "depends on magnitude"
           },
           {
             "cost": 2.0,
-            "iroas": 0.4945724612834698,
-            "iroas_low": 0.4596777650873599,
+            "iroas": 0.49457246128346904,
+            "iroas_low": 0.45967776508735914,
             "iroas_sensitivity_high": 0.6433290704505308,
             "verdict": "unprofitable"
           }
@@ -273,29 +273,29 @@
         "cells": [
           {
             "cost": 0.25,
-            "iroas": 7.913159380535517,
-            "iroas_low": 7.354844241397759,
+            "iroas": 7.913159380535505,
+            "iroas_low": 7.354844241397746,
             "iroas_sensitivity_high": 10.293265127208493,
             "verdict": "profitable"
           },
           {
             "cost": 0.5,
-            "iroas": 3.9565796902677586,
-            "iroas_low": 3.6774221206988793,
+            "iroas": 3.9565796902677524,
+            "iroas_low": 3.677422120698873,
             "iroas_sensitivity_high": 5.146632563604246,
             "verdict": "profitable"
           },
           {
             "cost": 1.0,
-            "iroas": 1.9782898451338793,
-            "iroas_low": 1.8387110603494397,
+            "iroas": 1.9782898451338762,
+            "iroas_low": 1.8387110603494365,
             "iroas_sensitivity_high": 2.573316281802123,
             "verdict": "profitable"
           },
           {
             "cost": 2.0,
-            "iroas": 0.9891449225669396,
-            "iroas_low": 0.9193555301747198,
+            "iroas": 0.9891449225669381,
+            "iroas_low": 0.9193555301747183,
             "iroas_sensitivity_high": 1.2866581409010616,
             "verdict": "depends on magnitude"
           }
@@ -318,9 +318,9 @@
   "bayes_panel": true,
   "bayes_informative": false,
   "bayes_verdict": "ship",
-  "bayes_loss_ship": 1.337830939773211e-171,
+  "bayes_loss_ship": 1.3378309397747407e-171,
   "bayes_prob_positive": 1.0,
-  "bayes_post_mean_relative": 0.4476509186377677,
+  "bayes_post_mean_relative": 0.447650918637767,
   "sequential": {
     "shown": false,
     "reason": "N/A: single fixed-horizon analysis. The dataset has no timestamps, so any look schedule would be simulated."

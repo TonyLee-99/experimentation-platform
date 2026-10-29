@@ -11,3 +11,4 @@ catboost_info/
 reports/*.html
 !reports/criteo_readout.html
 !reports/criteo_srm_bug_readout.html
+build/

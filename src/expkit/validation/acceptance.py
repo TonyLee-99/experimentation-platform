@@ -13,10 +13,11 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from expkit.analyses.common import RESULTS, read_json, write_json
+from expkit.analyses.common import read_json, write_json
 from expkit.data import ROOT
 
 Check = Callable[[], tuple[str, str]]
+BUILD = ROOT / "build"  # engineering artifacts (junit, coverage, lint, timing); gitignored
 
 
 def _ok(cond: bool) -> str:
@@ -96,11 +97,11 @@ def c5() -> tuple[str, str]:
 def _junit() -> dict[str, str]:
     import xml.etree.ElementTree as ET
 
-    path = RESULTS / "junit.xml"
-    if not path.exists():
+    paths = sorted(BUILD.glob("junit*.xml"))  # junit.xml (make test) + junit_docs.xml (make check-docs)
+    if not paths:
         return {}
     out = {}
-    for tc in ET.parse(path).getroot().iter("testcase"):
+    for tc in (t for path in paths for t in ET.parse(path).getroot().iter("testcase")):
         status = (
             "FAIL"
             if tc.find("failure") is not None or tc.find("error") is not None
@@ -113,7 +114,7 @@ def _junit() -> dict[str, str]:
 def _tests(*names: str) -> tuple[str, str]:
     j = _junit()
     if not j:
-        return "MISSING", "results/junit.xml not found (run make test)"
+        return "MISSING", "build/junit.xml not found (run make test)"
     st = [j.get(n, "MISSING") for n in names]
     return ("PASS" if all(s == "PASS" for s in st) else "FAIL"), ", ".join(
         f"{n}={s}" for n, s in zip(names, st, strict=True)
@@ -223,9 +224,10 @@ def v5() -> tuple[str, str]:
 def v6() -> tuple[str, str]:
     f = _j("asos_portfolio")["null_peeking_simulation"]["fpr"]
     n, m, o = f["naive"]["fpr"], f["msprt"]["fpr"], f["obf"]["fpr"]
-    return _ok(
-        n >= 0.10 and m <= 0.05 and 0.03 <= o <= 0.055
-    ), f"naive {n:.1%}, mSPRT {m:.2%}, OBF {o:.2%}, fixed {f['fixed_horizon']['fpr']:.2%}"
+    return _ok(n >= 0.10 and m <= 0.05 and 0.03 <= o <= 0.055), (
+        f"MODEL-BASED (Brownian null on real look schedules, variance-based information; OBF ~5% by construction): "
+        f"naive {n:.1%}, mSPRT {m:.2%}, OBF {o:.2%}, fixed {f['fixed_horizon']['fpr']:.2%}"
+    )
 
 
 def v7() -> tuple[str, str]:
@@ -240,12 +242,13 @@ def v7() -> tuple[str, str]:
 def v8() -> tuple[str, str]:
     r = _j("asos_portfolio")
     s = r["real_peeking"]["summary"]
+    c = r["trajectory_counts"]
     srm = r["srm"]
     return "INFO", (
-        f"{s['n_trajectories']} real trajectories: naive declared {s['naive']['declared_significant']}, fixed-horizon "
-        f"significant {s['n_final_significant']}, mSPRT {s['msprt']['declared_significant']}, OBF "
-        f"{s['obf']['declared_significant']}; SRM flagged {srm['n_srm_flagged_p_lt_0.0005']}/{srm['n_treatments']} "
-        "under an equal-allocation assumption"
+        f"trajectories {c['all_in_dataset']} -> {c['with_valid_variance_and_at_least_2_daily_looks']} (valid variance, "
+        f">=2 daily looks) -> {s['n_trajectories']} (>=3 looks). Declared significant: naive {s['naive']['declared_significant']}, "
+        f"fixed-horizon {s['n_final_significant']}, mSPRT {s['msprt']['declared_significant']}, OBF "
+        f"{s['obf']['declared_significant']}; SRM flagged {srm['n_srm_flagged_p_lt_0.0005']}/{srm['n_treatments']} (equal-split assumption)"
     )
 
 
@@ -260,13 +263,11 @@ def h1() -> tuple[str, str]:
 def h2() -> tuple[str, str]:
     q = _j("hte")["qini_visit"]
     t, x, r = q["t_learner"], q["x_learner"], q["random"]
-    cond = (
-        all(m["normalized_qini_ci95"][0] > 0 for m in (t, x))
-        and min(t["normalized_qini"], x["normalized_qini"]) > r["normalized_qini_ci95"][1]
-    )
+    k = "qini_area_above_random_share"
+    cond = all(m[f"{k}_ci95"][0] > 0 for m in (t, x)) and min(t[k], x[k]) > r[f"{k}_ci95"][1]
     return _ok(cond), (
-        f"normalized Qini (visit, holdout): T {t['normalized_qini']:.3f} {_ci(t['normalized_qini_ci95'])}, "
-        f"X {x['normalized_qini']:.3f} {_ci(x['normalized_qini_ci95'])}, random {r['normalized_qini']:.3f}"
+        f"Qini area above random / total increment (non-standard; visit, holdout): T {t[k]:.3f} {_ci(t[f'{k}_ci95'])}, "
+        f"X {x[k]:.3f} {_ci(x[f'{k}_ci95'])}, random {r[k]:.3f}; standard Qini coefficient X {x['qini_coefficient']:.3f}"
     )
 
 
@@ -282,15 +283,16 @@ def h3() -> tuple[str, str]:
 
 
 def h4() -> tuple[str, str]:
-    h = _j("hte")
-    rows = h["targeting"]["rank_by_visit_x_learner__raw"]
-    top20 = next(r for r in rows if r["top"] == 0.2)
-    ci = h["qini_visit"]["x_learner"]["share_top20_ci95"]
-    rc = next(r for r in h["targeting"]["rank_by_conversion_x_learner__raw"] if r["top"] == 0.2)
-    return _ok(top20["share_of_incremental_visits"] >= 0.5), (
-        f"top 20% by X-learner keeps {top20['share_of_incremental_visits']:.1%} of incremental visits (Qini-curve share, bootstrap 95% CI "  # noqa: E501
-        f"{ci[0]:.1%}–{ci[1]:.1%}) using {top20['share_of_exposures']:.1%} of exposures; ranking by conversion uplift keeps "  # noqa: E501
-        f"{rc['share_of_incremental_conversions']:.1%} of incremental conversions"
+    t = _j("hte")["targeting"]
+    v = next(r for r in t["outcome_visit"]["rank_by_visit_x_learner"] if r["top"] == 0.2)
+    c = next(r for r in t["outcome_conversion"]["rank_by_conversion_x_learner"] if r["top"] == 0.2)
+    resp = next(r for r in t["outcome_conversion"]["rank_by_conversion_response_model"] if r["top"] == 0.2)
+    ci = v["share_of_incremental_ci90"]
+    return _ok(v["share_of_incremental"] >= 0.5), (
+        f"top 20% by visit X-learner keeps {v['share_of_incremental']:.1%} of IPW incremental visits (90% CI "
+        f"{ci[0]:.1%}-{ci[1]:.1%}) on {v['share_of_exposures']:.1%} of exposures (efficiency {v['efficiency']:.2f}x); "
+        f"conversion X-learner keeps {c['share_of_incremental']:.1%} of incremental conversions on {c['share_of_exposures']:.1%} "
+        f"(response model {resp['share_of_incremental']:.1%} on {resp['share_of_exposures']:.1%})"
     )
 
 
@@ -319,44 +321,47 @@ def n2() -> tuple[str, str]:
 
 def n3() -> tuple[str, str]:
     n = _j("noncompliance")
-    viol = sum(
-        s["itt_exceeds_bound"] or s["nevertaker_diff_outside_bound"]
-        for y in ("visit", "conversion")
-        for s in n[y]["strata"]
-    )
-    return _ok(n["one_sided"]["exposed_users_in_control"] == 0), (
-        f"exposed users in control = {n['one_sided']['exposed_users_in_control']}; bound violations across 2×10 "
-        f"predicted-exposure deciles = {viol}"
+    viol = sum(n[y]["kitagawa"]["n_violations_z_gt_1.96"] for y in ("visit", "conversion"))
+    tot = sum(n[y]["kitagawa"]["n_inequalities"] for y in ("visit", "conversion"))
+    return _ok(n["one_sided"]["exposed_users_in_control"] == 0 and viol == 0), (
+        f"exposed users in control = {n['one_sided']['exposed_users_in_control']}; sharp IV inequalities (Kitagawa 2015) "
+        f"by predicted-exposure decile: {viol}/{tot} violated; retargeting caveat recorded"
     )
 
 
 def n4() -> tuple[str, str]:
     n = _j("noncompliance")
     v = n["visit"]
-    trig = v["predicted_trigger"]
-    agree = [t["diluted_within_full_ci"] for t in trig]
+    agree = [t["diluted_within_full_ci"] for t in v["predicted_trigger"]]
     return _ok(all(agree)), (
-        f"ideal-trigger sample-size ratio: visit {v['dilution']['n_ratio_itt_over_ideal_trigger']:.1f}×, conversion "
-        f"{n['conversion']['dilution']['n_ratio_itt_over_ideal_trigger']:.1f}×; predicted-trigger diluted estimate within "  # noqa: E501
-        f"full-ITT CI at top 10/20/30/50%: {agree}"
+        f"ideal-trigger sample-size ratio (85/15-weighted): visit {v['dilution']['n_ratio_itt_over_ideal_trigger_weighted_85_15']:.1f}x, "
+        f"conversion {n['conversion']['dilution']['n_ratio_itt_over_ideal_trigger_weighted_85_15']:.1f}x; top-k predicted-trigger "
+        f"diluted estimate within full-ITT CI at top 10/20/30/50%: {agree} (the unbiased stratified use is reported separately)"
     )
 
 
 def w1() -> tuple[str, str]:
     e = _j("asos_portfolio")["eb"]
     ok = all(e[m]["npmle_prior"]["loglik"] >= e[m]["normal_prior"]["loglik"] for m in e)
-    return _ok(ok), "; ".join(
-        f"{m}: logL normal {e[m]['normal_prior']['loglik']:.1f} vs NPMLE {e[m]['npmle_prior']['loglik']:.1f}" for m in e
+    return (
+        _ok(ok),
+        "fitted; NPMLE logL >= normal logL holds by construction (it nests the normal), so it is a sanity check, "
+        + "not evidence of non-normality; "
+        + "; ".join(f"{m}: {e[m]['normal_prior']['loglik']:.1f} vs {e[m]['npmle_prior']['loglik']:.1f}" for m in e),
     )
 
 
 def w2() -> tuple[str, str]:
     e = _j("asos_portfolio")["eb"]
     cov = {m: e[m]["simulation_check"]["coverage_95"] for m in e}
+    win = {m: e[m]["simulation_check"]["truth_npmle"]["coverage_95_among_winners"] for m in e}
     mse = all(e[m]["simulation_check"]["mse_eb_normal"] < e[m]["simulation_check"]["mse_raw"] for m in e)
-    return _ok(all(0.93 <= c <= 0.97 for c in cov.values()) and mse), "coverage " + ", ".join(
-        f"{m}={c:.1%}" for m, c in cov.items()
-    ) + f"; EB MSE < raw MSE for all: {mse}"
+    return _ok(all(0.93 <= c <= 0.97 for c in cov.values()) and mse), (
+        "self-consistent (truth from normal prior) coverage "
+        + ", ".join(f"{m}={c:.1%}" for m, c in cov.items())
+        + f"; EB MSE < raw MSE: {mse}. Misspecified (truth from NPMLE prior), coverage among winners: "
+        + ", ".join(f"{m}={c:.0%}" for m, c in win.items())
+    )
 
 
 def w3() -> tuple[str, str]:
@@ -365,33 +370,45 @@ def w3() -> tuple[str, str]:
     for m in e:
         w = e[m].get("winners")
         if w:
+            ci = e[m]["npmle_prior"]["p_true_lift_gt_0.1pct_ci90"]
             parts.append(
-                f"{m}: {e[m]['n_winners']} winners overstated ×{w['exaggeration_ratio_npmle']:.2f}, FDR {w['fdr_npmle']:.1%}, "  # noqa: E501
-                f"P(true lift>+0.1%) {e[m]['npmle_prior']['p_true_lift_gt_0.1pct']:.0%}"
+                f"{m}: {e[m]['n_winners']} winners, small (<1%) winners overstated x{w['small_winners_median_ratio_npmle']:.2f} "
+                f"(median, NPMLE), FDR normal {w['fdr_normal']:.1%} vs NPMLE {w['fdr_npmle']:.1%}, "
+                f"P(true lift>+0.1%) {e[m]['npmle_prior']['p_true_lift_gt_0.1pct']:.0%} [{ci[0]:.0%}, {ci[1]:.0%}]"
             )
     return "INFO", "; ".join(parts)
 
 
 def w4() -> tuple[str, str]:
     e = _j("asos_portfolio")["eb"]
-    return "INFO", ", ".join(f"{m} NPMLE excess kurtosis {e[m]['npmle_prior']['excess_kurtosis']:.1f}" for m in e)
+    return "INFO", ", ".join(
+        f"{m} NPMLE excess kurtosis {e[m]['npmle_prior']['excess_kurtosis']:.1f} "
+        f"[{e[m]['npmle_prior']['excess_kurtosis_ci90'][0]:.1f}, {e[m]['npmle_prior']['excess_kurtosis_ci90'][1]:.1f}]"
+        for m in e
+    )
 
 
 def p1() -> tuple[str, str]:
-    s = _j("asos_portfolio")["real_peeking"]["summary"]
+    r = _j("asos_portfolio")
+    s = r["real_peeking"]["summary"]
+    mb = r["model_benchmark"]["expected_per_361"]["npmle_effects"]
     u = {k: s[k]["declared_but_final_does_not_support"] for k in ("naive", "msprt", "obf")}
+    rev = {k: s[k]["sign_reversals"] for k in ("naive", "msprt", "obf")}
     return _ok(u["naive"] > u["obf"] and u["naive"] > u["msprt"]), (
-        f"of {s['n_trajectories']} real trajectories, declared but unsupported by final analysis: naive {u['naive']} "
-        f"({s['naive']['share_of_all_trajectories_unsupported']:.1%}), mSPRT {u['msprt']}, OBF {u['obf']}"
+        f"real trajectories (n={s['n_trajectories']}): naive declared {s['naive']['declared_significant']}, not supported by "
+        f"final {u['naive']}, sign reversals {rev['naive']} vs MODEL expectation (NPMLE effects) {mb['declared']:.0f} / "
+        f"{mb['unsupported']:.0f} / {mb['sign_reversals']:.0f}; OBF {u['obf']} unsupported, {rev['obf']} reversals; mSPRT {u['msprt']}, {rev['msprt']}"
     )
 
 
 def p2() -> tuple[str, str]:
     s = _j("asos_portfolio")["real_peeking"]["summary"]
-    return "INFO", "; ".join(
-        f"{k}: detects {s[k]['detection_rate_among_final_significant']:.0%} of final-significant, median stop day "
-        f"{s[k]['median_stop_day_detected']:.0f} (horizon median {s['median_horizon_days']:.0f})"
-        for k in ("naive", "msprt", "obf")
+    c = s["stopping_on_common_set"]
+    return "INFO", (
+        "detection among final-significant: "
+        + ", ".join(f"{k} {s[k]['detection_rate_among_final_significant']:.0%}" for k in ("naive", "obf", "msprt"))
+        + f"; on the {c['n_detected_by_both_msprt_and_obf']} trajectories both detect, median stop day mSPRT "
+        f"{c['median_stop_day_msprt']:g} vs OBF {c['median_stop_day_obf']:g} (horizon median {s['median_horizon_days']:g})"
     )
 
 
@@ -401,12 +418,14 @@ def b1() -> tuple[str, str]:
 
 def b2() -> tuple[str, str]:
     e = _j("asos_portfolio")["eb"]
-    s = _j("scorecard_criteo")
-    d = e["metric_1"]["decisions"]["eps_0.001"]
-    return _ok(s["bayes_panel"] and "decisions" in e["metric_1"]), (
-        f"scorecard panel present (Criteo: Bayes {s['bayes_verdict']}, p-value rule {s['verdict']}); ASOS metric 1, ε=0.1%: "  # noqa: E501
-        f"p-value ships {d['pvalue_ship']}, Bayes ships {d['bayes_ship']}, p-yes/Bayes-no {d['pvalue_yes_bayes_no']}, "
-        f"p-no/Bayes-yes {d['pvalue_no_bayes_yes']}"
+    s = _j("scorecard_asos_d53f0e")
+    rules = e["metric_1"]["decisions"]["rules"]
+    pv, lo = rules["p_value (p<0.05, positive)"], rules["expected loss < 0.1% (fixed eps)"]
+    return _ok(s["bayes_panel"] and s["bayes_informative"]), (
+        f"panel shown when informative (ASOS d53f0e: framework {s['verdict']}, expected-loss rule {s['bayes_verdict']}). "
+        f"ASOS metric 1 under the NPMLE truth model: p-value rule ships {pv['n_ship']} (expected harmful "
+        f"{pv['expected_harmful_launches']:.1f}), fixed eps=0.1% loss rule ships {lo['n_ship']} ({lo['n_ship_negative_posterior_mean']} "
+        f"with negative posterior mean; expected harmful {lo['expected_harmful_launches']:.1f})"
     )
 
 
@@ -431,24 +450,24 @@ def e2() -> tuple[str, str]:
 
 
 def e3() -> tuple[str, str]:
-    p = RESULTS / "make_status.json"
+    p = BUILD / "make_status.json"
     if not p.exists():
-        return "MISSING", "results/make_status.json not written (make all did not reach the end)"
+        return "MISSING", "build/make_status.json not written (make all did not reach the end)"
     s = json.loads(p.read_text())
     return _ok(s.get("exit", 1) == 0), f"make all exit {s.get('exit')} in {s.get('seconds', 0) / 60:.1f} min"
 
 
 def e4() -> tuple[str, str]:
-    p = RESULTS / "lint.json"
+    p = BUILD / "lint.json"
     if not p.exists():
-        return "MISSING", "results/lint.json not found (make lint)"
+        return "MISSING", "build/lint.json not found (make lint)"
     s = json.loads(p.read_text())
     return _ok(all(v == 0 for v in s.values())), ", ".join(f"{k} exit {v}" for k, v in s.items())
 
 
 def e5() -> tuple[str, str]:
     j = _junit()
-    cov_p = RESULTS / "coverage.json"
+    cov_p = BUILD / "coverage.json"
     if not j or not cov_p.exists():
         return "MISSING", "junit/coverage not found"
     cov = json.loads(cov_p.read_text())
@@ -464,18 +483,51 @@ def e5() -> tuple[str, str]:
 
 def e6() -> tuple[str, str]:
     have = (ROOT / "Dockerfile").exists() and (ROOT / ".github/workflows/ci.yml").exists()
-    return (
-        _ok(have),
-        "Dockerfile + .github/workflows/ci.yml present; Docker daemon not available → image not built; CI not run remotely (by rule)",  # noqa: E501
-    )
+    return _ok(have), "Dockerfile + .github/workflows/ci.yml included, not run (no remote; Docker daemon unavailable)"
 
 
 def e7() -> tuple[str, str]:
-    p = RESULTS / "make_status.json"
+    p = BUILD / "make_status.json"
     if not p.exists():
         return "MISSING", "no timing"
     s = json.loads(p.read_text())
-    return _ok(s.get("seconds", 1e9) < 45 * 60), f"{s.get('seconds', 0) / 60:.1f} min"
+    return _ok(s.get("seconds", 1e9) < 45 * 60), f"{s.get('seconds', 0) / 60:.1f} min wall clock (shared host)"
+
+
+def r1() -> tuple[str, str]:
+    b = _j("balance")
+    si = b["sensitivity_interval"]
+    o = b["odds_ratios"]
+    s = _j("scorecard_criteo")
+    return _ok(s["rule"] == "R1b"), (
+        f"scorecard {s['verdict']} [{s['rule']}]; conversion post-stratified lift over negative-sampling corrections "
+        f"k=1..20: {si['conversion_poststrat_relative'][0]:+.1%} to {si['conversion_poststrat_relative'][1]:+.1%} (visit "
+        f"{si['visit_poststrat_relative'][0]:+.1%} to {si['visit_poststrat_relative'][1]:+.1%}); odds ratios crude/MH: conversion "
+        f"{o['conversion']['crude_or']:.3f}/{o['conversion']['mantel_haenszel_or']:.3f}, visit {o['visit']['crude_or']:.3f}/"
+        f"{o['visit']['mantel_haenszel_or']:.3f}"
+    )
+
+
+def r2() -> tuple[str, str]:
+    return _tests("test_negative_sampling_creates_imbalance_that_adjustment_cannot_fix")
+
+
+def r3() -> tuple[str, str]:
+    a = _j("aa_tests_85_15")
+    m = a["methods"]
+    f = {k: m[k]["fpr"] for k in V1_KEYS}
+    ks = min(m[k]["ks_pvalue"] for k in V1_KEYS)
+    return _ok(all(0.04 <= v <= 0.06 for v in f.values()) and ks > 0.01), (
+        f"{a['n_reps']:,} A/A reps at 85/15: FPR {min(f.values()):.2%}-{max(f.values()):.2%}; min KS p {ks:.3f}"
+    )
+
+
+def r4() -> tuple[str, str]:
+    return _tests("test_obf_type1_with_near_duplicate_looks")
+
+
+def r5() -> tuple[str, str]:
+    return _tests("test_rendered_docs_match_results")
 
 
 CHECKS: dict[str, Check] = {
@@ -524,6 +576,11 @@ CHECKS: dict[str, Check] = {
     "E5": e5,
     "E6": e6,
     "E7": e7,
+    "R1": r1,
+    "R2": r2,
+    "R3": r3,
+    "R4": r4,
+    "R5": r5,
 }
 
 

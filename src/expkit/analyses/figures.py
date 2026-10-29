@@ -96,7 +96,7 @@ def peeking() -> None:
     axes[0].axhline(0.05, color=INK2, lw=1, ls=":")
     for i, v in enumerate(vals):
         axes[0].text(i, v + 0.005, f"{v:.1%}", ha="center", fontsize=8)
-    axes[0].set_title("Null FPR on real ASOS look schedules (simulation)", fontsize=9, loc="left")
+    axes[0].set_title("Model-based null FPR on real ASOS look schedules", fontsize=9, loc="left")
     _style(axes[0])
     meth = ["naive", "obf", "msprt"]
     unsup = [s[k]["declared_but_final_does_not_support"] for k in meth]
