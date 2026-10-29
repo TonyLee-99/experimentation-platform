@@ -62,3 +62,32 @@ def test_srm_bug_blocks() -> None:
     verdict, html = _render("criteo_srm_bug.yaml")
     assert verdict == "BLOCKED — SRM"
     assert "SRM DETECTED" in html and "SIMULATION" in html
+
+
+def test_bootstrap_fallback_on_small_skewed_sample(tmp_path: Path) -> None:
+    """A tiny, very skewed experiment must be routed to the bootstrap by the scorecard."""
+    import numpy as np
+    import pandas as pd
+
+    from expkit.metrics.compiler import run
+    from expkit.metrics.spec import MetricCatalog
+    from expkit.report.scorecard import _bootstrap_metric, _clt_check
+
+    rng = np.random.default_rng(0)
+    n = 400
+    df = pd.DataFrame(
+        {"uid": np.arange(n), "arm": rng.integers(0, 2, n), "rev": rng.pareto(1.5, n) * (rng.random(n) < 0.1)}
+    )
+    path = tmp_path / "u.parquet"
+    df.to_parquet(path)
+    cat = MetricCatalog.model_validate(
+        {
+            "source": {"table": str(path), "unit": "uid", "variant": "arm"},
+            "metrics": [{"name": "rev", "type": "mean", "expr": "rev"}],
+        }
+    )
+    vs = run(cat, ["rev"])
+    clt = _clt_check(cat, "rev", vs[0], vs[1])
+    assert not clt["ok"]
+    est = _bootstrap_metric(cat, "rev", None, 0.05, 0, 1)
+    assert est.method == "bootstrap" and est.ci_low < est.delta < est.ci_high

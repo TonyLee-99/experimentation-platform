@@ -87,6 +87,8 @@
         {% endfor %}
       {% endfor %}
     </table>
+    <div class="muted">Normal-approximation check (n per arm &gt; 355·skewness², Kohavi et al. 2014; else Poisson bootstrap):
+      {% for row in r.rows %}{{ row.metric }}: {% if row.clt.skew is not none %}skew {{ "%.1f"|format(row.clt.skew) }}, need n &gt; {{ "{:,.0f}".format(row.clt.required_n) }}, have {{ "{:,.0f}".format(row.clt.n_min) }} → {{ "OK" if row.clt.ok else "BOOTSTRAP" }}{% else %}ratio metric (delta method){% endif %}{% if not loop.last %}; {% endif %}{% endfor %}</div>
     <div class="muted">BH q-values are computed across primary + secondary metrics on the decision estimate (bold). Relative CIs via the delta method.</div>
   </section>
 

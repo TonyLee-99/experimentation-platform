@@ -1,0 +1,95 @@
+{
+  "name": "criteo_SIMULATED_srm_bug",
+  "verdict": "BLOCKED \u2014 SRM",
+  "rule": "R1",
+  "reason": "Sample ratio mismatch (p = 2.2e-10 < 0.0005). Do not interpret any metric; debug assignment/logging first.",
+  "warnings": [
+    "Covariate imbalance: pre-treatment features differ across arms (chi2 = 6,014, 12 df, p = 0.0e+00; worst SMD -0.049 on f3). Raw differences are biased; the regression-adjusted estimate is used for the decision."
+  ],
+  "srm_p": 2.2165487567475706e-10,
+  "balance": {
+    "chi2": 6014.080609916378,
+    "p": 0.0,
+    "max_abs_smd": 0.049089002954134105
+  },
+  "variance_reduction": {
+    "visit_cupac": 0.30810845564771694,
+    "conversion_cupac": 0.12894063563862002
+  },
+  "metrics": {
+    "visit": {
+      "raw": {
+        "delta": 0.01057380985198133,
+        "se": 0.00014644007525321963,
+        "rel_lift": 0.2767943712575267,
+        "rel_ci": [
+          0.2675467983874473,
+          0.2860419441276061
+        ],
+        "p": 0.0,
+        "method": "welch"
+      },
+      "adjusted": {
+        "delta": 0.006475205367369563,
+        "se": 0.00012180888138654317,
+        "rel_lift": 0.16950374779896174,
+        "rel_ci": [
+          0.1632541369389221,
+          0.17575335865900135
+        ],
+        "p": 0.0,
+        "method": "cuped[cupac_visit]"
+      },
+      "bh_q": 0.0
+    },
+    "conversion": {
+      "raw": {
+        "delta": 0.001166600546480144,
+        "se": 3.4407648597077004e-05,
+        "rel_lift": 0.6020890598411108,
+        "rel_ci": [
+          0.5502259519620059,
+          0.6539521677202158
+        ],
+        "p": 6.139415526550567e-252,
+        "method": "welch"
+      },
+      "adjusted": {
+        "delta": 0.0008987446194915496,
+        "se": 3.211285151240232e-05,
+        "rel_lift": 0.46384711940998063,
+        "rel_ci": [
+          0.4313634053848388,
+          0.4963308334351225
+        ],
+        "p": 2.4433344529370208e-172,
+        "method": "cuped[cupac_conversion]"
+      },
+      "bh_q": 2.4433344529370208e-172
+    }
+  },
+  "guardrails": [
+    {
+      "metric": "conversion_per_visit",
+      "status": "pass",
+      "rel_lift": 0.2547745321458448,
+      "rel_ci": [
+        0.2151844666824348,
+        0.29436459760925476
+      ]
+    }
+  ],
+  "bayes_panel": true,
+  "bayes_verdict": "ship",
+  "bayes_loss_ship": 0.0,
+  "bayes_prob_positive": 1.0,
+  "sequential": {
+    "looks": 20,
+    "first_look_naive": 1,
+    "first_look_obf": 2,
+    "first_look_msprt": 1,
+    "final_z": 53.15872942647799,
+    "tau_relative": 0.1,
+    "label": "SIMULATED arrival order (hash of unit id): the dataset has no timestamps"
+  }
+}

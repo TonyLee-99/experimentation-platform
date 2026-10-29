@@ -16,13 +16,13 @@ from __future__ import annotations
 
 import time
 
-import duckdb
 import lightgbm as lgb
 import numpy as np
 from sklearn.metrics import roc_auc_score
 
 from expkit.analyses.common import CUPAC_PARQUET, SEED, load_criteo, write_json
 from expkit.data import CRITEO_FEATURES
+from expkit.db import duckdb_connect
 
 LGB_PARAMS = {
     "objective": "binary",
@@ -84,7 +84,7 @@ def fit_cupac(force: bool = False) -> dict[str, object]:
         "cupac_conversion": preds["conversion"],
         "p_exposure": preds["exposure"],
     }
-    con = duckdb.connect()
+    con = duckdb_connect()
     import pyarrow as pa
 
     con.register("t", pa.table(tbl))

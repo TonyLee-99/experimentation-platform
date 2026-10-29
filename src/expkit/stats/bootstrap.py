@@ -91,7 +91,8 @@ def bootstrap_diff(
 def needs_bootstrap(n_min: float, n_events_min: float, skew: float) -> bool:
     """Engine rule for falling back to the bootstrap.
 
-    Rule of thumb from Kohavi et al. (2020, ch. 19): the CLT is adequate once
+    Rule of thumb from Kohavi, Deng, Longbotham & Xu (2014, KDD, "Seven Rules of Thumb for Web Site
+    Experimenters", rule 7): the CLT is adequate once
     n > 355·skewness² per arm. We also require at least 30 "events" (non-zero units).
     """
     return n_min < 355 * skew**2 or n_events_min < 30

@@ -23,12 +23,12 @@ import time
 from dataclasses import dataclass
 from typing import Any
 
-import duckdb
 import numpy as np
 from scipy import stats
 
 from expkit.analyses.common import SEED, write_json
 from expkit.data import ASOS_PARQUET
+from expkit.db import duckdb_connect
 from expkit.stats.bayes import bayes_decision
 from expkit.stats.eb import fit_normal_prior, fit_npmle
 from expkit.stats.sequential import gsd_boundaries, msprt_pvalues
@@ -88,7 +88,7 @@ class Trajectory:
 def load_daily_trajectories() -> list[Trajectory]:
     """One look per day: the last snapshot with time_since_start <= d, for d = 1, 2, ..."""
     df = (
-        duckdb.connect()
+        duckdb_connect()
         .execute(
             f"""
         WITH x AS (
@@ -132,7 +132,7 @@ def load_daily_trajectories() -> list[Trajectory]:
 # ------------------------------------------------------------------------------------- SRM
 def srm_screen() -> dict[str, Any]:
     df = (
-        duckdb.connect()
+        duckdb_connect()
         .execute(
             f"""SELECT experiment_id, variant_id, arg_max(count_c, time_since_start) c,
                    arg_max(count_t, time_since_start) t

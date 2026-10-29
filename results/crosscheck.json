@@ -1,0 +1,38 @@
+{
+  "C1_welch_vs_scipy_full_data": {
+    "visit": {
+      "rel_diff_stat": 0.0,
+      "rel_diff_se": 3.7049906814732474e-16,
+      "abs_diff_p": 0.0,
+      "rel_diff_estimate": 0.0
+    },
+    "conversion": {
+      "rel_diff_stat": 2.1202470885272062e-16,
+      "rel_diff_se": 3.942932989831633e-16,
+      "abs_diff_p": 5.904320061793312e-259,
+      "rel_diff_estimate": 0.0
+    }
+  },
+  "C2_delta_vs_statsmodels_cluster": {
+    "rel_diff_se": 8.396937693906373e-15,
+    "note": "after the documented n/(n-1) vs G/(G-1) small-sample factor"
+  },
+  "C3_cuped": {
+    "n": 1999488,
+    "max_rel_diff_theta": 7.2881485429291924e-06,
+    "rel_diff_stat": 6.6734036568056815e-09,
+    "rel_diff_estimate": 4.329353405100163e-09,
+    "ancova_estimate": 0.006754350502260291,
+    "cuped_estimate": 0.006751744361455897,
+    "rel_diff_vs_ancova": 0.00038584624880240914,
+    "rel_diff_se_vs_ancova": 0.002077511931123473
+  },
+  "C4_srm_vs_scipy": {
+    "abs_diff_chi2": 0.0,
+    "abs_diff_p": 0.0
+  },
+  "C5_bh_vs_statsmodels": {
+    "max_abs_diff": 2.7755575615628914e-17
+  },
+  "seconds": 55.0
+}

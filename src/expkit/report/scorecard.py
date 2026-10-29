@@ -14,7 +14,6 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-import duckdb
 import matplotlib
 
 matplotlib.use("Agg")
@@ -25,10 +24,12 @@ from scipy import stats
 
 from expkit.config import ExperimentConfig
 from expkit.data import ROOT
+from expkit.db import duckdb_connect
 from expkit.decision import Decision, GuardrailResult, decide
 from expkit.metrics.compiler import AdjustmentRequest, VariantStats, cumulate, run, run_segmented
 from expkit.metrics.spec import MetricCatalog
 from expkit.stats.bayes import BayesDecision, bayes_decision
+from expkit.stats.bootstrap import BootstrapConfig, bootstrap_diff, needs_bootstrap
 from expkit.stats.cuped import cuped, variance_reduction
 from expkit.stats.delta import delta_ratio
 from expkit.stats.multiple import bh_adjust
@@ -193,6 +194,27 @@ def _sequential(cfg: ExperimentConfig, cat: MetricCatalog, where: str | None) ->
     return base64.b64encode(buf.getvalue()).decode(), summary
 
 
+def _clt_check(cat: MetricCatalog, name: str, c: VariantStats, t: VariantStats) -> dict[str, Any]:
+    """Is the normal approximation OK? n_min > 355·skew² (Kohavi et al. 2014) and >= 30 events."""
+    if cat.get(name).type != "mean":
+        return {"ok": True, "skew": None, "n_min": min(c.n, t.n), "required_n": None}
+    skew = max(abs(c.skewness(name)), abs(t.skewness(name)))
+    n_min = min(c.n, t.n)
+    events = min(c.mean(name).sum, t.mean(name).sum)
+    return {"ok": not needs_bootstrap(n_min, events, skew), "skew": skew, "n_min": n_min, "required_n": 355 * skew**2}
+
+
+def _bootstrap_metric(cat: MetricCatalog, name: str, where: str | None, alpha: float, ctrl: Any, trt: Any) -> Estimate:
+    """Fallback: pull unit-level values for one metric and run the Poisson bootstrap."""
+    m = cat.get(name)
+    src = cat.source
+    w = f"WHERE {where}" if where else ""
+    sql = f"SELECT {src.variant} AS v, CAST({m.expr} AS DOUBLE) AS y FROM read_parquet('{src.table}') {w}"
+    d = duckdb_connect().execute(sql).fetchnumpy()
+    v, y = np.asarray(d["v"]), np.asarray(d["y"])
+    return bootstrap_diff(y[v == ctrl], y[v == trt], metric=name, alpha=alpha, config=BootstrapConfig(n_boot=2000))
+
+
 def _coerce(v: int | str) -> Any:
     try:
         return int(v)
@@ -212,7 +234,7 @@ def analyze(cfg: ExperimentConfig) -> Readout:
     if cfg.balance_covariate_set:
         adjustments.append(AdjustmentRequest(cfg.primary_metric, cfg.balance_covariate_set))
     where = _where(cfg, cat.source.variant, cat.source.unit)
-    stats_by_variant = run(cat, metric_names, adjustments, where, duckdb.connect())
+    stats_by_variant = run(cat, metric_names, adjustments, where, duckdb_connect())
     ctrl, trt = _coerce(cfg.control), _coerce(cfg.treatment)
     c, t = stats_by_variant[ctrl], stats_by_variant[trt]
     srm = srm_check([c.n, t.n], [cfg.expected_split[str(ctrl)], cfg.expected_split[str(trt)]])
@@ -232,12 +254,16 @@ def analyze(cfg: ExperimentConfig) -> Readout:
     decision_estimates: dict[str, Estimate] = {}
     for name in [cfg.primary_metric, *cfg.secondary_metrics]:
         raw = _estimate(cat, name, c, t, alpha)
+        clt = _clt_check(cat, name, c, t)
+        if not clt["ok"]:
+            raw = _bootstrap_metric(cat, name, where, alpha, ctrl, trt)
         row: dict[str, Any] = {
             "metric": name,
             "role": "primary" if name == cfg.primary_metric else "secondary",
             "raw": raw,
             "adjusted": None,
             "vr": None,
+            "clt": clt,
         }
         covset = cfg.variance_reduction.get(name)
         if covset and cat.get(name).type == "mean":

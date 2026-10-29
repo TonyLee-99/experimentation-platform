@@ -1,0 +1,81 @@
+{
+  "treatment_share_by_prognostic_decile": [
+    {
+      "decile": 1,
+      "treatment_share": 0.8492875332627543,
+      "n": 1397960,
+      "visit_rate": 0.0004363501101605196
+    },
+    {
+      "decile": 2,
+      "treatment_share": 0.8492989785115453,
+      "n": 1397960,
+      "visit_rate": 0.0005293427565881714
+    },
+    {
+      "decile": 3,
+      "treatment_share": 0.8484190165806007,
+      "n": 1397959,
+      "visit_rate": 0.000750379660633824
+    },
+    {
+      "decile": 4,
+      "treatment_share": 0.8485177319220377,
+      "n": 1397959,
+      "visit_rate": 0.0010687008703402603
+    },
+    {
+      "decile": 5,
+      "treatment_share": 0.8485091479793041,
+      "n": 1397959,
+      "visit_rate": 0.0021681608688094572
+    },
+    {
+      "decile": 6,
+      "treatment_share": 0.8467515857045879,
+      "n": 1397959,
+      "visit_rate": 0.0042089932537363395
+    },
+    {
+      "decile": 7,
+      "treatment_share": 0.846995512743936,
+      "n": 1397959,
+      "visit_rate": 0.007582482748063427
+    },
+    {
+      "decile": 8,
+      "treatment_share": 0.8485957027352018,
+      "n": 1397959,
+      "visit_rate": 0.01844760826318941
+    },
+    {
+      "decile": 9,
+      "treatment_share": 0.8523991046947729,
+      "n": 1397959,
+      "visit_rate": 0.06784891402394491
+    },
+    {
+      "decile": 10,
+      "treatment_share": 0.8612269744677776,
+      "n": 1397959,
+      "visit_rate": 0.36687914309361
+    }
+  ],
+  "post_stratified": {
+    "visit": {
+      "itt": 0.006656360228715194,
+      "se": 0.00012791423199255865,
+      "relative": 0.1742459028640079,
+      "bins": 100,
+      "score": "cupac_visit"
+    },
+    "conversion": {
+      "itt": 0.0009068778034169768,
+      "se": 3.5523649113268655e-05,
+      "relative": 0.4680447010740303,
+      "bins": 100,
+      "score": "cupac_conversion"
+    }
+  },
+  "source_note": "Diemert et al. 2021 (arXiv:2111.10106): tests re-sampled to a common treatment ratio; their C2ST used 300 samples (p = 0.137)"
+}

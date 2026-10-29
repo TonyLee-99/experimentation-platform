@@ -2,7 +2,7 @@
 
 Revenue per user is zero for most users and large for a few. A handful of big spenders dominate
 the variance, so tests on revenue are badly underpowered. Capping each user's value at a
-threshold (Kohavi et al. 2020 ch. 22 "Variance reduction: capping"; Microsoft ExP, Netflix XP)
+threshold (Kohavi, Tang & Xu 2020, ch. 18 "Variance Estimation and Improved Sensitivity")
 trades a little bias (the capped metric is a different estimand) for a lot of variance.
 
 Data: Hillstrom MineThatData email RCT (real, 64,000 customers, 2/3 emailed). Treatment = any
@@ -16,12 +16,12 @@ from __future__ import annotations
 import time
 from typing import Any
 
-import duckdb
 import numpy as np
 from scipy import stats
 
 from expkit.analyses.common import SEED, write_json
 from expkit.data import HILLSTROM_PARQUET
+from expkit.db import duckdb_connect
 from expkit.stats.ttest import welch
 from expkit.stats.types import MeanStats
 
@@ -31,7 +31,7 @@ CAP_QUANTILES = [0.75, 0.80, 0.90, 0.95, 0.99, 0.999]
 def run(n_sims: int = 2000, sub_n: int = 16_000) -> dict[str, Any]:
     t0 = time.time()
     df = (
-        duckdb.connect()
+        duckdb_connect()
         .execute(
             f"SELECT (segment <> 'No E-Mail')::INT AS t, spend::DOUBLE AS y FROM read_parquet('{HILLSTROM_PARQUET}')"
         )

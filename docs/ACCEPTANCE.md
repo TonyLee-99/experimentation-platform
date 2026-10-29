@@ -115,4 +115,4 @@ i.e. one-sided non-compliance. Hillstrom `spend` is zero-inflated (~1% buyers, m
 
 ## Results
 
-(Filled in at the end of the build — see below.)
+<!-- results-table -->

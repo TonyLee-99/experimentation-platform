@@ -108,3 +108,11 @@ def test_metric_validation() -> None:
                 "metrics": [{"name": "r", "type": "ratio", "numerator": "a"}],
             }
         )
+
+
+def test_skewness_from_sums(catalog: tuple[MetricCatalog, pd.DataFrame]) -> None:
+    from scipy import stats
+
+    cat, df = catalog
+    vs = run(cat, ["clicks"])
+    assert vs[0].skewness("clicks") == pytest.approx(stats.skew(df[df.arm == 0].clicks.to_numpy(float)), rel=1e-9)

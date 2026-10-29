@@ -23,6 +23,7 @@ from scipy import stats
 
 from expkit.analyses.common import CUPAC_PARQUET, load_criteo, write_json
 from expkit.data import CRITEO_FEATURES, CRITEO_PARQUET
+from expkit.db import duckdb_connect
 from expkit.stats.iv import complier_control_mean, required_n_ratio, tsls_with_controls, wald
 from expkit.stats.power import total_sample_size
 from expkit.stats.types import RatioStats
@@ -60,7 +61,7 @@ def _linearmodels_check(outcome: str) -> dict[str, float]:
 
 def run() -> dict[str, Any]:
     t0 = time.time()
-    con = duckdb.connect()
+    con = duckdb_connect()
     out: dict[str, Any] = {}
     exposed_in_control = con.execute(
         f"SELECT sum(exposure) FROM read_parquet('{CRITEO_PARQUET}') WHERE treatment = 0"

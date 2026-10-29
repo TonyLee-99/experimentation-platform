@@ -7,10 +7,10 @@ import math
 from pathlib import Path
 from typing import Any
 
-import duckdb
 import numpy as np
 
 from expkit.data import CRITEO_FEATURES, CRITEO_PARQUET, PROCESSED, ROOT
+from expkit.db import duckdb_connect
 
 RESULTS = ROOT / "results"
 FIGURES = RESULTS / "figures"
@@ -24,7 +24,7 @@ def load_criteo(columns: list[str], where: str | None = None, with_cupac: bool =
     if with_cupac:
         src += f" JOIN read_parquet('{CUPAC_PARQUET}') c USING (unit_id)"
     sql = f"SELECT {', '.join(columns)} FROM {src} {'WHERE ' + where if where else ''} ORDER BY unit_id"
-    tbl = duckdb.connect().execute(sql).fetchnumpy()
+    tbl = duckdb_connect().execute(sql).fetchnumpy()
     out: dict[str, np.ndarray] = {}
     for c in columns:
         key = c.split(".")[-1].split(" AS ")[-1].strip()

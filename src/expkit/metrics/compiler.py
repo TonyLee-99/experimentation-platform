@@ -18,6 +18,7 @@ from typing import Any
 import duckdb
 import numpy as np
 
+from expkit.db import duckdb_connect
 from expkit.metrics.spec import Metric, MetricCatalog
 from expkit.stats.types import CovariateStats, MeanStats, RatioStats
 
@@ -87,6 +88,7 @@ def compile_sql(
     for a, _ in unit_cols:
         agg.append(f"SUM({_q(a)}) AS {_q(a + '__s')}")
         agg.append(f"SUM({_q(a)} * {_q(a)}) AS {_q(a + '__ss')}")
+        agg.append(f"SUM({_q(a)} * {_q(a)} * {_q(a)}) AS {_q(a + '__sss')}")
     for m in metrics:
         if m.type == "ratio":
             num, den = f"m__{m.name}__num", f"m__{m.name}__den"
@@ -114,6 +116,17 @@ class VariantStats:
 
     def mean(self, metric: str) -> MeanStats:
         return MeanStats(self.n, self.row[f"m__{metric}__s"], self.row[f"m__{metric}__ss"])
+
+    def skewness(self, metric: str) -> float:
+        """Sample skewness of a mean metric from Σy, Σy², Σy³ (population moments)."""
+        n = self.n
+        s1, s2, s3 = (self.row[f"m__{metric}__{k}"] for k in ("s", "ss", "sss"))
+        m = s1 / n
+        var = s2 / n - m**2
+        if var <= 0:
+            return 0.0
+        m3 = s3 / n - 3 * m * s2 / n + 2 * m**3
+        return float(m3 / var**1.5)
 
     def ratio(self, metric: str) -> RatioStats:
         r = self.row
@@ -149,7 +162,7 @@ def run(
 ) -> dict[Any, VariantStats]:
     """Execute the compiled SQL and return sufficient statistics per variant."""
     sql = compile_sql(cat, metric_names, adjustments, where)
-    con = con or duckdb.connect()
+    con = con or duckdb_connect()
     cur = con.execute(sql)
     names = [d[0] for d in cur.description]
     out: dict[Any, VariantStats] = {}
@@ -172,7 +185,7 @@ def run_segmented(
     """Sufficient statistics per (variant, segment). Because every column is a plain sum,
     cumulative statistics up to look k are just the sum over segments <= k."""
     sql = compile_sql(cat, metric_names, adjustments, where=where, segment=segment)
-    con = con or duckdb.connect()
+    con = con or duckdb_connect()
     cur = con.execute(sql)
     names = [d[0] for d in cur.description]
     out: dict[tuple[Any, Any], VariantStats] = {}

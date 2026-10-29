@@ -19,7 +19,7 @@ import urllib.request
 from dataclasses import dataclass
 from pathlib import Path
 
-import duckdb
+from expkit.db import duckdb_connect
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data"
@@ -72,7 +72,7 @@ def prepare_criteo() -> Path:
         )
     )
     PROCESSED.mkdir(parents=True, exist_ok=True)
-    con = duckdb.connect()
+    con = duckdb_connect()
     con.execute("SET preserve_insertion_order = true")
     con.execute("SET threads = 1")  # deterministic row_number -> unit_id
     feats = ", ".join(CRITEO_FEATURES)
@@ -110,7 +110,7 @@ def prepare_asos() -> Path:
         links = _osf_download_links()
         _download(links["asos_digital_experiments_dataset.csv"], csv)
     PROCESSED.mkdir(parents=True, exist_ok=True)
-    duckdb.connect().execute(
+    duckdb_connect().execute(
         f"""
         COPY (SELECT experiment_id, variant_id::INT AS variant_id, metric_id::INT AS metric_id,
                      time_since_start, count_c, count_t, mean_c, mean_t, variance_c, variance_t
@@ -129,7 +129,7 @@ def prepare_hillstrom() -> Path:
     if not csv.exists():
         _download(HILLSTROM_URL, csv)
     PROCESSED.mkdir(parents=True, exist_ok=True)
-    duckdb.connect().execute(
+    duckdb_connect().execute(
         f"""
         COPY (SELECT (row_number() OVER () - 1)::BIGINT AS unit_id, *
               FROM read_csv_auto('{csv}'))
@@ -141,7 +141,7 @@ def prepare_hillstrom() -> Path:
 
 def summarize() -> list[DatasetSummary]:
     """Row counts and headline figures used for acceptance criteria D1-D3."""
-    con = duckdb.connect()
+    con = duckdb_connect()
     out: list[DatasetSummary] = []
     r = con.execute(
         f"SELECT count(*), avg(treatment), avg(visit), avg(conversion), avg(exposure) FROM '{CRITEO_PARQUET}'"

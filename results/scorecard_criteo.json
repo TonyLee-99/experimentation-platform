@@ -1,0 +1,119 @@
+{
+  "name": "criteo_ad_incrementality_v2.1",
+  "verdict": "SHIP",
+  "rule": "R4",
+  "reason": "Primary metric visit up +16.57% (95% CI +15.95% to +17.19%, BH q = 0); all guardrails within margin.",
+  "warnings": [
+    "Covariate imbalance: pre-treatment features differ across arms (chi2 = 5,945, 12 df, p = 0.0e+00; worst SMD -0.049 on f3). Raw differences are biased; the regression-adjusted estimate is used for the decision."
+  ],
+  "srm_p": 0.9989242531220275,
+  "balance": {
+    "chi2": 5944.772326657372,
+    "p": 0.0,
+    "max_abs_smd": 0.04883634018260625
+  },
+  "variance_reduction": {
+    "visit_cupac": 0.3080242239640032,
+    "visit_cuped": 0.2518426310211037,
+    "conversion_cupac": 0.1289329596306723,
+    "conversion_cuped": 0.10662022941538407
+  },
+  "metrics": {
+    "visit": {
+      "raw": {
+        "delta": 0.010342403129198284,
+        "se": 0.00014631645066032718,
+        "rel_lift": 0.27073675539019604,
+        "rel_ci": [
+          0.2615329214618765,
+          0.27994058931851556
+        ],
+        "p": 0.0,
+        "method": "welch"
+      },
+      "adjusted": {
+        "delta": 0.006329932691336297,
+        "se": 0.00012171345852037348,
+        "rel_lift": 0.16570089342703528,
+        "rel_ci": [
+          0.159456178392278,
+          0.17194560846179255
+        ],
+        "p": 0.0,
+        "method": "cuped[cupac_visit]"
+      },
+      "cuped": {
+        "delta": 0.006979598231872386,
+        "se": 0.00012655800973182847,
+        "rel_lift": 0.18270741873226123,
+        "rel_ci": [
+          0.17621414579897868,
+          0.18920069166554376
+        ],
+        "p": 0.0,
+        "method": "cuped[cuped]"
+      },
+      "bh_q": 0.0
+    },
+    "conversion": {
+      "raw": {
+        "delta": 0.0011518730521316279,
+        "se": 3.437169028999274e-05,
+        "rel_lift": 0.5944881177252619,
+        "rel_ci": [
+          0.5428710309245733,
+          0.6461052045259504
+        ],
+        "p": 3.5063591600193013e-246,
+        "method": "welch"
+      },
+      "adjusted": {
+        "delta": 0.0008911386503736808,
+        "se": 3.20794327679563e-05,
+        "rel_lift": 0.45992163625366356,
+        "rel_ci": [
+          0.42747172687398477,
+          0.49237154563334234
+        ],
+        "p": 8.105458644421105e-170,
+        "method": "cuped[cupac_conversion]"
+      },
+      "cuped": {
+        "delta": 0.0009158323062251335,
+        "se": 3.2487698569450484e-05,
+        "rel_lift": 0.472666170002169,
+        "rel_ci": [
+          0.43980327988738366,
+          0.5055290601169543
+        ],
+        "p": 8.099455162336183e-175,
+        "method": "cuped[cuped]"
+      },
+      "bh_q": 8.105458644421105e-170
+    }
+  },
+  "guardrails": [
+    {
+      "metric": "conversion_per_visit",
+      "status": "pass",
+      "rel_lift": 0.2547745321458448,
+      "rel_ci": [
+        0.2151844666832164,
+        0.29436459760847317
+      ]
+    }
+  ],
+  "bayes_panel": true,
+  "bayes_verdict": "ship",
+  "bayes_loss_ship": 0.0,
+  "bayes_prob_positive": 1.0,
+  "sequential": {
+    "looks": 20,
+    "first_look_naive": 1,
+    "first_look_obf": 2,
+    "first_look_msprt": 1,
+    "final_z": 52.00684269666389,
+    "tau_relative": 0.1,
+    "label": "SIMULATED arrival order (hash of unit id): the dataset has no timestamps"
+  }
+}

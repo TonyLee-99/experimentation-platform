@@ -49,7 +49,7 @@ def analyze(config: str = typer.Option(..., "--config", "-c", help="experiment Y
 
 @app.command()
 def validate(
-    suite: str = typer.Argument("all", help="all | crosscheck | aa | asos | noncompliance | heavy | hte"),
+    suite: str = typer.Argument("all", help="all | crosscheck | aa | asos | noncompliance | heavy | hte | balance"),
 ) -> None:
     """Run validation suites / analyses and write results/*.json."""
     from expkit.analyses import asos, heavy_tails, hte, noncompliance
@@ -72,10 +72,12 @@ def validate(
 @app.command()
 def acceptance() -> None:
     """Evaluate every acceptance criterion from results/*.json (writes results/acceptance.json)."""
-    from expkit.validation.acceptance import evaluate
+    from expkit.validation.acceptance import evaluate, update_doc
 
-    for row in evaluate():
-        typer.echo(f"{row['id']:4s} {row['status']:5s} {row['evidence']}")
+    rows = evaluate()
+    update_doc(rows)
+    for row in rows:
+        typer.echo(f"{row['id']:4s} {row['status']:7s} {row['evidence']}")
 
 
 if __name__ == "__main__":

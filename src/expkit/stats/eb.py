@@ -3,7 +3,8 @@
 Each experiment i gives an estimate θ̂ᵢ ~ N(θᵢ, sᵢ²). If we pick the "winners" (largest or
 significant θ̂ᵢ), their θ̂ᵢ are biased upward — the winner's curse (Lee & Shen 2018, "Winner's
 Curse: Bias Estimation for Total Effects of Features in Online Controlled Experiments", Airbnb;
-Deng et al. 2021 "On the Prior Distribution of Effect Sizes"; Azevedo, Deng, Montiel Olea,
+Deng 2015, "Objective Bayesian Two Sample Hypothesis Testing for Online Controlled Experiments", WWW,
+which learns the prior from past experiments; Azevedo, Deng, Montiel Olea,
 Rao & Weyl 2020 "A/B Testing with Fat Tails", JPE).
 
 Treating the true effects θᵢ as draws from a prior g, we estimate g from all experiments

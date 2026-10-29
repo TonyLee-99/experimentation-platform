@@ -1,0 +1,35 @@
+{
+  "datasets": [
+    {
+      "name": "criteo_uplift_v2.1",
+      "path": "data/processed/criteo.parquet",
+      "rows": 13979592,
+      "details": {
+        "treatment_ratio": 0.85,
+        "visit_rate": 0.046992,
+        "conversion_rate": 0.002917,
+        "exposure_rate": 0.030631
+      }
+    },
+    {
+      "name": "asos_digital_experiments",
+      "path": "data/processed/asos.parquet",
+      "rows": 24153,
+      "details": {
+        "experiments": 78,
+        "treatments": 99,
+        "trajectories": 396
+      }
+    },
+    {
+      "name": "hillstrom_email",
+      "path": "data/processed/hillstrom.parquet",
+      "rows": 64000,
+      "details": {
+        "emailed_share": 0.667094,
+        "mean_spend": 1.050908
+      }
+    }
+  ],
+  "data_dir_bytes": 357840216
+}
