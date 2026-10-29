@@ -1,0 +1,31 @@
+# A hard call on a real ASOS experiment (published as daily per-arm n / mean / variance snapshots).
+name: asos_d53f0e_variant1
+description: >
+  Real ASOS.com online experiment d53f0e, treatment 1 vs control, 47 days. ASOS publishes four unnamed
+  business decision metrics; metric_1 is treated as primary, metric_2 as secondary, metrics 3 and 4 as guardrails.
+source_type: summary
+summary:
+  experiment_id: d53f0e
+  variant_id: 1
+  metrics: {metric_1: 1, metric_2: 2, metric_3: 3, metric_4: 4}
+expected_split: {"0": 0.5, "1": 0.5}
+primary_metric: metric_1
+secondary_metrics: [metric_2]
+guardrails:
+  - {metric: metric_3, max_relative_drop: 0.005}
+  - {metric: metric_4, max_relative_drop: 0.005}
+sequential:
+  arrival_order: real
+  tau_relative: 0.0061              # mSPRT mixing sd = ASOS portfolio prior sd for metric 1 (results/asos_portfolio.json)
+decision:
+  alpha: 0.05
+  loss_threshold_relative: 0.001
+  prior_sd_relative: 0.0061         # same portfolio prior
+pm_note: >
+  Don't ship yet. The dashboard showed a "significant" win on day 7, but that was one look among dozens; after 47
+  days metric_1 is +0.42% with a 95% CI that still includes zero. The guardrails (metrics 3 and 4) are slightly
+  negative and not yet proven within our -0.5% margin, which is why the rule says HOLD. The expected-loss view says
+  the downside is small, so this is a low-risk bet if the change is cheap to roll back; if it is not, extend the
+  test about 2 weeks (or until the guardrail CIs clear -0.5%) and decide then.
+output: reports/asos_d53f0e_readout.html
+results_json: scorecard_asos_d53f0e

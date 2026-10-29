@@ -1,32 +1,36 @@
-# Criteo ad-incrementality test, analyzed as a product experiment.
+# Criteo ad-incrementality test, analyzed as the advertiser's product experiment.
 name: criteo_ad_incrementality_v2.1
 description: >
-  Real randomized ad-incrementality test (Criteo Uplift v2.1, 13,979,592 users). Treatment =
-  eligible to be shown the advertiser's ads; control = held out. Question: should the advertiser
-  keep running the campaign (ship) based on site visits?
+  Real randomized ad-incrementality test (Criteo Uplift v2.1, 13,979,592 users). Treatment = eligible to be
+  shown the advertiser's ads; control = held out. Question for the advertiser: is the campaign worth its cost?
 metrics_catalog: metrics/criteo.yaml
 control: 0
 treatment: 1
 expected_split: {"0": 0.15, "1": 0.85}
-primary_metric: visit
-secondary_metrics: [conversion]
-guardrails:
-  - metric: conversion_per_visit     # visit quality must not drop by more than 2%
-    max_relative_drop: 0.02
+primary_metric: conversion          # closest to money for an advertiser (OEC); visits are a leading indicator
+secondary_metrics: [visit]
+guardrails: []                      # no harm metric exists in this dataset (see readout)
+diagnostics: [conversion_per_visit] # mix-shift ratio: shown, never decisive
 variance_reduction:
-  visit: cupac_visit
   conversion: cupac_conversion
-balance_covariate_set: cuped        # joint balance test on f0..f11
+  visit: cupac_visit
+compare_covariate_sets:             # linear CUPED on the raw features, for the variance-reduction comparison
+  conversion: [cuped]
+  visit: [cuped]
+post_stratify:                      # 100 bins of the cross-fitted prognostic score
+  conversion: cupac_conversion
+  visit: cupac_visit
+balance_covariate_set: cuped        # joint balance test on f0..f11; failure -> HOLD (rule R1b)
+sensitivity_results: balance        # negative-sampling sensitivity grid from `expkit validate balance`
+economics:
+  exposure_metric: exposure
+  value_per_conversion: [20, 40, 80]
+  cost_per_exposed_user: [0.25, 0.5, 1.0, 2.0]
 sequential:
-  looks: 20
-  arrival_order: random
-  tau_relative: 0.10
+  show: false                       # no timestamps: a simulated look schedule would be decoration
 decision:
   alpha: 0.05
   loss_threshold_relative: 0.001
   prior_sd_relative: 0.10
 output: reports/criteo_readout.html
-compare_covariate_sets:            # also report linear CUPED on raw features, for the VR comparison
-  visit: [cuped]
-  conversion: [cuped]
 results_json: scorecard_criteo

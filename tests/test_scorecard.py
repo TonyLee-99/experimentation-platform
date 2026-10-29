@@ -33,6 +33,9 @@ def test_decision_rules_order() -> None:
     assert decide(False, 0.5, [g_ok], good, 1e-4, 0.05).verdict == "SHIP"
     assert decide(False, 0.5, [g_ok], _est(-0.05, -0.08, -0.02, 1e-4), 1e-4, 0.05).rule == "R5"
     assert decide(False, 0.5, [g_ok], _est(0.0, -0.02, 0.02, 0.9), 0.9, 0.05).rule == "R6"
+    # a failed balance check outranks everything except SRM
+    assert decide(False, 0.5, [g_fail], good, 1e-4, 0.05, balance_failed=True).rule == "R1b"
+    assert decide(True, 1e-9, [g_ok], good, 1e-4, 0.05, balance_failed=True).rule == "R1"
 
 
 def _render(name: str) -> tuple[str, str]:
@@ -48,12 +51,31 @@ def _render(name: str) -> tuple[str, str]:
 @pytest.mark.data
 def test_criteo_readout_has_all_sections() -> None:
     verdict, html = _render("criteo.yaml")
-    for section in ("srm", "balance", "decision", "metrics", "guardrails", "bayes", "sequential"):
+    for section in (
+        "srm",
+        "balance",
+        "decision",
+        "robustness",
+        "metrics",
+        "guardrails",
+        "economics",
+        "bayes",
+        "sequential",
+    ):
         assert f'id="{section}"' in html
     assert "No sample ratio mismatch" in html
-    assert re.search(r"cuped\[cupac_visit\]", html)
-    assert "data:image/png;base64," in html
-    assert verdict in {"SHIP", "NO-SHIP", "HOLD"}
+    assert re.search(r"cupac\[cupac_conversion\]", html)
+    assert verdict == "HOLD — balance check failed"  # rule R1b on the real Criteo data
+    assert "&lt;1e-300" in html and "q = 0" not in html  # underflowing p-values never render as 0 or blank
+
+
+@needs_data
+@pytest.mark.data
+def test_asos_hard_call_holds() -> None:
+    verdict, html = _render("asos_d53f0e.yaml")
+    assert verdict == "HOLD"
+    assert "flagged a win on day 7" in html and "data:image/png;base64," in html
+    assert "disagrees" in html  # expected-loss rule vs framework
 
 
 @needs_data

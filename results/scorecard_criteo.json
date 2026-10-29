@@ -1,60 +1,22 @@
 {
   "name": "criteo_ad_incrementality_v2.1",
-  "verdict": "SHIP",
-  "rule": "R4",
-  "reason": "Primary metric visit up +16.57% (95% CI +15.95% to +17.19%, BH q = 0); all guardrails within margin.",
-  "warnings": [
-    "Covariate imbalance: pre-treatment features differ across arms (chi2 = 5,945, 12 df, p = 0.0e+00; worst SMD -0.049 on f3). Raw differences are biased; the regression-adjusted estimate is used for the decision."
-  ],
+  "primary_metric": "conversion",
+  "verdict": "HOLD \u2014 balance check failed",
+  "rule": "R1b",
+  "reason": "Pre-treatment features differ across arms (\u03c7\u00b2 = 5,945 on 12 df, p = <1e-300; worst SMD -0.049 on f3) although the overall split passes SRM. Until the cause is known, the effect size is not identified: regression adjustment assumes selection on observables, and outcome-dependent sampling would break that. Act on the direction only if it holds under every estimator and sensitivity scenario (table below).",
   "srm_p": 0.9989242531220275,
   "balance": {
-    "chi2": 5944.772326828822,
+    "chi2": 5944.772327406194,
     "p": 0.0,
-    "max_abs_smd": 0.04883634018231384
+    "max_abs_smd": 0.048836340181832874
   },
   "variance_reduction": {
-    "visit_cupac": 0.3080242239640044,
-    "visit_cuped": 0.25184263101677495,
-    "conversion_cupac": 0.12893295963067597,
-    "conversion_cuped": 0.10662022941195681
+    "conversion_cupac": 0.12893295963067086,
+    "conversion_cuped": 0.10662022942384575,
+    "visit_cupac": 0.3080242239640032,
+    "visit_cuped": 0.2518426310556071
   },
   "metrics": {
-    "visit": {
-      "raw": {
-        "delta": 0.010342403129198284,
-        "se": 0.00014631645066032718,
-        "rel_lift": 0.27073675539019604,
-        "rel_ci": [
-          0.2615329214618765,
-          0.27994058931851556
-        ],
-        "p": 0.0,
-        "method": "welch"
-      },
-      "adjusted": {
-        "delta": 0.006329932691335992,
-        "se": 0.00012171345852037337,
-        "rel_lift": 0.1657008934270273,
-        "rel_ci": [
-          0.15945617839227003,
-          0.17194560846178455
-        ],
-        "p": 0.0,
-        "method": "cuped[cupac_visit]"
-      },
-      "cuped": {
-        "delta": 0.006979598231785046,
-        "se": 0.0001265580097321946,
-        "rel_lift": 0.1827074187299749,
-        "rel_ci": [
-          0.17621414579667355,
-          0.18920069166327624
-        ],
-        "p": 0.0,
-        "method": "cuped[cuped]"
-      },
-      "bh_q": 0.0
-    },
     "conversion": {
       "raw": {
         "delta": 0.0011518730521316279,
@@ -67,53 +29,300 @@
         "p": 3.5063591600193013e-246,
         "method": "welch"
       },
+      "bh_q": 8.105458644550233e-170,
       "adjusted": {
-        "delta": 0.0008911386503737189,
-        "se": 3.207943276795623e-05,
-        "rel_lift": 0.45992163625368326,
+        "delta": 0.000891138650373663,
+        "se": 3.207943276795633e-05,
+        "rel_lift": 0.4599216362536544,
         "rel_ci": [
-          0.42747172687400453,
-          0.492371545633362
+          0.42747172687397555,
+          0.4923715456333332
         ],
-        "p": 8.105458644139068e-170,
-        "method": "cuped[cupac_conversion]"
+        "p": 8.105458644550233e-170,
+        "method": "cupac[cupac_conversion]"
       },
-      "cuped": {
-        "delta": 0.0009158323062715555,
-        "se": 3.24876985695128e-05,
-        "rel_lift": 0.4726661700261277,
+      "cuped[cuped]": {
+        "delta": 0.0009158323056984393,
+        "se": 3.248769856929663e-05,
+        "rel_lift": 0.4726661697303392,
         "rel_ci": [
-          0.4398032799112794,
-          0.505529060140976
+          0.4398032796157096,
+          0.5055290598449689
         ],
-        "p": 8.099454848108641e-175,
+        "p": 8.099458837202194e-175,
         "method": "cuped[cuped]"
       },
-      "bh_q": 8.105458644139068e-170
+      "post-stratified": {
+        "delta": 0.0009068205252145027,
+        "se": 3.552440225626266e-05,
+        "rel_lift": 0.4680151394737198,
+        "rel_ci": [
+          0.43208048853375797,
+          0.5039497904136816
+        ],
+        "p": 9.965908525999598e-144,
+        "method": "post-stratified[100 bins]"
+      }
+    },
+    "visit": {
+      "raw": {
+        "delta": 0.010342403129198284,
+        "se": 0.00014631645066032718,
+        "rel_lift": 0.27073675539019604,
+        "rel_ci": [
+          0.2615329214618765,
+          0.27994058931851556
+        ],
+        "p": 0.0,
+        "method": "welch"
+      },
+      "bh_q": 0.0,
+      "adjusted": {
+        "delta": 0.006329932691336339,
+        "se": 0.00012171345852037348,
+        "rel_lift": 0.16570089342703637,
+        "rel_ci": [
+          0.1594561783922791,
+          0.17194560846179363
+        ],
+        "p": 0.0,
+        "method": "cupac[cupac_visit]"
+      },
+      "cuped[cuped]": {
+        "delta": 0.006979598232476236,
+        "se": 0.00012655800972891017,
+        "rel_lift": 0.18270741874806842,
+        "rel_ci": [
+          0.1762141458149356,
+          0.18920069168120127
+        ],
+        "p": 0.0,
+        "method": "cuped[cuped]"
+      },
+      "post-stratified": {
+        "delta": 0.006656376620986853,
+        "se": 0.0001279142741173051,
+        "rel_lift": 0.17424633197031783,
+        "rel_ci": [
+          0.16768347620451812,
+          0.18080918773611754
+        ],
+        "p": 0.0,
+        "method": "post-stratified[100 bins]"
+      }
     }
   },
-  "guardrails": [
+  "guardrails": [],
+  "diagnostics": [
     {
-      "metric": "conversion_per_visit",
-      "status": "pass",
+      "delta": 0.012922400900175608,
+      "se": 0.0008392719319889736,
       "rel_lift": 0.2547745321458448,
       "rel_ci": [
         0.2151844666832164,
         0.29436459760847317
-      ]
+      ],
+      "p": 1.7102748640490317e-53,
+      "method": "delta",
+      "metric": "conversion_per_visit"
     }
   ],
+  "robustness": [
+    {
+      "estimator": "raw difference in means",
+      "rel_lift": 0.5944881177252619,
+      "rel_ci": [
+        0.5428710309245733,
+        0.6461052045259504
+      ],
+      "p": 3.5063591600193013e-246,
+      "verdict_if_gates_waived": "SHIP",
+      "note": ""
+    },
+    {
+      "estimator": "cuped[cuped]",
+      "rel_lift": 0.4726661697303392,
+      "rel_ci": [
+        0.4398032796157096,
+        0.5055290598449689
+      ],
+      "p": 8.099458837202194e-175,
+      "verdict_if_gates_waived": "SHIP",
+      "note": ""
+    },
+    {
+      "estimator": "post-stratified",
+      "rel_lift": 0.4680151394737198,
+      "rel_ci": [
+        0.43208048853375797,
+        0.5039497904136816
+      ],
+      "p": 9.965908525999598e-144,
+      "verdict_if_gates_waived": "SHIP",
+      "note": ""
+    },
+    {
+      "estimator": "cupac[cupac_conversion] (decision estimate)",
+      "rel_lift": 0.4599216362536544,
+      "rel_ci": [
+        0.42747172687397555,
+        0.4923715456333332
+      ],
+      "p": 8.105458644550233e-170,
+      "verdict_if_gates_waived": "SHIP",
+      "note": ""
+    },
+    {
+      "estimator": "post-stratified, negatives re-weighted \u00d71 (sampling sensitivity)",
+      "rel_lift": 0.4680126408980432,
+      "rel_ci": [
+        0.4320788512025654,
+        0.503946430593521
+      ],
+      "p": null,
+      "verdict_if_gates_waived": "SHIP",
+      "note": "raw at this k: +59.4%"
+    },
+    {
+      "estimator": "post-stratified, negatives re-weighted \u00d720 (sampling sensitivity)",
+      "rel_lift": 0.5982560330255895,
+      "rel_ci": [
+        0.4751616950059844,
+        0.7213503710451946
+      ],
+      "p": null,
+      "verdict_if_gates_waived": "SHIP",
+      "note": "raw at this k: +61.1%"
+    }
+  ],
+  "economics": {
+    "compliance": 0.036036727482199896,
+    "cace": 0.02472862306417349,
+    "cace_se": 0.0008901871787276398,
+    "cace_sensitivity_high": 0.03216645352252654,
+    "exposed_users_per_incremental": 40.43896813036821,
+    "grid": [
+      {
+        "value_per_conversion": 20.0,
+        "cells": [
+          {
+            "cost": 0.25,
+            "iroas": 1.9782898451338793,
+            "iroas_low": 1.8387110603494397,
+            "iroas_sensitivity_high": 2.573316281802123,
+            "verdict": "profitable"
+          },
+          {
+            "cost": 0.5,
+            "iroas": 0.9891449225669396,
+            "iroas_low": 0.9193555301747198,
+            "iroas_sensitivity_high": 1.2866581409010616,
+            "verdict": "depends on magnitude"
+          },
+          {
+            "cost": 1.0,
+            "iroas": 0.4945724612834698,
+            "iroas_low": 0.4596777650873599,
+            "iroas_sensitivity_high": 0.6433290704505308,
+            "verdict": "unprofitable"
+          },
+          {
+            "cost": 2.0,
+            "iroas": 0.2472862306417349,
+            "iroas_low": 0.22983888254367996,
+            "iroas_sensitivity_high": 0.3216645352252654,
+            "verdict": "unprofitable"
+          }
+        ]
+      },
+      {
+        "value_per_conversion": 40.0,
+        "cells": [
+          {
+            "cost": 0.25,
+            "iroas": 3.9565796902677586,
+            "iroas_low": 3.6774221206988793,
+            "iroas_sensitivity_high": 5.146632563604246,
+            "verdict": "profitable"
+          },
+          {
+            "cost": 0.5,
+            "iroas": 1.9782898451338793,
+            "iroas_low": 1.8387110603494397,
+            "iroas_sensitivity_high": 2.573316281802123,
+            "verdict": "profitable"
+          },
+          {
+            "cost": 1.0,
+            "iroas": 0.9891449225669396,
+            "iroas_low": 0.9193555301747198,
+            "iroas_sensitivity_high": 1.2866581409010616,
+            "verdict": "depends on magnitude"
+          },
+          {
+            "cost": 2.0,
+            "iroas": 0.4945724612834698,
+            "iroas_low": 0.4596777650873599,
+            "iroas_sensitivity_high": 0.6433290704505308,
+            "verdict": "unprofitable"
+          }
+        ]
+      },
+      {
+        "value_per_conversion": 80.0,
+        "cells": [
+          {
+            "cost": 0.25,
+            "iroas": 7.913159380535517,
+            "iroas_low": 7.354844241397759,
+            "iroas_sensitivity_high": 10.293265127208493,
+            "verdict": "profitable"
+          },
+          {
+            "cost": 0.5,
+            "iroas": 3.9565796902677586,
+            "iroas_low": 3.6774221206988793,
+            "iroas_sensitivity_high": 5.146632563604246,
+            "verdict": "profitable"
+          },
+          {
+            "cost": 1.0,
+            "iroas": 1.9782898451338793,
+            "iroas_low": 1.8387110603494397,
+            "iroas_sensitivity_high": 2.573316281802123,
+            "verdict": "profitable"
+          },
+          {
+            "cost": 2.0,
+            "iroas": 0.9891449225669396,
+            "iroas_low": 0.9193555301747198,
+            "iroas_sensitivity_high": 1.2866581409010616,
+            "verdict": "depends on magnitude"
+          }
+        ]
+      }
+    ],
+    "costs": [
+      0.25,
+      0.5,
+      1.0,
+      2.0
+    ],
+    "note": "ASSUMED prices (no cost data in the dataset). iROAS = value \u00d7 incremental conversions per exposed user / cost per exposed user. 'profitable' needs the CI lower bound > 1 under the adjusted estimate; 'depends on magnitude' means the verdict flips within the sampling-sensitivity range."
+  },
+  "naive_dashboard": {
+    "verdict": "SHIP",
+    "text": "raw difference in means, no balance or SRM gate",
+    "rel_lift": 0.5944881177252619
+  },
   "bayes_panel": true,
+  "bayes_informative": false,
   "bayes_verdict": "ship",
-  "bayes_loss_ship": 0.0,
+  "bayes_loss_ship": 1.337830939773211e-171,
   "bayes_prob_positive": 1.0,
+  "bayes_post_mean_relative": 0.4476509186377677,
   "sequential": {
-    "looks": 20,
-    "first_look_naive": 1,
-    "first_look_obf": 2,
-    "first_look_msprt": 1,
-    "final_z": 52.00684269666399,
-    "tau_relative": 0.1,
-    "label": "SIMULATED arrival order (hash of unit id): the dataset has no timestamps"
+    "shown": false,
+    "reason": "N/A: single fixed-horizon analysis. The dataset has no timestamps, so any look schedule would be simulated."
   }
 }

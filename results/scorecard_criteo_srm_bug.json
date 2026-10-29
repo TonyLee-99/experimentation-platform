@@ -1,47 +1,22 @@
 {
   "name": "criteo_SIMULATED_srm_bug",
+  "primary_metric": "conversion",
   "verdict": "BLOCKED \u2014 SRM",
   "rule": "R1",
   "reason": "Sample ratio mismatch (p = 2.2e-10 < 0.0005). Do not interpret any metric; debug assignment/logging first.",
-  "warnings": [
-    "Covariate imbalance: pre-treatment features differ across arms (chi2 = 6,014, 12 df, p = 0.0e+00; worst SMD -0.049 on f3). Raw differences are biased; the regression-adjusted estimate is used for the decision."
-  ],
   "srm_p": 2.2165487567475706e-10,
   "balance": {
-    "chi2": 6014.08061434147,
+    "chi2": 6014.080612670405,
     "p": 0.0,
-    "max_abs_smd": 0.04908900295335788
+    "max_abs_smd": 0.04908900295332412
   },
   "variance_reduction": {
-    "visit_cupac": 0.30810845564770994,
-    "conversion_cupac": 0.12894063563862102
+    "conversion_cupac": 0.12894063563862257,
+    "conversion_cuped": 0.10660538228564431,
+    "visit_cupac": 0.3081084556477123,
+    "visit_cuped": 0.25189062811020413
   },
   "metrics": {
-    "visit": {
-      "raw": {
-        "delta": 0.01057380985198133,
-        "se": 0.00014644007525321963,
-        "rel_lift": 0.2767943712575267,
-        "rel_ci": [
-          0.2675467983874473,
-          0.2860419441276061
-        ],
-        "p": 0.0,
-        "method": "welch"
-      },
-      "adjusted": {
-        "delta": 0.006475205367369563,
-        "se": 0.00012180888138654378,
-        "rel_lift": 0.16950374779896174,
-        "rel_ci": [
-          0.16325413693892207,
-          0.17575335865900138
-        ],
-        "p": 0.0,
-        "method": "cuped[cupac_visit]"
-      },
-      "bh_q": 0.0
-    },
     "conversion": {
       "raw": {
         "delta": 0.001166600546480144,
@@ -54,42 +29,300 @@
         "p": 6.139415526550567e-252,
         "method": "welch"
       },
+      "bh_q": 2.4433344529053738e-172,
       "adjusted": {
         "delta": 0.000898744619491563,
-        "se": 3.2112851512402297e-05,
+        "se": 3.211285151240227e-05,
         "rel_lift": 0.4638471194099876,
         "rel_ci": [
           0.4313634053848458,
           0.4963308334351294
         ],
-        "p": 2.4433344529070943e-172,
-        "method": "cuped[cupac_conversion]"
+        "p": 2.4433344529053738e-172,
+        "method": "cupac[cupac_conversion]"
       },
-      "bh_q": 2.4433344529070943e-172
+      "cuped[cuped]": {
+        "delta": 0.0009238751492089271,
+        "se": 3.2521956157444374e-05,
+        "rel_lift": 0.47681712620150624,
+        "rel_ci": [
+          0.44391958291021694,
+          0.5097146694927956
+        ],
+        "p": 1.703089406271959e-177,
+        "method": "cuped[cuped]"
+      },
+      "post-stratified": {
+        "delta": 0.0009167452422122531,
+        "se": 3.560171508059003e-05,
+        "rel_lift": 0.47313734136569907,
+        "rel_ci": [
+          0.4371244847648694,
+          0.5091501979665288
+        ],
+        "p": 3.2209088697083307e-146,
+        "method": "post-stratified[100 bins]"
+      }
+    },
+    "visit": {
+      "raw": {
+        "delta": 0.01057380985198133,
+        "se": 0.00014644007525321963,
+        "rel_lift": 0.2767943712575267,
+        "rel_ci": [
+          0.2675467983874473,
+          0.2860419441276061
+        ],
+        "p": 0.0,
+        "method": "welch"
+      },
+      "bh_q": 0.0,
+      "adjusted": {
+        "delta": 0.0064752053673695145,
+        "se": 0.00012180888138654358,
+        "rel_lift": 0.16950374779896046,
+        "rel_ci": [
+          0.16325413693892082,
+          0.1757533586590001
+        ],
+        "p": 0.0,
+        "method": "cupac[cupac_visit]"
+      },
+      "cuped[cuped]": {
+        "delta": 0.0071368414090455315,
+        "se": 0.00012666087709207763,
+        "rel_lift": 0.18682362915872555,
+        "rel_ci": [
+          0.18032507844804135,
+          0.19332217986940975
+        ],
+        "p": 0.0,
+        "method": "cuped[cuped]"
+      },
+      "post-stratified": {
+        "delta": 0.006812490709173501,
+        "se": 0.00012811405473959637,
+        "rel_lift": 0.17833298583386997,
+        "rel_ci": [
+          0.17175987998911743,
+          0.18490609167862251
+        ],
+        "p": 0.0,
+        "method": "post-stratified[100 bins]"
+      }
     }
   },
-  "guardrails": [
+  "guardrails": [],
+  "diagnostics": [
     {
-      "metric": "conversion_per_visit",
-      "status": "pass",
+      "delta": 0.012922400900175608,
+      "se": 0.0008392719320136653,
       "rel_lift": 0.2547745321458448,
       "rel_ci": [
         0.2151844666824348,
         0.29436459760925476
-      ]
+      ],
+      "p": 1.7102748760277852e-53,
+      "method": "delta",
+      "metric": "conversion_per_visit"
     }
   ],
+  "robustness": [
+    {
+      "estimator": "raw difference in means",
+      "rel_lift": 0.6020890598411108,
+      "rel_ci": [
+        0.5502259519620059,
+        0.6539521677202158
+      ],
+      "p": 6.139415526550567e-252,
+      "verdict_if_gates_waived": "SHIP",
+      "note": ""
+    },
+    {
+      "estimator": "cuped[cuped]",
+      "rel_lift": 0.47681712620150624,
+      "rel_ci": [
+        0.44391958291021694,
+        0.5097146694927956
+      ],
+      "p": 1.703089406271959e-177,
+      "verdict_if_gates_waived": "SHIP",
+      "note": ""
+    },
+    {
+      "estimator": "post-stratified",
+      "rel_lift": 0.47313734136569907,
+      "rel_ci": [
+        0.4371244847648694,
+        0.5091501979665288
+      ],
+      "p": 3.2209088697083307e-146,
+      "verdict_if_gates_waived": "SHIP",
+      "note": ""
+    },
+    {
+      "estimator": "cupac[cupac_conversion] (decision estimate)",
+      "rel_lift": 0.4638471194099876,
+      "rel_ci": [
+        0.4313634053848458,
+        0.4963308334351294
+      ],
+      "p": 2.4433344529053738e-172,
+      "verdict_if_gates_waived": "SHIP",
+      "note": ""
+    },
+    {
+      "estimator": "post-stratified, negatives re-weighted \u00d71 (sampling sensitivity)",
+      "rel_lift": 0.4680126408980432,
+      "rel_ci": [
+        0.4320788512025654,
+        0.503946430593521
+      ],
+      "p": null,
+      "verdict_if_gates_waived": "SHIP",
+      "note": "raw at this k: +59.4%"
+    },
+    {
+      "estimator": "post-stratified, negatives re-weighted \u00d720 (sampling sensitivity)",
+      "rel_lift": 0.5982560330255895,
+      "rel_ci": [
+        0.4751616950059844,
+        0.7213503710451946
+      ],
+      "p": null,
+      "verdict_if_gates_waived": "SHIP",
+      "note": "raw at this k: +61.1%"
+    }
+  ],
+  "economics": {
+    "compliance": 0.03610755335638539,
+    "cace": 0.024890764838615846,
+    "cace_se": 0.0008893665875238074,
+    "cace_sensitivity_high": 0.03210335821480259,
+    "exposed_users_per_incremental": 40.17554327814738,
+    "grid": [
+      {
+        "value_per_conversion": 20.0,
+        "cells": [
+          {
+            "cost": 0.25,
+            "iroas": 1.9912611870892678,
+            "iroas_low": 1.8518110686412714,
+            "iroas_sensitivity_high": 2.5682686571842073,
+            "verdict": "profitable"
+          },
+          {
+            "cost": 0.5,
+            "iroas": 0.9956305935446339,
+            "iroas_low": 0.9259055343206357,
+            "iroas_sensitivity_high": 1.2841343285921036,
+            "verdict": "depends on magnitude"
+          },
+          {
+            "cost": 1.0,
+            "iroas": 0.49781529677231695,
+            "iroas_low": 0.46295276716031786,
+            "iroas_sensitivity_high": 0.6420671642960518,
+            "verdict": "unprofitable"
+          },
+          {
+            "cost": 2.0,
+            "iroas": 0.24890764838615848,
+            "iroas_low": 0.23147638358015893,
+            "iroas_sensitivity_high": 0.3210335821480259,
+            "verdict": "unprofitable"
+          }
+        ]
+      },
+      {
+        "value_per_conversion": 40.0,
+        "cells": [
+          {
+            "cost": 0.25,
+            "iroas": 3.9825223741785356,
+            "iroas_low": 3.703622137282543,
+            "iroas_sensitivity_high": 5.1365373143684145,
+            "verdict": "profitable"
+          },
+          {
+            "cost": 0.5,
+            "iroas": 1.9912611870892678,
+            "iroas_low": 1.8518110686412714,
+            "iroas_sensitivity_high": 2.5682686571842073,
+            "verdict": "profitable"
+          },
+          {
+            "cost": 1.0,
+            "iroas": 0.9956305935446339,
+            "iroas_low": 0.9259055343206357,
+            "iroas_sensitivity_high": 1.2841343285921036,
+            "verdict": "depends on magnitude"
+          },
+          {
+            "cost": 2.0,
+            "iroas": 0.49781529677231695,
+            "iroas_low": 0.46295276716031786,
+            "iroas_sensitivity_high": 0.6420671642960518,
+            "verdict": "unprofitable"
+          }
+        ]
+      },
+      {
+        "value_per_conversion": 80.0,
+        "cells": [
+          {
+            "cost": 0.25,
+            "iroas": 7.965044748357071,
+            "iroas_low": 7.407244274565086,
+            "iroas_sensitivity_high": 10.273074628736829,
+            "verdict": "profitable"
+          },
+          {
+            "cost": 0.5,
+            "iroas": 3.9825223741785356,
+            "iroas_low": 3.703622137282543,
+            "iroas_sensitivity_high": 5.1365373143684145,
+            "verdict": "profitable"
+          },
+          {
+            "cost": 1.0,
+            "iroas": 1.9912611870892678,
+            "iroas_low": 1.8518110686412714,
+            "iroas_sensitivity_high": 2.5682686571842073,
+            "verdict": "profitable"
+          },
+          {
+            "cost": 2.0,
+            "iroas": 0.9956305935446339,
+            "iroas_low": 0.9259055343206357,
+            "iroas_sensitivity_high": 1.2841343285921036,
+            "verdict": "depends on magnitude"
+          }
+        ]
+      }
+    ],
+    "costs": [
+      0.25,
+      0.5,
+      1.0,
+      2.0
+    ],
+    "note": "ASSUMED prices (no cost data in the dataset). iROAS = value \u00d7 incremental conversions per exposed user / cost per exposed user. 'profitable' needs the CI lower bound > 1 under the adjusted estimate; 'depends on magnitude' means the verdict flips within the sampling-sensitivity range."
+  },
+  "naive_dashboard": {
+    "verdict": "SHIP",
+    "text": "raw difference in means, no balance or SRM gate",
+    "rel_lift": 0.6020890598411108
+  },
   "bayes_panel": true,
+  "bayes_informative": false,
   "bayes_verdict": "ship",
-  "bayes_loss_ship": 0.0,
+  "bayes_loss_ship": 4.772302043535036e-174,
   "bayes_prob_positive": 1.0,
+  "bayes_post_mean_relative": 0.45144656183503823,
   "sequential": {
-    "looks": 20,
-    "first_look_naive": 1,
-    "first_look_obf": 2,
-    "first_look_msprt": 1,
-    "final_z": 53.15872942647804,
-    "tau_relative": 0.1,
-    "label": "SIMULATED arrival order (hash of unit id): the dataset has no timestamps"
+    "shown": false,
+    "reason": "N/A: single fixed-horizon analysis. The dataset has no timestamps, so any look schedule would be simulated."
   }
 }

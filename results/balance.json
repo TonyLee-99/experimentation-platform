@@ -1,81 +1,227 @@
 {
-  "treatment_share_by_prognostic_decile": [
+  "deciles_by_prognostic_score": [
     {
       "decile": 1,
-      "treatment_share": 0.8492875332627543,
-      "n": 1397960,
-      "visit_rate": 0.0004363501101605196
+      "n": 1397021,
+      "visit_rate": 0.00043592759163963893,
+      "treatment_share_all": 0.8491862327051634,
+      "treatment_share_nonvisitors": 0.8491841949224155,
+      "treatment_share_visitors": 0.8538587848932676
     },
     {
       "decile": 2,
-      "treatment_share": 0.8492553435005293,
-      "n": 1397960,
-      "visit_rate": 0.0005293427565881714
+      "n": 1398667,
+      "visit_rate": 0.0005297901501930052,
+      "treatment_share_all": 0.849375155058352,
+      "treatment_share_nonvisitors": 0.8493489641082576,
+      "treatment_share_visitors": 0.8987854251012146
     },
     {
       "decile": 3,
-      "treatment_share": 0.8482416150974385,
-      "n": 1397959,
-      "visit_rate": 0.000750379660633824
+      "n": 1395553,
+      "visit_rate": 0.0007502402273507348,
+      "treatment_share_all": 0.8483425566782486,
+      "treatment_share_nonvisitors": 0.8483247831131597,
+      "treatment_share_visitors": 0.8720152817574021
     },
     {
       "decile": 4,
-      "treatment_share": 0.8487337611475014,
-      "n": 1397959,
-      "visit_rate": 0.0010687008703402603
+      "n": 1400531,
+      "visit_rate": 0.001068166288357773,
+      "treatment_share_all": 0.8486117051318393,
+      "treatment_share_nonvisitors": 0.848564903665741,
+      "treatment_share_visitors": 0.892379679144385
     },
     {
       "decile": 5,
-      "treatment_share": 0.8485141552792321,
-      "n": 1397959,
-      "visit_rate": 0.0021681608688094572
+      "n": 1398023,
+      "visit_rate": 0.0021680616127202484,
+      "treatment_share_all": 0.8485160830687335,
+      "treatment_share_nonvisitors": 0.8484313888538428,
+      "treatment_share_visitors": 0.8874958759485319
     },
     {
       "decile": 6,
-      "treatment_share": 0.8467537316902713,
-      "n": 1397959,
-      "visit_rate": 0.0042089932537363395
+      "n": 1397828,
+      "visit_rate": 0.004209387707214335,
+      "treatment_share_all": 0.8467393699367877,
+      "treatment_share_nonvisitors": 0.8466375084055106,
+      "treatment_share_visitors": 0.8708361658735554
     },
     {
       "decile": 7,
-      "treatment_share": 0.8469897901154468,
-      "n": 1397959,
-      "visit_rate": 0.007582482748063427
+      "n": 1397747,
+      "visit_rate": 0.007582201929247568,
+      "treatment_share_all": 0.8470195249927204,
+      "treatment_share_nonvisitors": 0.846812418853346,
+      "treatment_share_visitors": 0.8741271938101529
     },
     {
       "decile": 8,
-      "treatment_share": 0.8485992793780075,
-      "n": 1397959,
-      "visit_rate": 0.01844760826318941
+      "n": 1398303,
+      "visit_rate": 0.018444500226345792,
+      "treatment_share_all": 0.8485836045549499,
+      "treatment_share_nonvisitors": 0.8481033317012893,
+      "treatment_share_visitors": 0.8741421426078865
     },
     {
       "decile": 9,
-      "treatment_share": 0.8523991046947729,
       "n": 1397959,
-      "visit_rate": 0.06784891402394491
+      "visit_rate": 0.06784891402394491,
+      "treatment_share_all": 0.8523991046947729,
+      "treatment_share_nonvisitors": 0.8503624792707287,
+      "treatment_share_visitors": 0.8803795466526094
     },
     {
       "decile": 10,
-      "treatment_share": 0.8612269744677776,
-      "n": 1397959,
-      "visit_rate": 0.36687914309361
+      "n": 1397960,
+      "visit_rate": 0.3668788806546682,
+      "treatment_share_all": 0.8612270737360154,
+      "treatment_share_nonvisitors": 0.851561105348907,
+      "treatment_share_visitors": 0.8779075888800932
     }
   ],
-  "post_stratified": {
+  "negative_sampling_sensitivity": [
+    {
+      "k_upweight_nonvisitors": 1.0,
+      "implied_negative_keep_rate": 1.0,
+      "chi2_treatment_share_100_bins": 2168.3920395591813,
+      "max_abs_smd": 0.04743916292758536,
+      "visit_raw_relative": 0.27073675539019604,
+      "visit_poststrat_relative": 0.174242898618349,
+      "visit_poststrat_relative_se": 0.0033483957612484017,
+      "conversion_raw_relative": 0.5944881177252619,
+      "conversion_poststrat_relative": 0.4680126408980432,
+      "conversion_poststrat_relative_se": 0.018333903060933236
+    },
+    {
+      "k_upweight_nonvisitors": 1.5,
+      "implied_negative_keep_rate": 0.6666666666666666,
+      "chi2_treatment_share_100_bins": 1633.2250416450656,
+      "max_abs_smd": 0.039188652971445796,
+      "visit_raw_relative": 0.27518963185039436,
+      "visit_poststrat_relative": 0.1926950854068099,
+      "visit_poststrat_relative_se": 0.0040718277113450975,
+      "conversion_raw_relative": 0.6000754737023108,
+      "conversion_poststrat_relative": 0.49844996355327403,
+      "conversion_poststrat_relative_se": 0.020787841317460847
+    },
+    {
+      "k_upweight_nonvisitors": 2.0,
+      "implied_negative_keep_rate": 0.5,
+      "chi2_treatment_share_100_bins": 1326.7309260909246,
+      "max_abs_smd": 0.03493953927454613,
+      "visit_raw_relative": 0.2774714537310534,
+      "visit_poststrat_relative": 0.20468173466951115,
+      "visit_poststrat_relative_se": 0.004679082471482683,
+      "conversion_raw_relative": 0.6029386456850547,
+      "conversion_poststrat_relative": 0.5180618021710182,
+      "conversion_poststrat_relative_se": 0.02297005625711783
+    },
+    {
+      "k_upweight_nonvisitors": 3.0,
+      "implied_negative_keep_rate": 0.3333333333333333,
+      "chi2_treatment_share_100_bins": 990.6409234882494,
+      "max_abs_smd": 0.030604718338880163,
+      "visit_raw_relative": 0.2797914329007667,
+      "visit_poststrat_relative": 0.21958434469076438,
+      "visit_poststrat_relative_se": 0.005695748775198456,
+      "conversion_raw_relative": 0.6058496964623195,
+      "conversion_poststrat_relative": 0.5419938156792303,
+      "conversion_poststrat_relative_se": 0.026795906295058798
+    },
+    {
+      "k_upweight_nonvisitors": 5.0,
+      "implied_negative_keep_rate": 0.2,
+      "chi2_treatment_share_100_bins": 706.3238542321487,
+      "max_abs_smd": 0.027073502661435083,
+      "visit_raw_relative": 0.28167553699771886,
+      "visit_poststrat_relative": 0.23465833135213196,
+      "visit_poststrat_relative_se": 0.00730764811299165,
+      "conversion_raw_relative": 0.6082138222990869,
+      "conversion_poststrat_relative": 0.5654217218716358,
+      "conversion_poststrat_relative_se": 0.03313662469792341
+    },
+    {
+      "k_upweight_nonvisitors": 8.0,
+      "implied_negative_keep_rate": 0.125,
+      "chi2_treatment_share_100_bins": 549.6163887683723,
+      "max_abs_smd": 0.025061910881051676,
+      "visit_raw_relative": 0.28274653905718683,
+      "visit_poststrat_relative": 0.24494435958821145,
+      "visit_poststrat_relative_se": 0.00920469588988319,
+      "conversion_raw_relative": 0.6095576884071827,
+      "conversion_poststrat_relative": 0.5808223171487004,
+      "conversion_poststrat_relative_se": 0.04083526709346492
+    },
+    {
+      "k_upweight_nonvisitors": 12.0,
+      "implied_negative_keep_rate": 0.08333333333333333,
+      "chi2_treatment_share_100_bins": 469.04475221166166,
+      "max_abs_smd": 0.02393638089812686,
+      "visit_raw_relative": 0.28334506685539296,
+      "visit_poststrat_relative": 0.25141613228316106,
+      "visit_poststrat_relative_se": 0.011243862919325514,
+      "conversion_raw_relative": 0.6103087058451535,
+      "conversion_poststrat_relative": 0.5902293401969565,
+      "conversion_poststrat_relative_se": 0.049260105239515774
+    },
+    {
+      "k_upweight_nonvisitors": 20.0,
+      "implied_negative_keep_rate": 0.05,
+      "chi2_treatment_share_100_bins": 411.49847364937415,
+      "max_abs_smd": 0.02303181795746372,
+      "visit_raw_relative": 0.2838257166467586,
+      "visit_poststrat_relative": 0.25707167106693557,
+      "visit_poststrat_relative_se": 0.014482819099785731,
+      "conversion_raw_relative": 0.6109118129622402,
+      "conversion_poststrat_relative": 0.5982560330255895,
+      "conversion_poststrat_relative_se": 0.0628043877288346
+    }
+  ],
+  "sensitivity_interval": {
+    "visit_poststrat_relative": [
+      0.174242898618349,
+      0.25707167106693557
+    ],
+    "conversion_poststrat_relative": [
+      0.4680126408980432,
+      0.5982560330255895
+    ],
+    "visit_raw_relative": [
+      0.27073675539019604,
+      0.2838257166467586
+    ],
+    "conversion_raw_relative": [
+      0.5944881177252619,
+      0.6109118129622402
+    ],
+    "k_range": [
+      1.0,
+      20.0
+    ]
+  },
+  "odds_ratios": {
     "visit": {
-      "itt": 0.006656481705744135,
-      "se": 0.0001279137038797072,
-      "relative": 0.17424908281128504,
-      "bins": 100,
-      "score": "cupac_visit"
+      "crude_or": 1.284549756680521,
+      "mantel_haenszel_or": 1.2608835066703776,
+      "bins": 100
     },
     "conversion": {
-      "itt": 0.0009068083134093703,
-      "se": 3.5524608446112017e-05,
-      "relative": 0.4680088368928636,
-      "bins": 100,
-      "score": "cupac_conversion"
+      "crude_or": 1.5963304574568877,
+      "mantel_haenszel_or": 1.4736509007731557,
+      "bins": 100
     }
   },
-  "source_note": "Diemert et al. 2021 (arXiv:2111.10106): tests re-sampled to a common treatment ratio; their C2ST used 300 samples (p = 0.137)"
+  "control_means": {
+    "visit": 0.03820095691954503,
+    "conversion": 0.0019375880152813366
+  },
+  "explanations": {
+    "a_rebalancing_residue": "assignment depends on X only; X-adjustment fixes it; imbalance also among non-visitors",
+    "b_outcome_dependent_negative_sampling": "selection on Y; X-adjustment does not fix it; only the OR is invariant; pure Y-selection predicts treatment share <= 0.85 among non-visitors",
+    "observed_nonvisitor_share_top_decile": 0.851561105348907,
+    "observed_nonvisitor_share_deciles_1_8_mean": 0.8481759367029453
+  },
+  "source_note": "Diemert et al. 2021 (arXiv:2111.10106) \u00a73 and Table 3: their permutation C2ST (300 permutation draws; classifier log-loss 0.42307 vs constant 0.42269, p = 0.137) did not reject."
 }

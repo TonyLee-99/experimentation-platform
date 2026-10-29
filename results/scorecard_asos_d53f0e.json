@@ -1,0 +1,104 @@
+{
+  "name": "asos_d53f0e_variant1",
+  "primary_metric": "metric_1",
+  "verdict": "HOLD",
+  "rule": "R3",
+  "reason": "Guardrail metric_3 not proven within -0.5% (CI lower bound -0.85%). Extend or investigate.",
+  "srm_p": 0.4617852169340809,
+  "balance": null,
+  "variance_reduction": {},
+  "metrics": {
+    "metric_1": {
+      "raw": {
+        "delta": 0.0008021320052479797,
+        "se": 0.0004218024972378851,
+        "rel_lift": 0.004197452932956702,
+        "rel_ci": [
+          -0.0001377316664034258,
+          0.00853263753231683
+        ],
+        "p": 0.057213508735763696,
+        "method": "welch"
+      },
+      "bh_q": 0.11442701747152739
+    },
+    "metric_2": {
+      "raw": {
+        "delta": -9.446204701457628e-05,
+        "se": 0.0012065944996294833,
+        "rel_lift": -0.0002534670252682947,
+        "rel_ci": [
+          -0.006598269864390784,
+          0.006091335813854195
+        ],
+        "p": 0.9375988507053183,
+        "method": "welch"
+      },
+      "bh_q": 0.9375988507053183
+    }
+  },
+  "guardrails": [
+    {
+      "metric": "metric_3",
+      "status": "inconclusive",
+      "delta": -0.0017026895987246604,
+      "se": 0.004464805088560355,
+      "rel_lift": -0.0013903738907760088,
+      "rel_ci": [
+        -0.008531112073397271,
+        0.0057503642918452546
+      ],
+      "p": 0.7029375684560735,
+      "method": "welch"
+    },
+    {
+      "metric": "metric_4",
+      "status": "inconclusive",
+      "delta": -0.04090327879284317,
+      "se": 0.10312948416984713,
+      "rel_lift": -0.0015404944499897155,
+      "rel_ci": [
+        -0.009147168095960358,
+        0.006066179195980928
+      ],
+      "p": 0.691647277182296,
+      "method": "welch"
+    }
+  ],
+  "diagnostics": [],
+  "robustness": [
+    {
+      "estimator": "Welch on final snapshot (decision estimate)",
+      "rel_lift": 0.004197452932956702,
+      "rel_ci": [
+        -0.0001377316664034258,
+        0.00853263753231683
+      ],
+      "p": 0.057213508735763696,
+      "verdict_if_gates_waived": "NO-SHIP",
+      "note": ""
+    }
+  ],
+  "economics": null,
+  "naive_dashboard": {
+    "verdict": "SHIP",
+    "text": "a daily-peeking dashboard flagged a win on day 7",
+    "rel_lift": 0.004197452932956702
+  },
+  "bayes_panel": true,
+  "bayes_informative": true,
+  "bayes_verdict": "ship",
+  "bayes_loss_ship": 5.8323927291936966e-06,
+  "bayes_prob_positive": 0.9631290493375985,
+  "bayes_post_mean_relative": 0.0037115060747581023,
+  "sequential": {
+    "shown": true,
+    "label": "real daily snapshots (ASOS)",
+    "first_day_naive": 7.0,
+    "first_day_obf": null,
+    "first_day_msprt": null,
+    "days": 47.0,
+    "final_z": 1.9016767574887048,
+    "tau_relative": 0.0061
+  }
+}

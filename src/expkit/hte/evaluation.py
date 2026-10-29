@@ -35,9 +35,10 @@ def qini_curve(
 
 
 def normalized_qini(frac: np.ndarray, q: np.ndarray) -> float:
-    """Area between the Qini curve and the random-targeting line, over the total increment.
-
-    0 = no better than random; positive = ranking concentrates incrementality at the top.
+    """NON-STANDARD summary: area between the Qini curve and the random line, divided by the total
+    increment Qini(1). 0 = random; its maximum is about 0.5 when there are no negative effects. Reported
+    as "Qini area above random (share of total increment)". For the standard Radcliffe coefficient,
+    which is normalized by the perfect curve, see :func:`qini_coefficient`.
     """
     area = float(np.trapezoid(q, frac))
     return float(area / q[-1] - 0.5)
@@ -81,4 +82,77 @@ def targeting_table(
     for row in rows:
         for name in outcomes:
             row[f"share_of_incremental_{name}"] = row[f"incremental_{name}"] / total[name]
+    return rows
+
+
+def qini_coefficient(score: np.ndarray, t: np.ndarray, y: np.ndarray) -> float:
+    """Standard Qini coefficient (Radcliffe 2007): (A_model − A_random) / (A_perfect − A_random).
+
+    The perfect ranking puts treated responders first and control responders last (key y·t − y·(1−t)),
+    as in scikit-uplift's ``perfect_qini_curve``. Areas are taken over the targeted-fraction axis.
+    """
+    f, q = qini_curve(score, t, y)
+    perfect_key = y * t - y * (1 - t)
+    fp, qp = qini_curve(perfect_key.astype(np.float64), t, y)
+    a_model = float(np.trapezoid(q, f))
+    a_perfect = float(np.trapezoid(qp, fp))
+    a_random = 0.5 * float(q[-1])
+    return (a_model - a_random) / (a_perfect - a_random)
+
+
+def targeting_with_ci(
+    score: np.ndarray,
+    t: np.ndarray,
+    y: np.ndarray,
+    exposure: np.ndarray,
+    weights: np.ndarray,
+    tops: tuple[float, ...] = (0.1, 0.2, 0.3, 0.5),
+    boot_reps: int = 100,
+    seed: int = 0,
+) -> list[dict[str, Any]]:
+    """Targeting table with one shared denominator and Poisson-bootstrap CIs.
+
+    For each top-k% by ``score``: the share of the *full-population* propensity-weighted increment
+    that is kept, the share of exposures (exposed treated users) used, the efficiency ratio
+    (increment share / exposure share) and the marginal efficiency of the excluded tail
+    ((1 − increment share) / (1 − exposure share)). Every ranking uses the same denominator, the
+    IPW increment over the whole holdout.
+    """
+    order = np.argsort(-score, kind="stable")
+    tt = t[order].astype(np.float64)
+    yy = y[order].astype(np.float64)
+    ee = exposure[order].astype(np.float64)
+    ww = weights[order].astype(np.float64)
+    n = tt.size
+    cuts = [round(k * n) for k in tops]
+    rng = np.random.default_rng(seed)
+
+    def shares(b: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+        w = ww * b
+        c1, c0 = np.cumsum(w * tt), np.cumsum(w * (1 - tt))
+        s1, s0 = np.cumsum(w * tt * yy), np.cumsum(w * (1 - tt) * yy)
+        cnt = np.cumsum(b)
+        exp_c = np.cumsum(b * tt * ee)
+        idx = np.array([c - 1 for c in cuts] + [n - 1])
+        inc = (s1[idx] / c1[idx] - s0[idx] / c0[idx]) * cnt[idx]
+        return inc[:-1] / inc[-1], exp_c[idx[:-1]] / exp_c[-1]
+
+    inc_share, exp_share = shares(np.ones(n))
+    boot = [shares(rng.poisson(1.0, n).astype(np.float64)) for _ in range(boot_reps)]
+    bi = np.array([b[0] for b in boot])
+    be = np.array([b[1] for b in boot])
+    beff = bi / be
+    rows = []
+    for j, k in enumerate(tops):
+        rows.append(
+            {
+                "top": k,
+                "share_of_incremental": float(inc_share[j]),
+                "share_of_incremental_ci90": np.quantile(bi[:, j], [0.05, 0.95]).tolist(),
+                "share_of_exposures": float(exp_share[j]),
+                "efficiency": float(inc_share[j] / exp_share[j]),
+                "efficiency_ci90": np.quantile(beff[:, j], [0.05, 0.95]).tolist(),
+                "tail_marginal_efficiency": float((1 - inc_share[j]) / (1 - exp_share[j])),
+            }
+        )
     return rows
