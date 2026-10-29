@@ -128,16 +128,17 @@ def gsd_boundaries(
         sqrt_tk = math.sqrt(t[k])
         mass = dens * weights
 
-        def cross_prob(c: float, mass: FloatArray = mass, sd: float = sd, sqrt_tk: float = sqrt_tk) -> float:
+        def cross_prob(
+            c: float, mass: FloatArray = mass, sd: float = sd, sqrt_tk: float = sqrt_tk, grid: FloatArray = grid
+        ) -> float:
             b = c * sqrt_tk
-            return float(
-                np.sum(mass * (stats.norm.cdf((-b - grid) / sd) + stats.norm.sf((b - grid) / sd)))
-            )
+            return float(np.sum(mass * (stats.norm.cdf((-b - grid) / sd) + stats.norm.sf((b - grid) / sd))))
 
         if inc[k] <= 1e-15:
             bounds[k] = np.inf
         else:
-            bounds[k] = optimize.brentq(lambda c: cross_prob(c) - inc[k], 0.0, 40.0, xtol=1e-10)
+            target = float(inc[k])
+            bounds[k] = optimize.brentq(lambda c, target=target: cross_prob(c) - target, 0.0, 40.0, xtol=1e-10)
         # propagate the continuation sub-density to look k
         b_score = min(bounds[k], 10.0) * sqrt_tk
         new_grid = np.linspace(-b_score, b_score, grid_points)
@@ -163,9 +164,7 @@ def first_crossing(z_path: ArrayLike, bounds: ArrayLike) -> int:
     return int(idx[0]) if idx.size else -1
 
 
-def crossing_probabilities(
-    info_fraction: ArrayLike, z_bounds: ArrayLike, grid_points: int = 801
-) -> FloatArray:
+def crossing_probabilities(info_fraction: ArrayLike, z_bounds: ArrayLike, grid_points: int = 801) -> FloatArray:
     """Cumulative two-sided H₀ crossing probability of given z-boundaries at each look.
 
     Same recursive integration as :func:`gsd_boundaries`, run forward for fixed boundaries.

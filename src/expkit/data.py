@@ -32,8 +32,7 @@ HILLSTROM_PARQUET = PROCESSED / "hillstrom.parquet"
 
 OSF_FILES_API = "https://api.osf.io/v2/nodes/64jsb/files/osfstorage/"
 HILLSTROM_URL = (
-    "http://www.minethatdata.com/"
-    "Kevin_Hillstrom_MineThatData_E-MailAnalytics_DataMiningChallenge_2008.03.20.csv"
+    "http://www.minethatdata.com/Kevin_Hillstrom_MineThatData_E-MailAnalytics_DataMiningChallenge_2008.03.20.csv"
 )
 CRITEO_FEATURES = [f"f{i}" for i in range(12)]
 
@@ -49,7 +48,7 @@ class DatasetSummary:
 def _download(url: str, dest: Path) -> None:
     dest.parent.mkdir(parents=True, exist_ok=True)
     tmp = dest.with_suffix(dest.suffix + ".part")
-    with urllib.request.urlopen(url, timeout=120) as resp, open(tmp, "wb") as fh:  # noqa: S310
+    with urllib.request.urlopen(url, timeout=120) as resp, open(tmp, "wb") as fh:
         shutil.copyfileobj(resp, fh)
     tmp.rename(dest)
 
@@ -97,7 +96,7 @@ def prepare_criteo() -> Path:
 
 
 def _osf_download_links() -> dict[str, str]:
-    with urllib.request.urlopen(OSF_FILES_API, timeout=60) as resp:  # noqa: S310
+    with urllib.request.urlopen(OSF_FILES_API, timeout=60) as resp:
         payload = json.load(resp)
     return {d["attributes"]["name"]: d["links"]["download"] for d in payload["data"]}
 
@@ -145,8 +144,7 @@ def summarize() -> list[DatasetSummary]:
     con = duckdb.connect()
     out: list[DatasetSummary] = []
     r = con.execute(
-        f"SELECT count(*), avg(treatment), avg(visit), avg(conversion), avg(exposure) "
-        f"FROM '{CRITEO_PARQUET}'"
+        f"SELECT count(*), avg(treatment), avg(visit), avg(conversion), avg(exposure) FROM '{CRITEO_PARQUET}'"
     ).fetchone()
     assert r is not None
     out.append(

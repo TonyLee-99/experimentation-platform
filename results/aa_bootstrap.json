@@ -1,0 +1,37 @@
+{
+  "label": "SIMULATION: A/A on random subsamples of 20,000 real control units",
+  "n_reps": 1000,
+  "sub_n": 20000,
+  "n_boot": 500,
+  "methods": {
+    "visit_bootstrap": {
+      "fpr": 0.049,
+      "fpr_ci95": [
+        0.03646705917204782,
+        0.06426605314016966
+      ]
+    },
+    "visit_welch": {
+      "fpr": 0.048,
+      "fpr_ci95": [
+        0.03560026534288328,
+        0.06314011540150924
+      ]
+    },
+    "conversion_bootstrap": {
+      "fpr": 0.049,
+      "fpr_ci95": [
+        0.03646705917204782,
+        0.06426605314016966
+      ]
+    },
+    "conversion_welch": {
+      "fpr": 0.044,
+      "fpr_ci95": [
+        0.03214949701087142,
+        0.05862041920633092
+      ]
+    }
+  },
+  "seconds": 266.2
+}

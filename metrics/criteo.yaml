@@ -1,0 +1,34 @@
+# Central metric catalog for the Criteo ad-incrementality experiment.
+# Paths are relative to the repo root.
+source:
+  table: data/processed/criteo.parquet
+  unit: unit_id
+  variant: treatment
+  grain: unit            # one row per randomized user already
+  joins:
+    - table: data/processed/criteo_cupac.parquet   # cross-fitted CUPAC predictions (expkit cupac)
+      key: unit_id
+
+metrics:
+  - name: visit
+    type: mean
+    expr: visit
+    description: Share of users who visited the advertiser site (primary success metric).
+  - name: conversion
+    type: mean
+    expr: conversion
+    description: Share of users who converted.
+  - name: conversion_per_visit
+    type: ratio
+    numerator: conversion
+    denominator: visit
+    description: Conversions per visit -- visit quality guardrail (delta method; unit = user).
+  - name: exposure
+    type: mean
+    expr: exposure
+    description: Share of users actually shown an ad (compliance; used for the CACE / IV view).
+
+covariate_sets:
+  cuped:   [f0, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11]   # multivariate CUPED on raw features
+  cupac_visit: [cupac_visit]                                    # CUPAC: ML prediction of visit
+  cupac_conversion: [cupac_conversion]

@@ -68,7 +68,10 @@ def test_bh_properties(p: np.ndarray) -> None:
 
 def test_welch_closed_form_known_case() -> None:
     # Two arms with n=4: [1,2,3,4] vs [3,4,5,6]: delta=2, var=5/3 each, se = sqrt(5/6)
-    w = welch(MeanStats.from_array(np.array([1.0, 2, 3, 4])), MeanStats.from_array(np.array([3.0, 4, 5, 6])))
+    w = welch(
+        MeanStats.from_array(np.array([1.0, 2, 3, 4])),
+        MeanStats.from_array(np.array([3.0, 4, 5, 6])),
+    )
     assert w.delta == 2.0
     assert w.se == pytest.approx(math.sqrt(5 / 6))
     assert w.df == pytest.approx(6.0)

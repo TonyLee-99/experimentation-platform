@@ -1,0 +1,109 @@
+{
+  "n": 64000,
+  "share_buyers": 0.00903125,
+  "max_spend": 499.0,
+  "skewness_all": 20.590076284991817,
+  "excess_kurtosis_all": 510.9493763663081,
+  "buyer_spend_quantiles": {
+    "0.5": 80.795,
+    "0.75": 153.35,
+    "0.8": 178.43200000000002,
+    "0.9": 256.4880000000001,
+    "0.95": 362.2,
+    "0.99": 499.0,
+    "0.999": 499.0
+  },
+  "note": "buyer spend tops out at $499.0, consistent with an upstream cap in the published file",
+  "full_sample": [
+    {
+      "cap": "none",
+      "threshold": null,
+      "delta": 0.5967960667278983,
+      "se": 0.11255620869106331,
+      "p_value": 1.1483719230444967e-07,
+      "variance_reduction": 0.0,
+      "bias_vs_uncapped_ate": 0.0,
+      "mse": 0.012668900114906196,
+      "relative_bias": 0.0
+    },
+    {
+      "cap": "p75",
+      "threshold": 153.35,
+      "delta": 0.42191724785257634,
+      "se": 0.0724097284187998,
+      "p_value": 5.681078448510561e-09,
+      "variance_reduction": 0.5861385975002482,
+      "bias_vs_uncapped_ate": -0.17487881887532197,
+      "mse": 0.03582577006091201,
+      "relative_bias": -0.2930294427611497
+    },
+    {
+      "cap": "p80",
+      "threshold": 178.43200000000002,
+      "delta": 0.4590155272870615,
+      "se": 0.07831463708798193,
+      "p_value": 4.62172131255882e-09,
+      "variance_reduction": 0.5158867520783412,
+      "bias_vs_uncapped_ate": -0.1377805394408368,
+      "mse": 0.0251166594308303,
+      "relative_bias": -0.23086703670192937
+    },
+    {
+      "cap": "p90",
+      "threshold": 256.4880000000001,
+      "delta": 0.5301543358652804,
+      "se": 0.09162380569026003,
+      "p_value": 7.236765855708413e-09,
+      "variance_reduction": 0.33735985815460945,
+      "bias_vs_uncapped_ate": -0.06664173086261793,
+      "mse": 0.01283604206153213,
+      "relative_bias": -0.1116658345756196
+    },
+    {
+      "cap": "p95",
+      "threshold": 362.2,
+      "delta": 0.5751643049874707,
+      "se": 0.1042891217006913,
+      "p_value": 3.500986305133607e-08,
+      "variance_reduction": 0.14150235565401093,
+      "bias_vs_uncapped_ate": -0.02163176174042758,
+      "mse": 0.011344154021096226,
+      "relative_bias": -0.036246488451289194
+    },
+    {
+      "cap": "p99",
+      "threshold": 499.0,
+      "delta": 0.5967960667278983,
+      "se": 0.11255620869106331,
+      "p_value": 1.1483719230444967e-07,
+      "variance_reduction": 0.0,
+      "bias_vs_uncapped_ate": 0.0,
+      "mse": 0.012668900114906196,
+      "relative_bias": 0.0
+    },
+    {
+      "cap": "p99.9",
+      "threshold": 499.0,
+      "delta": 0.5967960667278983,
+      "se": 0.11255620869106331,
+      "p_value": 1.1483719230444967e-07,
+      "variance_reduction": 0.0,
+      "bias_vs_uncapped_ate": 0.0,
+      "mse": 0.012668900114906196,
+      "relative_bias": 0.0
+    }
+  ],
+  "power_simulation": {
+    "label": "SIMULATION: 2000 resamples of 16,000 real customers",
+    "power": {
+      "none": 0.73,
+      "p75": 0.8215,
+      "p80": 0.826,
+      "p90": 0.816,
+      "p95": 0.7695,
+      "p99": 0.73,
+      "p99.9": 0.73
+    }
+  },
+  "seconds": 4.8
+}

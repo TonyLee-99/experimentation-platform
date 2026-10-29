@@ -1,0 +1,30 @@
+{
+  "n_units": 13979592,
+  "n_rounds": 600,
+  "params": {
+    "objective": "binary",
+    "learning_rate": 0.03,
+    "num_leaves": 31,
+    "min_data_in_leaf": 2000,
+    "lambda_l2": 10.0,
+    "feature_fraction": 0.9,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "verbose": -1,
+    "num_threads": 10,
+    "seed": 20261029
+  },
+  "auc_visit": [
+    0.9464414945283319,
+    0.9470124672543039
+  ],
+  "auc_conversion": [
+    0.9589447062583194,
+    0.9593738640667239
+  ],
+  "auc_exposure_treated": [
+    0.9216269905052603,
+    0.9214344227938933
+  ],
+  "seconds": 891.0
+}

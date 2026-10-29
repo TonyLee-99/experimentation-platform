@@ -1,0 +1,448 @@
+{
+  "one_sided": {
+    "exposed_users_in_control": 0
+  },
+  "visit": {
+    "itt": 0.010342403129198284,
+    "itt_se": 0.00014631642098864926,
+    "itt_relative": 0.27073675539019615,
+    "compliance_rate": 0.036036727482199896,
+    "cace": 0.28699618005843747,
+    "cace_se": 0.004022446041356558,
+    "cace_ci95": [
+      0.2791123306876229,
+      0.294880029429252
+    ],
+    "cace_p": 0.0,
+    "linearmodels_iv2sls": {
+      "coef": 0.286996180109913,
+      "se": 0.004022446041386735
+    },
+    "rel_diff_coef_vs_linearmodels": 1.7935969053031524e-10,
+    "rel_diff_se_vs_linearmodels": 7.50221364751706e-12,
+    "tsls_features": {
+      "cace": 0.21494344638403667,
+      "se": 0.003858734920947698,
+      "se_ratio_vs_wald": 0.9593006049737715
+    },
+    "tsls_cupac": {
+      "cace": 0.18306827206314935,
+      "se": 0.003499677140374033,
+      "se_ratio_vs_wald": 0.8700370631183849
+    },
+    "complier_means": {
+      "E[Y(1)|complier]": 0.4145376589166114,
+      "E[Y(0)|complier]": 0.127541478858174,
+      "E[Y|never-taker]": 0.034861057844541195,
+      "cace_check": 0.2869961800584374
+    },
+    "dilution": {
+      "n_total_needed_itt_at_observed_effect": 25773.597958280727,
+      "n_ratio_itt_over_ideal_trigger": 7.021625285261411,
+      "n_total_needed_ideal_trigger": 3670.6028748614985,
+      "note": "ideal trigger = counterfactual exposure logged in control too (ghost ads); Deng & Hu 2015"
+    },
+    "strata": [
+      {
+        "decile": 1,
+        "compliance": 0.0007582159011353862,
+        "share_of_all_exposures": 0.002101762678299534,
+        "itt": 9.267726574723964e-05,
+        "itt_se": 4.540938419348904e-05,
+        "itt_exceeds_bound": false,
+        "nevertaker_minus_control": -8.319083706441569e-05,
+        "nevertaker_minus_control_se": 4.3750778537498093e-05,
+        "nevertaker_diff_outside_bound": false,
+        "cace_stratum": 0.12223070712241801
+      },
+      {
+        "decile": 2,
+        "compliance": 0.0011403882883049936,
+        "share_of_all_exposures": 0.0031596498930436326,
+        "itt": 0.0001419889428143277,
+        "itt_se": 6.777088054873333e-05,
+        "itt_exceeds_bound": false,
+        "nevertaker_minus_control": -9.91080960820568e-05,
+        "nevertaker_minus_control_se": 6.626231322295937e-05,
+        "nevertaker_diff_outside_bound": false,
+        "cace_stratum": 0.12450929588672974
+      },
+      {
+        "decile": 3,
+        "compliance": 0.0015306273125002636,
+        "share_of_all_exposures": 0.004236219442705949,
+        "itt": 0.0002577383759138883,
+        "itt_se": 9.155404699553905e-05,
+        "itt_exceeds_bound": false,
+        "nevertaker_minus_control": -5.9889800633409e-05,
+        "nevertaker_minus_control_se": 9.00933150358912e-05,
+        "nevertaker_diff_outside_bound": false,
+        "cace_stratum": 0.16838741462993717
+      },
+      {
+        "decile": 4,
+        "compliance": 0.0022133078615885187,
+        "share_of_all_exposures": 0.006125470561310752,
+        "itt": 0.000433017382938764,
+        "itt_se": 0.00011554593491100519,
+        "itt_exceeds_bound": false,
+        "nevertaker_minus_control": -1.916977607718893e-05,
+        "nevertaker_minus_control_se": 0.00011391051278645673,
+        "nevertaker_diff_outside_bound": false,
+        "cace_stratum": 0.1956426353756237
+      },
+      {
+        "decile": 5,
+        "compliance": 0.003162362480731465,
+        "share_of_all_exposures": 0.00874333274172606,
+        "itt": 0.0005484459842883369,
+        "itt_se": 0.00014350448994877713,
+        "itt_exceeds_bound": false,
+        "nevertaker_minus_control": -0.00011012457452516146,
+        "nevertaker_minus_control_se": 0.00014160184671502455,
+        "nevertaker_diff_outside_bound": false,
+        "cace_stratum": 0.17342919656745973
+      },
+      {
+        "decile": 6,
+        "compliance": 0.005307225543576915,
+        "share_of_all_exposures": 0.014679644661989856,
+        "itt": 0.0008321010720172429,
+        "itt_se": 0.0001937439521658299,
+        "itt_exceeds_bound": false,
+        "nevertaker_minus_control": -0.00026928632774499486,
+        "nevertaker_minus_control_se": 0.00019143839559028903,
+        "nevertaker_diff_outside_bound": false,
+        "cace_stratum": 0.15678645371013025
+      },
+      {
+        "decile": 7,
+        "compliance": 0.009417996209830793,
+        "share_of_all_exposures": 0.026043174875996004,
+        "itt": 0.000672044520467284,
+        "itt_se": 0.00048055312617725516,
+        "itt_exceeds_bound": false,
+        "nevertaker_minus_control": -0.0017064067694872037,
+        "nevertaker_minus_control_se": 0.0004789764933678794,
+        "nevertaker_diff_outside_bound": false,
+        "cace_stratum": 0.07135748470208379
+      },
+      {
+        "decile": 8,
+        "compliance": 0.02032178052679717,
+        "share_of_all_exposures": 0.0561941281421352,
+        "itt": 0.003957881909397151,
+        "itt_se": 0.0007044026927260852,
+        "itt_exceeds_bound": false,
+        "nevertaker_minus_control": -0.0005485099704434365,
+        "nevertaker_minus_control_se": 0.0007033520934966649,
+        "nevertaker_diff_outside_bound": false,
+        "cace_stratum": 0.19476058725160025
+      },
+      {
+        "decile": 9,
+        "compliance": 0.057057458957887226,
+        "share_of_all_exposures": 0.15830242963765612,
+        "itt": 0.010276828776369776,
+        "itt_se": 0.0006391792785629934,
+        "itt_exceeds_bound": false,
+        "nevertaker_minus_control": -0.0015077749059699552,
+        "nevertaker_minus_control_se": 0.0006354833852908971,
+        "nevertaker_diff_outside_bound": false,
+        "cace_stratum": 0.18011367775692327
+      },
+      {
+        "decile": 10,
+        "compliance": 0.25403295535956916,
+        "share_of_all_exposures": 0.7204141873651368,
+        "itt": 0.06464302251785686,
+        "itt_se": 0.0009429381120547612,
+        "itt_exceeds_bound": false,
+        "nevertaker_minus_control": -0.016475533975797096,
+        "nevertaker_minus_control_se": 0.0009394113861022562,
+        "nevertaker_diff_outside_bound": false,
+        "cace_stratum": 0.2544670726928258
+      }
+    ],
+    "predicted_trigger": [
+      {
+        "top_share_by_predicted_exposure": 0.1,
+        "share_of_exposures_captured": 0.7204141873651368,
+        "itt_triggered": 0.06464391196770239,
+        "itt_triggered_se": 0.0009429342325508515,
+        "diluted_to_population": 0.006464394896100633,
+        "diluted_se": 9.429347721570046e-05,
+        "full_itt": 0.010342403129198284,
+        "full_itt_se": 0.00014631642098864926,
+        "z_full_itt": 70.68518392751429,
+        "z_triggered": 68.55611954274468,
+        "variance_ratio_full_over_diluted": 2.4078134508617013,
+        "diluted_within_full_ci": false
+      },
+      {
+        "top_share_by_predicted_exposure": 0.2,
+        "share_of_exposures_captured": 0.878716617002793,
+        "itt_triggered": 0.04109254236192336,
+        "itt_triggered_se": 0.0005650345503810442,
+        "diluted_to_population": 0.008218510236064572,
+        "diluted_se": 0.00011300693432732648,
+        "full_itt": 0.010342403129198284,
+        "full_itt_se": 0.00014631642098864926,
+        "z_full_itt": 70.68518392751429,
+        "z_triggered": 72.72571621365746,
+        "variance_ratio_full_over_diluted": 1.6763934369937423,
+        "diluted_within_full_ci": false
+      },
+      {
+        "top_share_by_predicted_exposure": 0.3,
+        "share_of_exposures_captured": 0.934913080436793,
+        "itt_triggered": 0.029232672674303656,
+        "itt_triggered_se": 0.0004430359148868137,
+        "diluted_to_population": 0.008770001292875166,
+        "diluted_se": 0.00013291379784657482,
+        "full_itt": 0.010342403129198284,
+        "full_itt_se": 0.00014631642098864926,
+        "z_full_itt": 70.68518392751429,
+        "z_triggered": 65.98262509208082,
+        "variance_ratio_full_over_diluted": 1.2118420096060607,
+        "diluted_within_full_ci": false
+      },
+      {
+        "top_share_by_predicted_exposure": 0.5,
+        "share_of_exposures_captured": 0.9756358999747788,
+        "itt_triggered": 0.019212314341374742,
+        "itt_triggered_se": 0.0002863186257288053,
+        "diluted_to_population": 0.009606621687981393,
+        "diluted_se": 0.00014316623550531348,
+        "full_itt": 0.010342403129198284,
+        "full_itt_se": 0.00014631642098864926,
+        "z_full_itt": 70.68518392751429,
+        "z_triggered": 67.10116847086373,
+        "variance_ratio_full_over_diluted": 1.0444915426421675,
+        "diluted_within_full_ci": false
+      }
+    ]
+  },
+  "conversion": {
+    "itt": 0.0011518730521316279,
+    "itt_se": 3.437168357507502e-05,
+    "itt_relative": 0.594488117725262,
+    "compliance_rate": 0.036036727482199896,
+    "cace": 0.031963863885825596,
+    "cace_se": 0.0009510301857676622,
+    "cace_ci95": [
+      0.03009987897351054,
+      0.03382784879814065
+    ],
+    "cace_p": 1.20947888678918e-247,
+    "linearmodels_iv2sls": {
+      "coef": 0.03196386388839545,
+      "se": 0.0009510301857589954
+    },
+    "rel_diff_coef_vs_linearmodels": 8.039872966404892e-11,
+    "rel_diff_se_vs_linearmodels": 9.113051337356462e-12,
+    "tsls_features": {
+      "cace": 0.028203937249115116,
+      "se": 0.0009905832161942795,
+      "se_ratio_vs_wald": 1.0415896687807973
+    },
+    "tsls_cupac": {
+      "cace": 0.02504479780104721,
+      "se": 0.0008980984497606678,
+      "se_ratio_vs_wald": 0.9443427382231108
+    },
+    "complier_means": {
+      "E[Y(1)|complier]": 0.053784106937685074,
+      "E[Y(0)|complier]": 0.021820243051859478,
+      "E[Y|never-taker]": 0.0011942963966034839,
+      "cace_check": 0.031963863885825596
+    },
+    "dilution": {
+      "n_total_needed_itt_at_observed_effect": 134930.00192126556,
+      "n_ratio_itt_over_ideal_trigger": 2.23436571631172,
+      "n_total_needed_ideal_trigger": 60388.50351857138,
+      "note": "ideal trigger = counterfactual exposure logged in control too (ghost ads); Deng & Hu 2015"
+    },
+    "strata": [
+      {
+        "decile": 1,
+        "compliance": 0.0007559209594887042,
+        "share_of_all_exposures": 0.002094756802705202,
+        "itt": 3.805277552483832e-05,
+        "itt_se": 1.0545289318490885e-05,
+        "itt_exceeds_bound": false,
+        "nevertaker_minus_control": 3.5145921191771037e-06,
+        "nevertaker_minus_control_se": 9.061477142539792e-06,
+        "nevertaker_diff_outside_bound": false,
+        "cace_stratum": 0.050339622214704505
+      },
+      {
+        "decile": 2,
+        "compliance": 0.001144251526370869,
+        "share_of_all_exposures": 0.0031713263523675188,
+        "itt": 4.2683516310207415e-05,
+        "itt_se": 1.486211702826417e-05,
+        "itt_exceeds_bound": false,
+        "nevertaker_minus_control": -3.6257293079969218e-06,
+        "nevertaker_minus_control_se": 1.348684187445494e-05,
+        "nevertaker_diff_outside_bound": false,
+        "cace_stratum": 0.037302564450653004
+      },
+      {
+        "decile": 3,
+        "compliance": 0.0015289590927501013,
+        "share_of_all_exposures": 0.004231548858976395,
+        "itt": 2.5831998538193324e-05,
+        "itt_se": 1.89811921146911e-05,
+        "itt_exceeds_bound": false,
+        "nevertaker_minus_control": -1.966969435448275e-05,
+        "nevertaker_minus_control_se": 1.7942962032964374e-05,
+        "nevertaker_diff_outside_bound": false,
+        "cace_stratum": 0.016895153481006443
+      },
+      {
+        "decile": 4,
+        "compliance": 0.002213300391187976,
+        "share_of_all_exposures": 0.006125470561310752,
+        "itt": 5.657800790763101e-05,
+        "itt_se": 2.0303263127392517e-05,
+        "itt_exceeds_bound": false,
+        "nevertaker_minus_control": 2.7261015889227538e-06,
+        "nevertaker_minus_control_se": 1.9155125356949144e-05,
+        "nevertaker_diff_outside_bound": false,
+        "cace_stratum": 0.025562733433243147
+      },
+      {
+        "decile": 5,
+        "compliance": 0.003162469327679631,
+        "share_of_all_exposures": 0.00874333274172606,
+        "itt": 2.750429519148901e-05,
+        "itt_se": 2.8668397144912446e-05,
+        "itt_exceeds_bound": false,
+        "nevertaker_minus_control": -3.973754816210463e-05,
+        "nevertaker_minus_control_se": 2.766544097923118e-05,
+        "nevertaker_diff_outside_bound": false,
+        "cace_stratum": 0.008697094688241444
+      },
+      {
+        "decile": 6,
+        "compliance": 0.005307189696993746,
+        "share_of_all_exposures": 0.014679644661989856,
+        "itt": 1.4903413002754747e-05,
+        "itt_se": 3.614704531731271e-05,
+        "itt_exceeds_bound": false,
+        "nevertaker_minus_control": -7.119327207368904e-05,
+        "nevertaker_minus_control_se": 3.5138048385579466e-05,
+        "nevertaker_diff_outside_bound": false,
+        "cace_stratum": 0.002808155323936654
+      },
+      {
+        "decile": 7,
+        "compliance": 0.009416905164645944,
+        "share_of_all_exposures": 0.026040839584131226,
+        "itt": 0.00019016346836211616,
+        "itt_se": 6.121746891630488e-05,
+        "itt_exceeds_bound": false,
+        "nevertaker_minus_control": -3.0323369923076072e-05,
+        "nevertaker_minus_control_se": 5.972121817243992e-05,
+        "nevertaker_diff_outside_bound": false,
+        "cace_stratum": 0.020193839168737758
+      },
+      {
+        "decile": 8,
+        "compliance": 0.0203224019349521,
+        "share_of_all_exposures": 0.056196463433999984,
+        "itt": 0.000662370849843903,
+        "itt_se": 0.00010846226488446437,
+        "itt_exceeds_bound": false,
+        "nevertaker_minus_control": 4.247359505643025e-05,
+        "nevertaker_minus_control_se": 0.0001062042994032804,
+        "nevertaker_diff_outside_bound": false,
+        "cace_stratum": 0.03259313795505168
+      },
+      {
+        "decile": 9,
+        "compliance": 0.057057458957887226,
+        "share_of_all_exposures": 0.15830242963765612,
+        "itt": 0.0009123746206304187,
+        "itt_se": 0.00014086896579265575,
+        "itt_exceeds_bound": false,
+        "nevertaker_minus_control": -0.0004637426824253368,
+        "nevertaker_minus_control_se": 0.0001372738287991986,
+        "nevertaker_diff_outside_bound": false,
+        "cace_stratum": 0.01599045308526307
+      },
+      {
+        "decile": 10,
+        "compliance": 0.25403295535956916,
+        "share_of_all_exposures": 0.7204141873651368,
+        "itt": 0.007350988403598499,
+        "itt_se": 0.00030849691627381334,
+        "itt_exceeds_bound": false,
+        "nevertaker_minus_control": -0.0070214442322560165,
+        "nevertaker_minus_control_se": 0.00029283192125598563,
+        "nevertaker_diff_outside_bound": false,
+        "cace_stratum": 0.028937144762157314
+      }
+    ],
+    "predicted_trigger": [
+      {
+        "top_share_by_predicted_exposure": 0.1,
+        "share_of_exposures_captured": 0.7204141873651368,
+        "itt_triggered": 0.007351067145380748,
+        "itt_triggered_se": 0.0003084955561133841,
+        "diluted_to_population": 0.0007351071352122774,
+        "diluted_se": 3.084957326539047e-05,
+        "full_itt": 0.0011518730521316279,
+        "full_itt_se": 3.437168357507502e-05,
+        "z_full_itt": 33.51226743420042,
+        "z_triggered": 23.828761872598726,
+        "variance_ratio_full_over_diluted": 1.2413758384357867,
+        "diluted_within_full_ci": false
+      },
+      {
+        "top_share_by_predicted_exposure": 0.2,
+        "share_of_exposures_captured": 0.878716617002793,
+        "itt_triggered": 0.004596690035765745,
+        "itt_triggered_se": 0.00016428999005176694,
+        "diluted_to_population": 0.0009193382044417409,
+        "diluted_se": 3.285800506163171e-05,
+        "full_itt": 0.0011518730521316279,
+        "full_itt_se": 3.437168357507502e-05,
+        "z_full_itt": 33.51226743420042,
+        "z_triggered": 27.979124195681987,
+        "variance_ratio_full_over_diluted": 1.0942567284375342,
+        "diluted_within_full_ci": false
+      },
+      {
+        "top_share_by_predicted_exposure": 0.3,
+        "share_of_exposures_captured": 0.934913080436793,
+        "itt_triggered": 0.0034410876794556313,
+        "itt_triggered_se": 0.00011372362550928702,
+        "diluted_to_population": 0.0010323497866224975,
+        "diluted_se": 3.4117863729360704e-05,
+        "full_itt": 0.0011518730521316279,
+        "full_itt_se": 3.437168357507502e-05,
+        "z_full_itt": 33.51226743420042,
+        "z_triggered": 30.258336067333886,
+        "variance_ratio_full_over_diluted": 1.0149343460716498,
+        "diluted_within_full_ci": false
+      },
+      {
+        "top_share_by_predicted_exposure": 0.5,
+        "share_of_exposures_captured": 0.9756358999747788,
+        "itt_triggered": 0.0022021762181181604,
+        "itt_triggered_se": 6.876425875755479e-05,
+        "diluted_to_population": 0.0011011413535000998,
+        "diluted_se": 3.438379196803322e-05,
+        "full_itt": 0.0011518730521316279,
+        "full_itt_se": 3.437168357507502e-05,
+        "z_full_itt": 33.51226743420042,
+        "z_triggered": 32.025012090691924,
+        "variance_ratio_full_over_diluted": 0.9992958158332618,
+        "diluted_within_full_ci": true
+      }
+    ]
+  },
+  "seconds": 167.8
+}

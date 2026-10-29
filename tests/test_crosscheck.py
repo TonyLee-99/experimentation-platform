@@ -70,9 +70,7 @@ def test_delta_method_matches_cluster_robust_ols() -> None:
         start = np.concatenate([[0], np.cumsum(x.astype(int))[:-1]])
         for i in range(y.size):  # put y_i conversions on the first y_i visits of user i
             outcome[start[i] : start[i] + int(y[i])] = 1.0
-        fit = sm.OLS(outcome, np.ones(users.size)).fit(
-            cov_type="cluster", cov_kwds={"groups": users}
-        )
+        fit = sm.OLS(outcome, np.ones(users.size)).fit(cov_type="cluster", cov_kwds={"groups": users})
         return float(fit.params[0]), float(fit.bse[0] ** 2)
 
     rc, vc = arm_var(yc, xc)
@@ -114,7 +112,10 @@ def test_cuped_equals_welch_on_adjusted_values_with_statsmodels_theta() -> None:
 
 def test_cuped_close_to_ancova() -> None:
     y, X, t = _cov_data(50000, 0.05)
-    ours = cuped(CovariateStats.from_arrays(y[t == 0], X[t == 0]), CovariateStats.from_arrays(y[t == 1], X[t == 1]))
+    ours = cuped(
+        CovariateStats.from_arrays(y[t == 0], X[t == 0]),
+        CovariateStats.from_arrays(y[t == 1], X[t == 1]),
+    )
     fit = sm.OLS(y, sm.add_constant(np.column_stack([t, X]))).fit(cov_type="HC1")
     assert ours.delta == pytest.approx(fit.params[1], rel=0.01)
     assert ours.se == pytest.approx(fit.bse[1], rel=0.01)
@@ -180,6 +181,7 @@ def test_msprt_lambda_matches_numerical_integration() -> None:
     from scipy import integrate
 
     for th, v, tau2 in [(0.01, 1e-4, 4e-4), (-0.3, 0.05, 0.01), (0.0, 1.0, 2.0)]:
+
         def integrand(theta: float, th: float = th, v: float = v, tau2: float = tau2) -> float:
             lr = stats.norm.pdf(th, loc=theta, scale=np.sqrt(v)) / stats.norm.pdf(th, 0, np.sqrt(v))
             return float(lr * stats.norm.pdf(theta, 0, np.sqrt(tau2)))

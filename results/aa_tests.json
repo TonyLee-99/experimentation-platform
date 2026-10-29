@@ -1,0 +1,82 @@
+{
+  "label": "SIMULATION: A/A re-randomization of real Criteo control units",
+  "n_units": 2096937,
+  "n_reps": 10000,
+  "alpha": 0.05,
+  "methods": {
+    "visit": {
+      "fpr": 0.048,
+      "fpr_ci95": [
+        0.04389242675589087,
+        0.052373296228737605
+      ],
+      "ks_pvalue": 0.6747277924446435,
+      "n_reps": 10000
+    },
+    "visit_cuped": {
+      "fpr": 0.0464,
+      "fpr_ci95": [
+        0.04235985443442302,
+        0.050706875739866264
+      ],
+      "ks_pvalue": 0.22557802943418537,
+      "n_reps": 10000
+    },
+    "visit_cupac": {
+      "fpr": 0.0467,
+      "fpr_ci95": [
+        0.04264711100748263,
+        0.05101943001906277
+      ],
+      "ks_pvalue": 0.7287085007424187,
+      "n_reps": 10000
+    },
+    "conversion": {
+      "fpr": 0.0502,
+      "fpr_ci95": [
+        0.04600179972732943,
+        0.05466254442360921
+      ],
+      "ks_pvalue": 0.6736120381366661,
+      "n_reps": 10000
+    },
+    "conversion_cuped": {
+      "fpr": 0.0482,
+      "fpr_ci95": [
+        0.044084089895404376,
+        0.052581507460036044
+      ],
+      "ks_pvalue": 0.5833642854964943,
+      "n_reps": 10000
+    },
+    "conversion_cupac": {
+      "fpr": 0.0483,
+      "fpr_ci95": [
+        0.04417992895486694,
+        0.05268560560771054
+      ],
+      "ks_pvalue": 0.7313116455400372,
+      "n_reps": 10000
+    },
+    "conversion_per_visit_delta": {
+      "fpr": 0.0484,
+      "fpr_ci95": [
+        0.04427577298783495,
+        0.0527896987962683
+      ],
+      "ks_pvalue": 0.4029230051685663,
+      "n_reps": 10000
+    }
+  },
+  "variance_reduction_aa": {
+    "visit_cuped": 0.25078813541754363,
+    "visit_cupac": 0.30172047762964094,
+    "visit_cuped_analytic": 0.2517921878391435,
+    "visit_cupac_analytic": 0.3040370665878316,
+    "conversion_cuped": 0.11464105978635553,
+    "conversion_cupac": 0.13360601524422444,
+    "conversion_cuped_analytic": 0.11056680428485499,
+    "conversion_cupac_analytic": 0.13220485277937521
+  },
+  "seconds": 338.1
+}

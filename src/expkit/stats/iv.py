@@ -64,8 +64,18 @@ def wald(control: RatioStats, treatment: RatioStats, alpha: float = 0.05, ddof: 
     se = math.sqrt(var_beta)
     z = float(stats.norm.ppf(1 - alpha / 2))
     p = float(2 * stats.norm.sf(abs(beta / se)))
-    return IVResult(dy, math.sqrt(var_dy), dd, math.sqrt(var_dd), beta, se,
-                    beta - z * se, beta + z * se, p, my_c)
+    return IVResult(
+        dy,
+        math.sqrt(var_dy),
+        dd,
+        math.sqrt(var_dd),
+        beta,
+        se,
+        beta - z * se,
+        beta + z * se,
+        p,
+        my_c,
+    )
 
 
 def tsls_with_controls(
@@ -124,5 +134,3 @@ def required_n_ratio(var_all: float, var_compliers: float, compliance: float) ->
     Estimation for Trigger Analysis in Online Controlled Experiments", WSDM.)
     """
     return var_all / (compliance * var_compliers)
-
-

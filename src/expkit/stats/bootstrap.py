@@ -24,9 +24,7 @@ class BootstrapConfig:
     chunk: int = 200
 
 
-def _boot_means(
-    y: np.ndarray, x: np.ndarray | None, n_boot: int, rng: np.random.Generator, chunk: int
-) -> np.ndarray:
+def _boot_means(y: np.ndarray, x: np.ndarray | None, n_boot: int, rng: np.random.Generator, chunk: int) -> np.ndarray:
     """Bootstrap replicates of Σwy/Σw (mean) or Σwy/Σwx (ratio)."""
     out = np.empty(n_boot)
     for start in range(0, n_boot, chunk):
@@ -67,8 +65,10 @@ def bootstrap_diff(
     lo, hi = np.quantile(d, [alpha / 2, 1 - alpha / 2])
     p = float(min(1.0, 2 * min(np.mean(d <= 0), np.mean(d >= 0))))
     se = float(d.std(ddof=1))
-    rel_boot = bt / bc - 1
-    rlo, rhi = np.quantile(rel_boot, [alpha / 2, 1 - alpha / 2])
+    with np.errstate(divide="ignore", invalid="ignore"):
+        rel_boot = bt / bc - 1
+    finite = rel_boot[np.isfinite(rel_boot)]
+    rlo, rhi = np.quantile(finite, [alpha / 2, 1 - alpha / 2]) if finite.size else (np.nan, np.nan)
     return Estimate(
         metric=metric,
         method="bootstrap",

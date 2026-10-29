@@ -1,0 +1,34 @@
+# Criteo ad-incrementality test, analyzed as a product experiment.
+name: criteo_SIMULATED_srm_bug
+description: >
+  Real randomized ad-incrementality test (Criteo Uplift v2.1, 13,979,592 users). Treatment =
+  eligible to be shown the advertiser's ads; control = held out. Question: should the advertiser
+  keep running the campaign (ship) based on site visits?
+metrics_catalog: metrics/criteo.yaml
+control: 0
+treatment: 1
+expected_split: {"0": 0.15, "1": 0.85}
+primary_metric: visit
+secondary_metrics: [conversion]
+guardrails:
+  - metric: conversion_per_visit     # visit quality must not drop by more than 2%
+    max_relative_drop: 0.02
+variance_reduction:
+  visit: cupac_visit
+  conversion: cupac_conversion
+balance_covariate_set: cuped        # joint balance test on f0..f11
+sequential:
+  looks: 20
+  arrival_order: random
+  tau_relative: 0.10
+decision:
+  alpha: 0.05
+  loss_threshold_relative: 0.001
+  prior_sd_relative: 0.10
+output: reports/criteo_srm_bug_readout.html
+# SIMULATION (labeled in the readout): a logging bug drops 0.5% of treated users who did not visit.
+simulated_bug:
+  variant: 1
+  drop_share: 0.005
+  condition: "visit = 0"
+results_json: scorecard_criteo_srm_bug

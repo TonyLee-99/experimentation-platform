@@ -72,9 +72,7 @@ class DiscretePrior:
         out: FloatArray = p[:, self.support > 0].sum(axis=1)
         return out
 
-    def posterior_interval(
-        self, est: ArrayLike, se: ArrayLike, level: float = 0.95
-    ) -> tuple[FloatArray, FloatArray]:
+    def posterior_interval(self, est: ArrayLike, se: ArrayLike, level: float = 0.95) -> tuple[FloatArray, FloatArray]:
         p = self._post_weights(est, se)
         cdf = np.cumsum(p, axis=1)
         lo_q, hi_q = (1 - level) / 2, 1 - (1 - level) / 2
@@ -113,8 +111,12 @@ def fit_normal_prior(est: ArrayLike, se: ArrayLike) -> NormalPrior:
         return float(0.5 * np.sum(np.log(2 * np.pi * v) + (e - mu) ** 2 / v))
 
     tau0 = max(float(np.std(e)), 1e-8)
-    res = optimize.minimize(nll, x0=np.array([float(np.mean(e)), math.log(tau0)]), method="Nelder-Mead",
-                            options={"xatol": 1e-10, "fatol": 1e-12, "maxiter": 20000})
+    res = optimize.minimize(
+        nll,
+        x0=np.array([float(np.mean(e)), math.log(tau0)]),
+        method="Nelder-Mead",
+        options={"xatol": 1e-10, "fatol": 1e-12, "maxiter": 20000},
+    )
     mu, log_tau = res.x
     return NormalPrior(float(mu), float(math.exp(log_tau)), float(-res.fun))
 
