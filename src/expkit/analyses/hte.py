@@ -135,12 +135,16 @@ def run(boot_reps: int = 100) -> dict[str, Any]:
     return out
 
 
-def _causalml_check(score: np.ndarray, t: np.ndarray, y: np.ndarray, rng: np.random.Generator) -> dict[str, float]:
+def _causalml_check(score: np.ndarray, t: np.ndarray, y: np.ndarray, rng: np.random.Generator) -> dict[str, Any]:
     import pandas as pd
     from causalml.metrics import get_qini
 
     idx = rng.choice(score.size, 300_000, replace=False)
     s, tt, yy = score[idx], t[idx].astype(np.float64), y[idx].astype(np.float64)
+    # Tree-ensemble scores are piecewise constant (many exact ties) and pandas' default sort is not
+    # stable, so tied rows would be ordered differently. Break ties identically for both by replacing
+    # the score with its (stable) rank; compare only points where both curves are finite.
+    s = np.argsort(np.argsort(s, kind="stable"), kind="stable").astype(np.float64)
     ref = get_qini(
         pd.DataFrame({"model": s, "w": tt, "y": yy}),
         outcome_col="y",
@@ -149,11 +153,29 @@ def _causalml_check(score: np.ndarray, t: np.ndarray, y: np.ndarray, rng: np.ran
     )
     _, ours = qini_curve(s, tt, yy)
     ref_vals = ref["model"].to_numpy()[1:]  # causalml prepends a 0 row
+    ok = np.isfinite(ref_vals) & (np.cumsum((1 - tt)[np.argsort(-s, kind="stable")]) > 0)
+    ref_vals, ours = ref_vals[ok], ours[ok]
     return {
         "n": int(idx.size),
         "max_abs_diff": float(np.max(np.abs(ref_vals - ours))),
         "max_rel_diff": float(np.max(np.abs(ref_vals - ours)) / np.max(np.abs(ours))),
     }
+
+
+def recheck_causalml() -> dict[str, Any]:
+    """Re-run only the H3 check (holdout fold, score = cross-fitted response model) and patch hte.json."""
+    from expkit.analyses.common import read_json
+
+    d = load_criteo(["treatment", "visit", "fold", "cupac_visit"], with_cupac=True)
+    test = d["fold"] == 1
+    res: dict[str, Any] = _causalml_check(
+        d["cupac_visit"][test].astype(np.float64), d["treatment"][test], d["visit"][test], np.random.default_rng(SEED)
+    )
+    res["score"] = "cupac_visit (cross-fitted response model) on holdout fold 1"
+    out = read_json("hte")
+    out["causalml_check"] = res
+    write_json("hte", out)
+    return res
 
 
 def main() -> None:

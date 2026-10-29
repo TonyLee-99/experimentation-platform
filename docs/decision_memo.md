@@ -33,7 +33,11 @@ about **+18 to +29 percentage points** (instrumental-variable estimates, adjuste
 
 ## Where to spend (targeting)
 
-PENDING
+The effect is very concentrated. If we only serve the **top 20% of users ranked by predicted conversion uplift**, we
+keep about **81–87% of the incremental conversions** while buying about **69% of the impressions**, so roughly 30%
+of spend buys only ~15% of the incremental conversions. Note that a simple "likely converter" model ranks almost as
+well here, because the ads mostly reach high-intent users anyway. Recommendation: test a top-30% targeting policy
+against the current policy in a holdout before cutting budget.
 
 ## Risks and what I would do next
 

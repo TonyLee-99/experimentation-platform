@@ -6,6 +6,7 @@ if a results file is missing, the criterion is reported as MISSING.
 
 from __future__ import annotations
 
+import itertools
 import json
 import time
 from collections.abc import Callable
@@ -203,16 +204,19 @@ def v5() -> tuple[str, str]:
     worst = max(abs(pt["power_raw"] - pt["analytic_raw"]) for c in p.values() for pt in c["points"])
 
     def mde80(c: dict[str, Any], k: str) -> float:
-        for pt in c["points"]:
-            if pt[f"power_{k}"] >= 0.8:
-                return float(pt["relative_lift"])
+        """Relative lift at which empirical power crosses 80% (linear interpolation on the grid)."""
+        pts = c["points"]
+        for a, b in itertools.pairwise(pts):
+            pa, pb = a[f"power_{k}"], b[f"power_{k}"]
+            if pa < 0.8 <= pb:
+                return float(a["relative_lift"] + (0.8 - pa) / (pb - pa) * (b["relative_lift"] - a["relative_lift"]))
         return float("inf")
 
     v = p["visit"]
     cond = worst <= 0.03 and mde80(v, "cupac") < mde80(v, "raw")
     return _ok(cond), (
-        f"max |empirical − analytic| (Welch) = {worst * 100:.1f} pp; first grid lift with ≥80% power, visit: "
-        f"raw {mde80(v, 'raw'):.1%}, CUPAC {mde80(v, 'cupac'):.1%}"
+        f"max |empirical − analytic| (Welch) = {worst * 100:.1f} pp; interpolated 80%-power MDE, visit: "
+        f"raw {mde80(v, 'raw'):.2%}, CUPED {mde80(v, 'cuped'):.2%}, CUPAC {mde80(v, 'cupac'):.2%}"
     )
 
 
@@ -248,7 +252,7 @@ def v8() -> tuple[str, str]:
 def h1() -> tuple[str, str]:
     b = _j("hte")["balance"]
     return _ok(b["auc"] <= 0.51), (
-        f"C2ST AUC = {b['auc']:.4f} ± {b['auc_se']:.4f} (z = {b['z_vs_0.5']:.0f} vs 0.5). "
+        f"C2ST AUC = {b['auc']:.5f} ± {b['auc_se']:.5f} (z = {b['z_vs_0.5']:.0f} vs 0.5). "
         "Passes the pre-set 0.51 threshold, but is overwhelmingly significant: see docs (balance finding)"
     )
 
@@ -284,7 +288,7 @@ def h4() -> tuple[str, str]:
     ci = h["qini_visit"]["x_learner"]["share_top20_ci95"]
     rc = next(r for r in h["targeting"]["rank_by_conversion_x_learner__raw"] if r["top"] == 0.2)
     return _ok(top20["share_of_incremental_visits"] >= 0.5), (
-        f"top 20% by X-learner keeps {top20['share_of_incremental_visits']:.1%} of incremental visits (bootstrap 95% CI "  # noqa: E501
+        f"top 20% by X-learner keeps {top20['share_of_incremental_visits']:.1%} of incremental visits (Qini-curve share, bootstrap 95% CI "  # noqa: E501
         f"{ci[0]:.1%}–{ci[1]:.1%}) using {top20['share_of_exposures']:.1%} of exposures; ranking by conversion uplift keeps "  # noqa: E501
         f"{rc['share_of_incremental_conversions']:.1%} of incremental conversions"
     )

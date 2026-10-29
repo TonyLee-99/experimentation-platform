@@ -21,8 +21,8 @@ data how often each mistake would have happened.
 | …on the real trajectories? | Naive peeking declared 218 of 361 real trajectories significant at some point; **116 (32%)** were not supported by the final analysis (OBF: 41, mSPRT: 35). OBF still caught 94% of the final-significant effects, stopping at a median of day 19 of 45 | same |
 | Are the "winners" overstated? | Empirical-Bayes deconvolution across the 99 ASOS treatments: significant winners are overstated by **×1.06–×1.21**; the true-effect distribution is fat-tailed (excess kurtosis 5–8); FDR among winners 1–5% | same |
 | Real ad incrementality, per exposed user? | Only **3.6%** of assigned users were exposed. ITT on visits +1.03 pp → CACE (Wald) +28.7 pp per exposed user; covariate-adjusted 2SLS +18.3 pp. An ideal ghost-ads trigger would need **7.0× fewer users** to detect the visit effect | `results/noncompliance.json` |
-| A data-quality trap the dataset's own check missed | Global SRM passes (split = 0.85000), but a full-scale classifier two-sample test finds T is predictable from features (AUC PENDING, z ≈ PENDING). Raw lift +27.1% vs feature-adjusted +16.6% to +18.3% (CUPAC, CUPED, post-stratification agree) | `results/hte.json`, `results/balance.json` |
-| Targeting | PENDING | `results/hte.json` |
+| A data-quality trap the dataset's own check missed | Global SRM passes (split = 0.85000), but a full-scale classifier two-sample test finds T is predictable from features (AUC 0.50997 ± 0.0003 on 7.0M held-out users, z = 33; the authors' 300-sample test had p = 0.137). Raw lift +27.1% vs feature-adjusted +16.6% to +18.3% (CUPAC, CUPED, post-stratification agree) | `results/hte.json`, `results/balance.json` |
+| Who should see the ads? | Ranking users by X-learner conversion uplift: the top 20% hold **81% of incremental conversions** (87% with propensity weighting) while receiving 69% of impressions. A plain response model ranks conversions as well as the uplift models here, because incrementality concentrates where ads are actually served | `results/hte.json` |
 | Heavy tails (Hillstrom spend) | Capping at p95 of buyer spend: −14% variance, −3.6% bias, lowest MSE; p90 cap raises power 73% → 82% at −11% bias | `results/heavy_tails.json` |
 
 Acceptance criteria were written **before** building and are scored mechanically: see
@@ -115,14 +115,17 @@ Python 3.12 (uv), pinned in `pyproject.toml`. `Dockerfile` and `.github/workflow
 | Wald CACE and SE vs `linearmodels` IV2SLS (robust), 13.98M rows | 8e-11 / 9e-12 |
 | Lan–DeMets OBF boundaries vs independent `gsdesign` integration; Jennison–Turnbull constants | ≤ 1e-6; Pocock 2.413 / OBF 2.040 reproduce α = 0.050 |
 | mSPRT Λ vs numerical integration of the mixture likelihood | ≤ 1e-6 |
-| Own Qini curve vs `causalml.metrics.get_qini` | PENDING |
+| Own Qini curve vs `causalml.metrics.get_qini` (300k holdout users, identical tie-breaking) | max abs diff 0.0 |
 
 ### 2. Calibration and power on real units (simulation on real data)
 
 ![A/A](results/figures/aa_fpr.png)
 ![power](results/figures/power_curves.png)
 
-Power: PENDING
+Power with injected effects (2,000 reps per point; flips of non-visitors are independent of features, so the
+CUPED/CUPAC gain here is conservative). Empirical Welch power is within 1.2 pp of the analytic formula at every point.
+Interpolated 80%-power MDE for visits: raw 1.97% → CUPED 1.74% → **CUPAC 1.68%** relative lift. For conversions:
+raw 9.5% → CUPAC 8.5%.
 
 ### 3. Peeking — ASOS real trajectories
 
@@ -134,7 +137,8 @@ Power: PENDING
 | O'Brien–Fleming (Lan–DeMets) | 5.0% | 140 | 41 | 94% | 19 |
 | mSPRT (τ = portfolio prior sd) | 1.1% | 104 | 35 | 66% | 12 |
 
-Criteo control users, random arrival order, PENDING.
+Criteo control users, simulated random arrival order, 2,000 A/A reps × 24 looks: naive peeking FPR **27.0%**
+(visit) / 26.2% (conversion); OBF 5.6% / 5.9%; mSPRT 0.85% / 1.7%; fixed horizon (one look) 5.6% / 6.2%.
 
 ### 4. Winner's curse — ASOS as a company's experiment portfolio
 
@@ -178,9 +182,31 @@ almost never exposed (≤ 0.5%), have ITT ≈ 0 as exclusion predicts. A *predic
 (0.0065) falls outside the full-ITT CI (0.0103 ± 0.0003). That is why Deng & Hu (2015) require the trigger to
 capture every potentially affected user.
 
-### 6. HTE and targeting
+### 6. HTE and targeting (train on 6.99M users, evaluate on 6.99M held-out users)
 
-PENDING
+| ranking score | normalized Qini, visits (95% bootstrap CI) | normalized Qini, conversions | top 20% share of incremental visits |
+|---|---|---|---|
+| X-learner (LightGBM, estimated propensity) | **0.371** [0.358, 0.389] | 0.353 [0.328, 0.378] | 79% |
+| T-learner (LightGBM) | 0.352 [0.336, 0.367] | 0.274 [0.240, 0.302] | 78% |
+| response model P(outcome given x) (CUPAC model) | 0.346 | **0.406** | 74% |
+| predicted exposure P(exposure given x) | 0.369 | 0.374 | 81% |
+| random | 0.003 [−0.005, 0.014] | −0.008 | 20% |
+
+**Business answer, "if we only target the top k% by predicted uplift"** (ranked by X-learner conversion uplift;
+spend proxy = share of impressions; raw diff-in-means / propensity-weighted):
+
+| target top | share of impressions | incremental conversions kept | incremental visits kept |
+|---|---|---|---|
+| 10% | 53% | 68% / 82% | 53% / 68% |
+| 20% | 69% | **81% / 87%** | 71% / 80% |
+| 30% | 75% | 86% / 89% | 80% / 84% |
+| 50% | 81% | 91% / 91% | 88% / 88% |
+
+The honest reading: uplift is real and very concentrated (random targeting keeps 20% of the increment at 20%), but
+it sits on the same users who are most likely to be served an ad and to convert anyway. The uplift model therefore
+beats a simple response model on visits but not on conversions. The spend saving is the gap between the two
+columns: targeting the top 20% keeps ~81–87% of incremental conversions on ~69% of impressions. A prospective
+targeted-holdout test is needed before moving budget.
 
 ### 7. Heavy tails — capping Hillstrom spend
 

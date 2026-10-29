@@ -1,0 +1,325 @@
+{
+  "n_train": 6989354,
+  "n_holdout": 6990238,
+  "balance": {
+    "method": "classifier two-sample test (LightGBM, train fold 0, test fold 1)",
+    "auc": 0.5099666758214452,
+    "auc_se": 0.00030440571817533176,
+    "z_vs_0.5": 32.74142115722202,
+    "p_value": 2.011050002539106e-235,
+    "logloss_model": 0.42207642140542395,
+    "logloss_constant": 0.42244689222523213,
+    "n_test": 6990238,
+    "paper_reference": "Diemert et al. (2021) report a C2ST on 300 samples with p = 0.137"
+  },
+  "qini_visit": {
+    "t_learner": {
+      "normalized_qini": 0.3517175632872186,
+      "share_of_incremental_top20": 0.7834891758279036,
+      "normalized_qini_ci95": [
+        0.3354570750940638,
+        0.3670272912444477
+      ],
+      "share_top20_ci95": [
+        0.7627568016724507,
+        0.8027664673324667
+      ]
+    },
+    "x_learner": {
+      "normalized_qini": 0.3710054927306359,
+      "share_of_incremental_top20": 0.7894060862366324,
+      "normalized_qini_ci95": [
+        0.35752802726196625,
+        0.389037795322256
+      ],
+      "share_top20_ci95": [
+        0.770198903495791,
+        0.8125874368457308
+      ]
+    },
+    "response_model (P(visit|x) / P(conv|x))": {
+      "normalized_qini": 0.34627580731419727,
+      "share_of_incremental_top20": 0.7434291041126244
+    },
+    "exposure_propensity": {
+      "normalized_qini": 0.36903604171204396,
+      "share_of_incremental_top20": 0.8072024089095591
+    },
+    "random": {
+      "normalized_qini": 0.0030746435582104104,
+      "share_of_incremental_top20": 0.20430403102483333,
+      "normalized_qini_ci95": [
+        -0.0048375387762319795,
+        0.014313420654517099
+      ],
+      "share_top20_ci95": [
+        0.18573668404690524,
+        0.2188612873529277
+      ]
+    }
+  },
+  "qini_conversion": {
+    "t_learner": {
+      "normalized_qini": 0.2739898195223781,
+      "share_of_incremental_top20": 0.7377440926686035,
+      "normalized_qini_ci95": [
+        0.2403338330402782,
+        0.3020890145719768
+      ],
+      "share_top20_ci95": [
+        0.6934569140704471,
+        0.7672039734971946
+      ]
+    },
+    "x_learner": {
+      "normalized_qini": 0.35287915518809654,
+      "share_of_incremental_top20": 0.8120238359939943,
+      "normalized_qini_ci95": [
+        0.328407460695598,
+        0.3780273939339548
+      ],
+      "share_top20_ci95": [
+        0.7837885782423311,
+        0.8473345749640352
+      ]
+    },
+    "response_model (P(visit|x) / P(conv|x))": {
+      "normalized_qini": 0.40572217005310374,
+      "share_of_incremental_top20": 0.8650475344289895
+    },
+    "exposure_propensity": {
+      "normalized_qini": 0.3736662176133573,
+      "share_of_incremental_top20": 0.7931409314780619
+    },
+    "random": {
+      "normalized_qini": -0.007612096490121956,
+      "share_of_incremental_top20": 0.1830434531606592,
+      "normalized_qini_ci95": [
+        -0.02856415308458817,
+        0.011324925934055048
+      ],
+      "share_top20_ci95": [
+        0.14960933011023964,
+        0.21037828009218296
+      ]
+    }
+  },
+  "causalml_check": {
+    "n": 300000,
+    "max_abs_diff": 0.0,
+    "max_rel_diff": 0.0
+  },
+  "targeting": {
+    "rank_by_visit_x_learner__raw": [
+      {
+        "top": 0.1,
+        "share_of_exposures": 0.616651904340124,
+        "incremental_visits": 43708.200660840404,
+        "incremental_conversions": 5297.611251987962,
+        "share_of_incremental_visits": 0.6034374637357965,
+        "share_of_incremental_conversions": 0.6633603854477345
+      },
+      {
+        "top": 0.2,
+        "share_of_exposures": 0.7848352058179106,
+        "incremental_visits": 56633.104086369916,
+        "incremental_conversions": 6554.775887692035,
+        "share_of_incremental_visits": 0.7818792852752346,
+        "share_of_incremental_conversions": 0.8207809996913653
+      },
+      {
+        "top": 0.3,
+        "share_of_exposures": 0.8653908908675586,
+        "incremental_visits": 62933.94908558576,
+        "incremental_conversions": 7005.602005587641,
+        "share_of_incremental_visits": 0.8688690461949897,
+        "share_of_incremental_conversions": 0.8772328934057088
+      },
+      {
+        "top": 0.5,
+        "share_of_exposures": 0.9169968766024894,
+        "incremental_visits": 69354.98839127002,
+        "incremental_conversions": 7351.055231622725,
+        "share_of_incremental_visits": 0.9575182153345794,
+        "share_of_incremental_conversions": 0.9204901228014677
+      },
+      {
+        "top": 1.0,
+        "share_of_exposures": 1.0,
+        "incremental_visits": 72432.03030559137,
+        "incremental_conversions": 7986.022934445119,
+        "share_of_incremental_visits": 1.0,
+        "share_of_incremental_conversions": 1.0
+      }
+    ],
+    "rank_by_visit_x_learner__ipw": [
+      {
+        "top": 0.1,
+        "share_of_exposures": 0.616651904340124,
+        "incremental_visits": 41657.58347719912,
+        "incremental_conversions": 5490.640955917219,
+        "share_of_incremental_visits": 0.7928021522435595,
+        "share_of_incremental_conversions": 0.8014759682919558
+      },
+      {
+        "top": 0.2,
+        "share_of_exposures": 0.7848352058179106,
+        "incremental_visits": 47825.55730521197,
+        "incremental_conversions": 6164.851304455531,
+        "share_of_incremental_visits": 0.9101873320273801,
+        "share_of_incremental_conversions": 0.8998913256729288
+      },
+      {
+        "top": 0.3,
+        "share_of_exposures": 0.8653908908675586,
+        "incremental_visits": 49290.75925160493,
+        "incremental_conversions": 6298.905942496504,
+        "share_of_incremental_visits": 0.9380721769850238,
+        "share_of_incremental_conversions": 0.9194594547293604
+      },
+      {
+        "top": 0.5,
+        "share_of_exposures": 0.9169968766024894,
+        "incremental_visits": 50908.8603539459,
+        "incremental_conversions": 6349.885171617991,
+        "share_of_incremental_visits": 0.9688669070054471,
+        "share_of_incremental_conversions": 0.9269009587998255
+      },
+      {
+        "top": 1.0,
+        "share_of_exposures": 1.0,
+        "incremental_visits": 52544.74065100841,
+        "incremental_conversions": 6850.661995042038,
+        "share_of_incremental_visits": 1.0,
+        "share_of_incremental_conversions": 1.0
+      }
+    ],
+    "rank_by_conversion_x_learner__raw": [
+      {
+        "top": 0.1,
+        "share_of_exposures": 0.5299986014638012,
+        "incremental_visits": 38440.1122641577,
+        "incremental_conversions": 5436.683030884453,
+        "share_of_incremental_visits": 0.5307059888005146,
+        "share_of_incremental_conversions": 0.6807747830819624
+      },
+      {
+        "top": 0.2,
+        "share_of_exposures": 0.6911379422870728,
+        "incremental_visits": 51602.48609352262,
+        "incremental_conversions": 6435.021647854433,
+        "share_of_incremental_visits": 0.7124263378482044,
+        "share_of_incremental_conversions": 0.8057855206124007
+      },
+      {
+        "top": 0.3,
+        "share_of_exposures": 0.7506736282690784,
+        "incremental_visits": 57948.03407740571,
+        "incremental_conversions": 6866.58261016036,
+        "share_of_incremental_visits": 0.8000332702662406,
+        "share_of_incremental_conversions": 0.8598250551652667
+      },
+      {
+        "top": 0.5,
+        "share_of_exposures": 0.8052258635961027,
+        "incremental_visits": 64043.761872563846,
+        "incremental_conversions": 7274.05773652799,
+        "share_of_incremental_visits": 0.8841911734679072,
+        "share_of_incremental_conversions": 0.910848590874151
+      },
+      {
+        "top": 1.0,
+        "share_of_exposures": 1.0,
+        "incremental_visits": 72432.03030559137,
+        "incremental_conversions": 7986.022934445119,
+        "share_of_incremental_visits": 1.0,
+        "share_of_incremental_conversions": 1.0
+      }
+    ],
+    "rank_by_conversion_x_learner__ipw": [
+      {
+        "top": 0.1,
+        "share_of_exposures": 0.5299986014638012,
+        "incremental_visits": 35597.83419310783,
+        "incremental_conversions": 5615.967683900148,
+        "share_of_incremental_visits": 0.6774766370918354,
+        "share_of_incremental_conversions": 0.8197700730184224
+      },
+      {
+        "top": 0.2,
+        "share_of_exposures": 0.6911379422870728,
+        "incremental_visits": 42200.22412084615,
+        "incremental_conversions": 5984.115462687295,
+        "share_of_incremental_visits": 0.8031293636242596,
+        "share_of_incremental_conversions": 0.8735090808768722
+      },
+      {
+        "top": 0.3,
+        "share_of_exposures": 0.7506736282690784,
+        "incremental_visits": 44326.12956338966,
+        "incremental_conversions": 6119.5116497127665,
+        "share_of_incremental_visits": 0.8435883213849106,
+        "share_of_incremental_conversions": 0.8932730375752848
+      },
+      {
+        "top": 0.5,
+        "share_of_exposures": 0.8052258635961027,
+        "incremental_visits": 46268.56866787657,
+        "incremental_conversions": 6260.5458681490845,
+        "share_of_incremental_visits": 0.8805556577999516,
+        "share_of_incremental_conversions": 0.9138599850175009
+      },
+      {
+        "top": 1.0,
+        "share_of_exposures": 1.0,
+        "incremental_visits": 52544.74065100841,
+        "incremental_conversions": 6850.661995042044,
+        "share_of_incremental_visits": 1.0,
+        "share_of_incremental_conversions": 1.0
+      }
+    ],
+    "rank_by_exposure_propensity__raw": [
+      {
+        "top": 0.1,
+        "share_of_exposures": 0.7195095799729616,
+        "incremental_visits": 45734.556671711056,
+        "incremental_conversions": 4952.839520615635,
+        "share_of_incremental_visits": 0.6314134296492389,
+        "share_of_incremental_conversions": 0.6201884919780494
+      },
+      {
+        "top": 0.2,
+        "share_of_exposures": 0.8784578807514801,
+        "incremental_visits": 57838.74352056013,
+        "incremental_conversions": 6265.946144068326,
+        "share_of_incremental_visits": 0.7985243997239614,
+        "share_of_incremental_conversions": 0.7846140933357705
+      },
+      {
+        "top": 0.3,
+        "share_of_exposures": 0.9345298587478439,
+        "incremental_visits": 62221.627518079404,
+        "incremental_conversions": 7086.4557192727625,
+        "share_of_incremental_visits": 0.8590347012994916,
+        "share_of_incremental_conversions": 0.8873572962967129
+      },
+      {
+        "top": 0.5,
+        "share_of_exposures": 0.9757447205258496,
+        "incremental_visits": 67522.01880293948,
+        "incremental_conversions": 7622.280539728819,
+        "share_of_incremental_visits": 0.9322121514206283,
+        "share_of_incremental_conversions": 0.9544526233267607
+      },
+      {
+        "top": 1.0,
+        "share_of_exposures": 1.0,
+        "incremental_visits": 72432.03030559137,
+        "incremental_conversions": 7986.022934445119,
+        "share_of_incremental_visits": 1.0,
+        "share_of_incremental_conversions": 1.0
+      }
+    ]
+  },
+  "seconds": 964.6
+}

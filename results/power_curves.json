@@ -1,0 +1,138 @@
+{
+  "label": "SIMULATION: known effect injected into A/A splits of real control units",
+  "n_units": 2096937,
+  "n_reps_per_point": 2000,
+  "curves": {
+    "visit": {
+      "baseline": 0.03820095691954503,
+      "points": [
+        {
+          "relative_lift": 0.005,
+          "absolute_delta": 0.00019100478459772516,
+          "power_raw": 0.11,
+          "analytic_raw": 0.11128366142843604,
+          "power_cuped": 0.1305,
+          "analytic_cuped": 0.13243563940355066,
+          "power_cupac": 0.1435,
+          "analytic_cupac": 0.13877311993721891
+        },
+        {
+          "relative_lift": 0.01,
+          "absolute_delta": 0.0003820095691954503,
+          "power_raw": 0.3005,
+          "analytic_raw": 0.3017151570680839,
+          "power_cuped": 0.384,
+          "analytic_cuped": 0.38330127387005997,
+          "power_cupac": 0.4035,
+          "analytic_cupac": 0.4066884104349537
+        },
+        {
+          "relative_lift": 0.015,
+          "absolute_delta": 0.0005730143537931755,
+          "power_raw": 0.5765,
+          "analytic_raw": 0.5780047759139909,
+          "power_cuped": 0.692,
+          "analytic_cuped": 0.7019929986096607,
+          "power_cupac": 0.72,
+          "analytic_cupac": 0.7326708866079391
+        },
+        {
+          "relative_lift": 0.02,
+          "absolute_delta": 0.0007640191383909006,
+          "power_raw": 0.815,
+          "analytic_raw": 0.8191787411572357,
+          "power_cuped": 0.9175,
+          "analytic_cuped": 0.9122606362913684,
+          "power_cupac": 0.9365,
+          "analytic_cupac": 0.9299213078252911
+        },
+        {
+          "relative_lift": 0.03,
+          "absolute_delta": 0.001146028707586351,
+          "power_raw": 0.9895,
+          "analytic_raw": 0.9903104725179085,
+          "power_cuped": 0.999,
+          "analytic_cuped": 0.998633332785856,
+          "power_cupac": 0.9985,
+          "analytic_cupac": 0.9992507283937494
+        },
+        {
+          "relative_lift": 0.04,
+          "absolute_delta": 0.0015280382767818013,
+          "power_raw": 1.0,
+          "analytic_raw": 0.9999141509907493,
+          "power_cuped": 1.0,
+          "analytic_cuped": 0.999998147165345,
+          "power_cupac": 1.0,
+          "analytic_cupac": 0.9999994221770725
+        }
+      ]
+    },
+    "conversion": {
+      "baseline": 0.0019375880152813366,
+      "points": [
+        {
+          "relative_lift": 0.02,
+          "absolute_delta": 3.8751760305626734e-05,
+          "power_raw": 0.093,
+          "analytic_raw": 0.09730163073313546,
+          "power_cuped": 0.0995,
+          "analytic_cuped": 0.10324655979991317,
+          "power_cupac": 0.104,
+          "analytic_cupac": 0.10458839175368931
+        },
+        {
+          "relative_lift": 0.04,
+          "absolute_delta": 7.750352061125347e-05,
+          "power_raw": 0.252,
+          "analytic_raw": 0.2436966614121067,
+          "power_cuped": 0.2705,
+          "analytic_cuped": 0.26749505941277224,
+          "power_cupac": 0.269,
+          "analytic_cupac": 0.2728229871579196
+        },
+        {
+          "relative_lift": 0.06,
+          "absolute_delta": 0.00011625528091688019,
+          "power_raw": 0.473,
+          "analytic_raw": 0.47060437447829767,
+          "power_cuped": 0.504,
+          "analytic_cuped": 0.5145066915596539,
+          "power_cupac": 0.507,
+          "analytic_cupac": 0.5240304565197104
+        },
+        {
+          "relative_lift": 0.08,
+          "absolute_delta": 0.00015500704122250694,
+          "power_raw": 0.708,
+          "analytic_raw": 0.7063384854034874,
+          "power_cuped": 0.761,
+          "analytic_cuped": 0.7540783461443653,
+          "power_cupac": 0.776,
+          "analytic_cupac": 0.7638499238109162
+        },
+        {
+          "relative_lift": 0.12,
+          "absolute_delta": 0.00023251056183376038,
+          "power_raw": 0.949,
+          "analytic_raw": 0.9606755076146836,
+          "power_cuped": 0.972,
+          "analytic_cuped": 0.9755305747459195,
+          "power_cupac": 0.972,
+          "analytic_cupac": 0.9780305477355674
+        },
+        {
+          "relative_lift": 0.16,
+          "absolute_delta": 0.00031001408244501387,
+          "power_raw": 0.9985,
+          "analytic_raw": 0.9984221929151019,
+          "power_cuped": 0.999,
+          "analytic_cuped": 0.9993694481128635,
+          "power_cupac": 1.0,
+          "analytic_cupac": 0.9994874119751329
+        }
+      ]
+    }
+  },
+  "seconds": 2008.4
+}

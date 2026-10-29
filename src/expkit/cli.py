@@ -52,7 +52,7 @@ def validate(
     suite: str = typer.Argument("all", help="all | crosscheck | aa | asos | noncompliance | heavy | hte | balance"),
 ) -> None:
     """Run validation suites / analyses and write results/*.json."""
-    from expkit.analyses import asos, heavy_tails, hte, noncompliance
+    from expkit.analyses import asos, balance, heavy_tails, hte, noncompliance
     from expkit.validation import aa, crosscheck
 
     suites = {
@@ -62,6 +62,7 @@ def validate(
         "noncompliance": noncompliance.main,
         "heavy": heavy_tails.main,
         "hte": hte.main,
+        "balance": balance.main,
     }
     for name, fn in suites.items():
         if suite in ("all", name):
