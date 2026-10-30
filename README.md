@@ -105,8 +105,8 @@ make quick     # lint, tests, readouts, docs and acceptance from cached results 
 .venv/bin/expkit validate balance   # or: aa | asos | noncompliance | heavy | hte | crosscheck | all
 ```
 
-Python 3.12 (uv), dependencies pinned in `pyproject.toml`. A `Dockerfile` and `.github/workflows/ci.yml` are
-included, not run. Every number in this README is rendered from `results/*.json` by `expkit docs`, and
+Python 3.12 (uv), dependencies pinned in `pyproject.toml`. A `Dockerfile` is included,
+and `.github/workflows/ci.yml` runs lint and tests on every push. Every number in this README is rendered from `results/*.json` by `expkit docs`, and
 `tests/test_docs_drift.py` fails if any of them drift.
 
 ## Data
