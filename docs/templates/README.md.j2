@@ -28,13 +28,19 @@ sample-ratio check passes (p = {{ S.srm_p|f(3) }}). A naive dashboard reports co
    labels" was applied. Re-balancing residue would be fixed by adjusting for features. Sampling on the outcome would not:
    it only preserves odds ratios. The data fit neither story alone. Among *non-visitors* the treatment share still rises,
    from {{ B.explanations.observed_nonvisitor_share_deciles_1_8_mean|pct(2) }} to
-   {{ B.explanations.observed_nonvisitor_share_top_decile|pct(2) }}, which pure outcome sampling cannot produce.
+   {{ B.explanations.observed_nonvisitor_share_top_decile|pct(2) }}. Pure outcome sampling cannot produce that *if ads never
+   lower visit propensity*. The evidence is one decile (z = {{ B.explanations.observed_nonvisitor_share_top_decile_z|f(1) }} vs 85%;
+   decile 9 is z = {{ B.explanations.observed_nonvisitor_share_decile9_z|f(1) }}).
 3. **So the size of the effect is not identified from the released data.** Feature-adjusted estimates of the
    conversion lift range from {{ S.robustness[3].rel_lift|spct }} (CUPAC) to {{ S.robustness[1].rel_lift|spct }}
    (CUPED). Re-weighting non-visitors ×1 to ×20, to undo an unknown negative-sampling rate, moves the post-stratified lift
    from {{ B.sensitivity_interval.conversion_poststrat_relative[0]|spct }} to
-   {{ B.sensitivity_interval.conversion_poststrat_relative[1]|spct }} (right panel; visits:
-   {{ B.sensitivity_interval.visit_poststrat_relative[0]|spct }} to {{ B.sensitivity_interval.visit_poststrat_relative[1]|spct }}).
+   {{ B.sensitivity_interval.conversion_poststrat_relative[1]|spct }} if visits were the sampled label (right panel; visits:
+   {{ B.sensitivity_interval.visit_poststrat_relative[0]|spct }} to {{ B.sensitivity_interval.visit_poststrat_relative[1]|spct }}). If
+   conversions were the sampled label, it is only {{ B.sensitivity_interval.conversion_poststrat_relative_if_conversion_label_sampled[0]|spct }} to
+   {{ B.sensitivity_interval.conversion_poststrat_relative_if_conversion_label_sampled[1]|spct }}. The upper end is essentially the raw estimate. None of
+   these levels is a plausible real ad effect: Criteo distorted them on purpose so "the original incrementality level
+   cannot be deduced".
    On the odds-ratio scale, which outcome-dependent sampling does not distort, the crude vs stratified
    (Mantel–Haenszel) gap is small for visits ({{ B.odds_ratios.visit.crude_or|f(3) }} vs
    {{ B.odds_ratios.visit.mantel_haenszel_or|f(3) }}) and moderate for conversions ({{ B.odds_ratios.conversion.crude_or|f(3) }} vs
@@ -45,8 +51,9 @@ sample-ratio check passes (p = {{ S.srm_p|f(3) }}). A naive dashboard reports co
    assignment is investigated, and not budgeting on any single number ([decision memo](docs/decision_memo.md)).
 
 A synthetic test (`tests/test_selection_on_outcome.py`) shows the mechanism. It randomizes a treatment, then keeps
-only 20% of the non-converters. That creates exactly this kind of feature imbalance, X-adjustment misses the true lift
-badly, and the Mantel–Haenszel odds ratio recovers it.
+only 20% of the non-converters. That creates exactly this kind of feature imbalance, and X-adjustment misses the true lift
+badly. The Mantel–Haenszel odds ratio recovers the true *odds ratio*. The *lift* is recovered only by re-weighting with
+the known keep rate, which the released data do not provide.
 
 ## Three headline numbers
 
@@ -54,7 +61,7 @@ badly, and the Mantel–Haenszel odds ratio recovers it.
 |---|---|---|
 | Assignment check | SRM p = {{ S.srm_p|f(3) }} (passes); balance χ² = {{ S.balance.chi2|int }} on 12 df (fails) → **HOLD**; conversion lift {{ B.sensitivity_interval.conversion_poststrat_relative[0]|spct }} to {{ B.sensitivity_interval.conversion_poststrat_relative[1]|spct }} across sampling scenarios | `results/balance.json`, `results/scorecard_criteo.json` |
 | Calibration on real units | {{ R.aa_tests.n_reps|int }} A/A re-randomizations of {{ R.aa_tests.n_units|int }} real control users: false-positive rate {{ D.aa.min|pct }}–{{ D.aa.max|pct }} (50/50) and {{ D.aa.min85|pct }}–{{ D.aa.max85|pct }} (85/15) for Welch, CUPED, CUPAC and delta-method tests | `results/aa_tests*.json` |
-| Peeking on real experiments | On {{ PK.n_trajectories }} real ASOS trajectories, daily peeking flagged {{ PK.naive.declared_significant }} as significant and reversed sign {{ PK.naive.sign_reversals }} times. A Brownian model fitted to the same portfolio expects {{ MB.npmle_effects.declared|f(0) }} flags and {{ MB.npmle_effects.sign_reversals|f(0) }} reversals: real experiments drift more than textbook simulations assume | `results/asos_portfolio.json` |
+| Peeking on real experiments | On {{ PK.n_trajectories }} real ASOS trajectories, daily peeking flagged {{ PK.naive.declared_significant }} as significant and reversed sign {{ PK.naive.sign_reversals }} times. A Brownian model fitted to the same portfolio expects {{ MB.npmle_effects.declared|f(0) }} flags and {{ MB.npmle_effects.sign_reversals|f(0) }} reversals. O'Brien–Fleming cut reversals to {{ PK.obf.sign_reversals }}, but it also crossed {{ PK.obf.declared_significant }} times vs {{ MB.npmle_effects.obf_declared|f(0) }} expected ({{ (PK.obf.declared_significant / MB.npmle_effects.obf_declared)|f(2) }}×, about the same excess as naive peeking's {{ (PK.naive.declared_significant / MB.npmle_effects.declared)|f(2) }}×). Real experiments drift more than textbook simulations assume | `results/asos_portfolio.json` |
 
 ## What the platform does
 
@@ -78,11 +85,11 @@ badly, and the Mantel–Haenszel odds ratio recovers it.
 | Question | Answer |
 |---|---|
 | Variance reduction (CUPAC, 2-fold cross-fitted LightGBM) | conversions {{ S.variance_reduction.conversion_cupac|pct }} (linear CUPED {{ S.variance_reduction.conversion_cuped|pct }}); visits {{ S.variance_reduction.visit_cupac|pct }} ({{ S.variance_reduction.visit_cuped|pct }}) |
-| Per exposed user (one-sided non-compliance, {{ NC.conversion.compliance_rate|pct(2) }} of treated users exposed) | conversions {{ NC.conversion.headline_cace.value|pp(2) }} and visits {{ NC.visit.headline_cace.value|pp(1) }} (2SLS with the CUPAC covariate; the unadjusted Wald gives {{ NC.visit.cace|pp(1) }} for visits). Sharp IV inequalities: {{ NC.visit.kitagawa["n_violations_z_gt_1.96"] + NC.conversion.kitagawa["n_violations_z_gt_1.96"] }} of 40 violated |
+| Per exposed user (one-sided non-compliance, {{ NC.conversion.compliance_rate|pct(2) }} of treated users exposed) | conversions {{ NC.conversion.headline_cace.value|pp(2) }} and visits {{ NC.visit.headline_cace.value|pp(1) }} (2SLS with the CUPAC covariate; Wald on the CUPAC-adjusted ITT gives {{ NC.conversion.wald_on_adjusted_itt.cace|pp(2) }} / {{ NC.visit.wald_on_adjusted_itt.cace|pp(1) }}; the unadjusted Wald gives {{ NC.visit.cace|pp(1) }} for visits). Sharp IV inequalities: {{ NC.visit.kitagawa["n_violations_z_gt_1.96"] + NC.conversion.kitagawa["n_violations_z_gt_1.96"] }} of 40 violated. Levels inherit Criteo's sampling distortion |
 | Ghost-ads triggering would need | {{ NC.visit.dilution.n_ratio_itt_over_ideal_trigger_weighted_85_15|f(1) }}× fewer users for visits, {{ NC.conversion.dilution.n_ratio_itt_over_ideal_trigger_weighted_85_15|f(1) }}× for conversions |
-| Winner's curse (99 ASOS treatments, NPMLE prior) | a reported +0.6% win on metric 1 is really about {{ D.eb.haircut06.metric_1.posterior_mean|spct(2) }} (90% CI {{ D.eb.haircut06.metric_1.posterior_mean_bootstrap_ci90[0]|spct(2) }} to {{ D.eb.haircut06.metric_1.posterior_mean_bootstrap_ci90[1]|spct(2) }}); small winners are overstated {{ D.eb.small_ratio_min|x }}–{{ D.eb.small_ratio_max|x }} (median) |
+| Winner's curse (99 ASOS treatments) | a reported +0.6% win on metric 1 is really about {{ D.eb.haircut06.metric_1.posterior_mean|spct(2) }} (discrete NPMLE prior) to {{ D.eb.haircut06.metric_1.posterior_mean_normal_prior|spct(2) }} (normal prior), so forecast winners with a range, not a rule. The NPMLE is lumpy: on the same metric a +1.0% result moves *up* to {{ A.eb.metric_1.haircut_at_median_se[2].posterior_mean|spct(2) }} |
 | Ship-rule policy (ASOS metric 1, scored under the NPMLE truth model) | the p-value rule ships {{ A.eb.metric_1.decisions.rules["p_value (p<0.05, positive)"].n_ship }} with {{ A.eb.metric_1.decisions.rules["p_value (p<0.05, positive)"].expected_harmful_launches|f(1) }} expected harmful launches; a fixed 0.1% expected-loss rule ships {{ A.eb.metric_1.decisions.rules["expected loss < 0.1% (fixed eps)"].n_ship }} with {{ A.eb.metric_1.decisions.rules["expected loss < 0.1% (fixed eps)"].expected_harmful_launches|f(1) }} |
-| Targeting (top 20% by conversion uplift, IPW, shared denominator) | {{ D.top20.conv_x.share_of_incremental|pct }} of incremental conversions on {{ D.top20.conv_x.share_of_exposures|pct }} of exposures ({{ D.top20.conv_x.efficiency|f(2) }}× efficiency). A plain response model does better here: {{ D.top20.conv_resp.share_of_incremental|pct }} on {{ D.top20.conv_resp.share_of_exposures|pct }} |
+| Targeting (top 20% by conversion uplift, shared denominator) | {{ D.top20.conv_x_unweighted.share_of_incremental|pct(0) }}–{{ D.top20.conv_x.share_of_incremental|pct(0) }} of incremental conversions depending on adjustment (unweighted / IPW, which assumes selection on observables) on {{ D.top20.conv_x.share_of_exposures|pct }} of exposures. A plain response model does better here: {{ D.top20.conv_resp.share_of_incremental|pct }} on {{ D.top20.conv_resp.share_of_exposures|pct }} (IPW) |
 
 Details, methods and every other table are in the [appendix](docs/appendix.md). Acceptance criteria and their
 PASS/FAIL status, including the misses, are in [`docs/ACCEPTANCE.md`](docs/ACCEPTANCE.md).

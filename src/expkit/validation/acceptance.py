@@ -397,7 +397,7 @@ def p1() -> tuple[str, str]:
     return _ok(u["naive"] > u["obf"] and u["naive"] > u["msprt"]), (
         f"real trajectories (n={s['n_trajectories']}): naive declared {s['naive']['declared_significant']}, not supported by "
         f"final {u['naive']}, sign reversals {rev['naive']} vs MODEL expectation (NPMLE effects) {mb['declared']:.0f} / "
-        f"{mb['unsupported']:.0f} / {mb['sign_reversals']:.0f}; OBF {u['obf']} unsupported, {rev['obf']} reversals; mSPRT {u['msprt']}, {rev['msprt']}"
+        f"{mb['unsupported']:.0f} / {mb['sign_reversals']:.0f}; OBF declared {s['obf']['declared_significant']} (model {mb['obf_declared']:.0f}), {u['obf']} unsupported, {rev['obf']} reversals (model {mb['obf_sign_reversals']:.1f}); mSPRT {u['msprt']}, {rev['msprt']}"
     )
 
 

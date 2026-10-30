@@ -56,7 +56,7 @@
     <div class="verdict">{{ r.decision.verdict }}</div>
     <div>Rule <b>{{ r.decision.rule }}</b>: {{ r.decision.reason }}</div>
     <div class="muted" style="margin-top:6px">What a naive dashboard would have said: <b>{{ r.naive.verdict }}</b> ({{ r.naive.text }}; {{ cfg.primary_metric }} {{ r.naive.estimate.rel_lift|pct }} at the end).</div>
-    {% if cfg.pm_note %}<div class="card note"><b>Note to the PM.</b> {{ cfg.pm_note }}</div>{% endif %}
+    {% if r.pm_note %}<div class="card note"><b>Note to the PM.</b> {{ r.pm_note }}</div>{% endif %}
     <details><summary class="muted">Decision framework (rules evaluated in order)</summary>
       <ol>
         <li>R1 SRM p &lt; 0.0005 → BLOCKED</li>

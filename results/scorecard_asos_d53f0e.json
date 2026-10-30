@@ -100,5 +100,32 @@
     "days": 47.0,
     "final_z": 1.9016767574887048,
     "tau_relative": 0.0061
-  }
+  },
+  "trajectory_facts": {
+    "days": 47.0,
+    "primary_day7": 1.0354023087689068,
+    "primary_day14": 0.5989358456170102,
+    "primary_final": 0.41974529329567023,
+    "g1_day7": 1.6848477857475785,
+    "g1_final": -0.13903738907760088,
+    "g1_se": 0.3643300713149066,
+    "g1_se_shrink_pct": 9.084611245124863,
+    "g1_lower_now": -0.8531112073397271,
+    "g1_lower_after": -0.7882403769473936,
+    "g1_se_needed": 0.1841679815392661,
+    "g1_var_factor": 3.9134679459749306,
+    "g1_days_needed": 100.28219886120479,
+    "g2_day7": 1.6772351542202912,
+    "g2_final": -0.15404944499897155,
+    "g2_se": 0.38810272566083437,
+    "g2_se_shrink_pct": 9.498061097075826,
+    "g2_lower_now": -0.9147168095960359,
+    "g2_lower_after": -0.8424681585610901,
+    "g2_se_needed": 0.17650862859207736,
+    "g2_var_factor": 4.834610649268325,
+    "g2_days_needed": 110.52830193667225,
+    "n_growth_pct": 18.585536905858156,
+    "margin_pct": 0.5
+  },
+  "pm_note": "Don't ship on the dashboard's day-7 \"win\". metric_1 was +1.04% on day 7, +0.60% on day 14 and +0.42% on day 47, and the guardrails fell from +1.7% / +1.7% on day 7 to -0.14% / -0.15%: a decaying, novelty-shaped effect whose 95% CI on metric_1 still includes zero. Extending will not settle the guardrails: over the last 14 days traffic grew 19% but the guardrail SEs shrank only 9% (these metrics accumulate per user), so two more weeks leaves the lower bounds near -0.79% / -0.84%, still outside the -0.5% margin; clearing it would take about 4-5x less variance, roughly 100+ more days. So this is a risk call, not a wait: if the change is cheap to roll back, ship to a 10% holdback and watch the guardrails; otherwise agree a wider guardrail margin up front, or drop the change.\n"
 }

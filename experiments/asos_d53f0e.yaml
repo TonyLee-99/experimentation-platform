@@ -22,10 +22,14 @@ decision:
   loss_threshold_relative: 0.001
   prior_sd_relative: 0.0061         # same portfolio prior
 pm_note: >
-  Don't ship yet. The dashboard showed a "significant" win on day 7, but that was one look among dozens; after 47
-  days metric_1 is +0.42% with a 95% CI that still includes zero. The guardrails (metrics 3 and 4) are slightly
-  negative and not yet proven within our -0.5% margin, which is why the rule says HOLD. The expected-loss view says
-  the downside is small, so this is a low-risk bet if the change is cheap to roll back; if it is not, extend the
-  test about 2 weeks (or until the guardrail CIs clear -0.5%) and decide then.
+  Don't ship on the dashboard's day-7 "win". metric_1 was {primary_day7:+.2f}% on day 7, {primary_day14:+.2f}% on day 14
+  and {primary_final:+.2f}% on day {days:.0f}, and the guardrails fell from {g1_day7:+.1f}% / {g2_day7:+.1f}% on day 7 to
+  {g1_final:+.2f}% / {g2_final:+.2f}%: a decaying, novelty-shaped effect whose 95% CI on metric_1 still includes zero.
+  Extending will not settle the guardrails: over the last 14 days traffic grew {n_growth_pct:.0f}% but the guardrail SEs
+  shrank only {g1_se_shrink_pct:.0f}% (these metrics accumulate per user), so two more weeks leaves the lower bounds near
+  {g1_lower_after:+.2f}% / {g2_lower_after:+.2f}%, still outside the -{margin_pct:.1f}% margin; clearing it would take
+  about {g1_var_factor:.0f}-{g2_var_factor:.0f}x less variance, roughly {g1_days_needed:.0f}+ more days. So this is a risk
+  call, not a wait: if the change is cheap to roll back, ship to a 10% holdback and watch the guardrails; otherwise agree
+  a wider guardrail margin up front, or drop the change.
 output: reports/asos_d53f0e_readout.html
 results_json: scorecard_asos_d53f0e

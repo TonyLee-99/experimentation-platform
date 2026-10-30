@@ -96,6 +96,9 @@ def run() -> dict[str, Any]:
                 "visit_rate": float(v[m].mean()),
                 "treatment_share_all": float(t[m].mean()),
                 "treatment_share_nonvisitors": float(t[m & (v == 0)].mean()),
+                "nonvisitor_share_z_vs_0.85": float(
+                    (t[m & (v == 0)].mean() - 0.85) / math.sqrt(0.85 * 0.15 / (m & (v == 0)).sum())
+                ),
                 "treatment_share_visitors": float(t[m & (v == 1)].mean()),
             }
         )
@@ -129,6 +132,20 @@ def run() -> dict[str, Any]:
             }
         )
 
+    # alternative label: negatives = non-converters (if conversion, not visit, was the sampled label)
+    conv_label = []
+    for kk in K_GRID:
+        w = np.where(conv == 1, 1.0, kk)
+        ps_c, ps_c_se = _post_stratified(conv, t, b_conv, w, N_BINS)
+        cc = np.average(conv[t == 0], weights=w[t == 0])
+        conv_label.append(
+            {
+                "k_upweight_nonconverters": kk,
+                "conversion_poststrat_relative": ps_c / float(cc),
+                "conversion_poststrat_relative_se": ps_c_se / float(cc),
+            }
+        )
+
     def rng_of(key: str) -> list[float]:
         vals = [s[key] for s in sens]
         return [min(vals), max(vals)]
@@ -136,11 +153,18 @@ def run() -> dict[str, Any]:
     out: dict[str, Any] = {
         "deciles_by_prognostic_score": deciles,
         "negative_sampling_sensitivity": sens,
+        "conversion_label_sensitivity": conv_label,
         "sensitivity_interval": {
             "visit_poststrat_relative": rng_of("visit_poststrat_relative"),
             "conversion_poststrat_relative": rng_of("conversion_poststrat_relative"),
             "visit_raw_relative": rng_of("visit_raw_relative"),
             "conversion_raw_relative": rng_of("conversion_raw_relative"),
+            "conversion_poststrat_relative_if_conversion_label_sampled": [
+                min(c["conversion_poststrat_relative"] for c in conv_label),
+                max(c["conversion_poststrat_relative"] for c in conv_label),
+            ],
+            "k20_upper_ci_conversion": sens[-1]["conversion_poststrat_relative"]
+            + 1.96 * sens[-1]["conversion_poststrat_relative_se"],
             "k_range": [K_GRID[0], K_GRID[-1]],
         },
         "odds_ratios": {
@@ -154,6 +178,10 @@ def run() -> dict[str, Any]:
             "b_outcome_dependent_negative_sampling": "selection on Y; X-adjustment does not fix it; only the OR is "
             "invariant; pure Y-selection predicts treatment share <= 0.85 among non-visitors",
             "observed_nonvisitor_share_top_decile": deciles[-1]["treatment_share_nonvisitors"],
+            "observed_nonvisitor_share_top_decile_z": deciles[-1]["nonvisitor_share_z_vs_0.85"],
+            "observed_nonvisitor_share_decile9_z": deciles[-2]["nonvisitor_share_z_vs_0.85"],
+            "assumption": "the argument that pure outcome sampling cannot raise the non-visitor share above 0.85 "
+            "assumes ads never lower visit propensity in any cell (monotonicity); the evidence is one decile",
             "observed_nonvisitor_share_deciles_1_8_mean": float(
                 np.mean([x["treatment_share_nonvisitors"] for x in deciles[:8]])
             ),

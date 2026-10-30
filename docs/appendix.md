@@ -70,8 +70,8 @@ I_k = 1/Var(relative lift). The largest gap between n-based and variance-based f
 0.10 per trajectory.
 
 **Model-based null** (Brownian information-time model on the real look schedules; OBF ≈ 5% holds by construction):
-naive daily peeking 24.9%, OBF 5.06%, mSPRT 1.22%, one look
-5.05%. mSPRT is conservative because Ville's bound is built for unlimited looks; it wastes
+naive daily peeking 24.8%, OBF 4.94%, mSPRT 1.21%, one look
+4.98%. mSPRT is conservative because Ville's bound is built for unlimited looks; it wastes
 α with about 39 looks.
 
 ![peeking](../results/figures/peeking.png)
@@ -83,15 +83,21 @@ naive daily peeking 24.9%, OBF 5.06%, mSPRT 1.22%, one look
 | naive daily p < 0.05 | 218 | 116 | 33 | 3 | 97% |
 | O'Brien–Fleming | 136 | 38 | 4 | 0 | 93% |
 | mSPRT | 100 | 32 | 9 | 2 | 65% |
-| *naive, model expectation (true effects from the fitted NPMLE prior)* | 162 | 60 | 8 | | |
+| *naive, model expectation (true effects from the fitted NPMLE prior)* | 163 | 61 | 9 | | |
 | *naive, model expectation (pure null)* | 92 | 73 | 12 | | |
+| *OBF, model expectation (true effects from the fitted NPMLE prior)* | 100 | 5 | 0.0 | | |
 
 "Final does not support" is not the same as "false positive". In the model, about
-25 of the 60 unsupported naive
+26 of the 61 unsupported naive
 calls are real effects (|lift| > 0.1%, right sign) that the final test failed to confirm. The interesting result is the
 excess: the real portfolio crosses and reverses far more often than the model allows. That is consistent with
 non-Brownian dynamics (novelty, weekly cycles, telemetry spikes), and it means the real naive error rate is
-plausibly above the model's 24.9%. OBF had 0 strong reversals.
+plausibly above the model's 24.8%. OBF is not immune: it crossed 136 times vs
+100 expected (1.36×, about the same relative excess as naive
+peeking's 1.34×). It reversed 4 times vs ≈0.0 expected. So OBF
+cuts reversals sharply, but its boundaries are not validated on drifting real metrics. The final look is always
+treated as an information look: when information fell at the end, earlier looks above the final information are
+dropped, so the last boundary is evaluated on the final day.
 
 **Stopping time, compared fairly.** On the 68 trajectories that
 both mSPRT and OBF detect, the median stop is day 11.5 (mSPRT) vs day
@@ -113,14 +119,21 @@ mSPRT 0.85%.
 | 3 | 12 | ×1.14 | ×1.85 (6) | 0.7% / 1.2% | 28% [15%, 64%] | 6.9 [3.3, 13.9] | 84% |
 | 4 | 16 | ×1.21 | ×1.81 (8) | 0.8% / 2.6% | 43% [30%, 58%] | 5.1 [2.0, 10.4] | 85% |
 
-**PM haircut** (NPMLE posterior mean for a result reported at the metric's median SE; 90% bootstrap interval over prior refits):
+**PM haircut**: posterior mean for a result reported at the metric's median SE, under the discrete NPMLE prior and
+under the normal prior.
 
 | metric | reported +0.3% | reported +0.6% | reported +1.0% | reported +2.0% |
 |---|---|---|---|---|
-| 1 | +0.22% [+0.12%, +0.28%] | +0.33% [+0.24%, +0.41%] | +1.36% [+0.39%, +1.38%] | +1.91% [+1.69%, +2.39%] |
-| 2 | +0.14% [+0.03%, +0.22%] | +0.39% [+0.14%, +0.50%] | +0.64% [+0.35%, +1.41%] | +2.13% [+1.61%, +2.29%] |
-| 3 | +0.15% [+0.07%, +0.22%] | +0.29% [+0.14%, +0.41%] | +0.96% [+0.38%, +1.15%] | +2.09% [+1.20%, +2.22%] |
-| 4 | +0.19% [+0.11%, +0.26%] | +0.28% [+0.19%, +0.37%] | +0.88% [+0.32%, +1.11%] | +1.98% [+1.36%, +2.36%] |
+| 1 | +0.22% (NPMLE) / +0.29% (normal) | +0.33% (NPMLE) / +0.57% (normal) | +1.36% (NPMLE) / +0.95% (normal) | +1.91% (NPMLE) / +1.89% (normal) |
+| 2 | +0.14% (NPMLE) / +0.29% (normal) | +0.39% (NPMLE) / +0.57% (normal) | +0.64% (NPMLE) / +0.94% (normal) | +2.13% (NPMLE) / +1.88% (normal) |
+| 3 | +0.15% (NPMLE) / +0.28% (normal) | +0.29% (NPMLE) / +0.55% (normal) | +0.96% (NPMLE) / +0.91% (normal) | +2.09% (NPMLE) / +1.82% (normal) |
+| 4 | +0.19% (NPMLE) / +0.27% (normal) | +0.28% (NPMLE) / +0.54% (normal) | +0.88% (NPMLE) / +0.90% (normal) | +1.98% (NPMLE) / +1.78% (normal) |
+
+Quote these as a range: on metric 1, a reported +0.6% is about +0.33% to
++0.57%. The NPMLE prior is a handful of atoms, so its posterior mean is lumpy.
+Results between two atoms are pulled to the nearest one, which can even move a result *up* (+1.0% → +1.36% on
+metric 1). The bootstrap over prior refits covers resampling noise only, not this model choice. A smoothed g-model
+(Efron 2016) would be needed before quoting any single number as a rule.
 
 Notes. The NPMLE log-likelihood is always at least the normal one because the NPMLE nests it, so it is not evidence of
 non-normality. The fat-tail reading rests on the fitted shape and its (wide) bootstrap intervals. 0.1% is below the
@@ -212,6 +225,10 @@ exposure share = share of exposed treated users; efficiency = increment share / 
 | visits, conversion_x_learner | 20% | 80.3% [77.8%, 82.6%] | 69.1% | 1.16 [1.13, 1.20] | 0.64 |
 | visits, conversion_x_learner | 30% | 84.4% [82.2%, 86.6%] | 75.1% | 1.12 [1.09, 1.15] | 0.63 |
 | visits, conversion_x_learner | 50% | 88.1% [86.4%, 89.8%] | 80.5% | 1.09 [1.07, 1.12] | 0.61 |
+
+Without propensity weights, the conversion X-learner's top 20% keeps 80.6% (vs
+87.4% with IPW). The IPW weights come from the same propensity model that shows imbalance, so they assume
+selection on observables. Quote the targeting gain as a range.
 
 The uplift and response rankings both concentrate the increment where ads are actually served. On conversions the
 response model beats the uplift models (standard Qini 0.185 vs

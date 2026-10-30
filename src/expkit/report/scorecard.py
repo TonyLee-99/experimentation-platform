@@ -76,6 +76,8 @@ class Readout:
     sequential_summary: dict[str, Any]
     n: dict[str, float]
     notes: list[str] = field(default_factory=list)
+    facts: dict[str, Any] = field(default_factory=dict)
+    pm_note: str = ""
 
 
 # ----------------------------------------------------------------------------- helpers
@@ -232,10 +234,11 @@ def _chart(x: np.ndarray, z: np.ndarray, obf: np.ndarray, ms_b: np.ndarray, metr
 def _monotone_info(var: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     """Variance-based information fractions I_k / I_K at looks where information is a new running max."""
     info = 1.0 / var
-    keep = info >= np.maximum.accumulate(info) - 1e-15
     rm = np.maximum.accumulate(info)
-    keep &= np.concatenate([[True], np.diff(rm) / rm[1:] > 1e-3])
-    return keep, info / info[keep][-1]
+    keep = (info >= rm) & np.concatenate([[True], np.diff(rm) / rm[1:] > 1e-3])
+    keep[-1] = True  # the final look is always the analysis look (same rule as analyses/asos.py)
+    keep[:-1] &= info[:-1] < info[-1] * (1 - 1e-3)
+    return keep, info / info[-1]
 
 
 # ----------------------------------------------------------------------------- warehouse source
@@ -569,6 +572,7 @@ def analyze_summary(cfg: ExperimentConfig) -> Readout:
         "final_rel": rel0,
     }
     robustness = [_robust_row("Welch on final snapshot (decision estimate)", primary, alpha)]
+    facts = _trajectory_facts(cfg, by_name)
     return Readout(
         cfg,
         srm,
@@ -586,7 +590,61 @@ def analyze_summary(cfg: ExperimentConfig) -> Readout:
         seq_summary,
         {"control": float(p_tr.n_c[-1]), "treatment": float(p_tr.n_t[-1])},
         [],
+        facts,
+        cfg.pm_note.format(**facts) if cfg.pm_note else "",
     )
+
+
+def _trajectory_facts(cfg: ExperimentConfig, by_name: dict[str, Any], horizon_days: float = 14.0) -> dict[str, Any]:
+    """Numbers the PM note quotes: effect decay over time, and whether extending would clear each guardrail margin.
+
+    Projection: the guardrail SE shrank by a factor r over the last ``horizon_days``; assume the same factor for the
+    next period (cumulative per-user metrics shrink much slower than 1/sqrt(n)). The margin is cleared when
+    estimate − 1.96·SE > −margin.
+    """
+
+    def at_day(tr: Any, day: float) -> int:
+        idx = np.flatnonzero(tr.day <= day)
+        return int(idx[-1]) if idx.size else 0
+
+    p = by_name[cfg.primary_metric]
+    f: dict[str, Any] = {"days": float(p.day[-1])}
+    for d in (7, 14):
+        f[f"primary_day{d}"] = float(p.rel[at_day(p, d)]) * 100
+    f["primary_final"] = float(p.rel[-1]) * 100
+    for j, g in enumerate(cfg.guardrails, start=1):
+        tr = by_name[g.metric]
+        se = np.sqrt(tr.var_rel)
+        k0 = at_day(tr, tr.day[-1] - horizon_days)
+        r = float(se[-1] / se[k0])
+        est = float(tr.rel[-1])
+        se_next = float(se[-1]) * r
+        se_req = (est + g.max_relative_drop) / Z975
+        var_factor = (float(se[-1]) / se_req) ** 2 if se_req > 0 else float("inf")
+        periods = math.log(var_factor) / math.log(1 / r**2) if r < 1 and var_factor > 1 else float("inf")
+        f.update(
+            {
+                f"g{j}_day7": float(tr.rel[at_day(tr, 7)]) * 100,
+                f"g{j}_final": est * 100,
+                f"g{j}_se": float(se[-1]) * 100,
+                f"g{j}_se_shrink_pct": (1 - r) * 100,
+                f"g{j}_lower_now": (est - Z975 * float(se[-1])) * 100,
+                f"g{j}_lower_after": (est - Z975 * se_next) * 100,
+                f"g{j}_se_needed": se_req * 100,
+                f"g{j}_var_factor": var_factor,
+                f"g{j}_days_needed": periods * horizon_days,
+            }
+        )
+    f["n_growth_pct"] = (
+        float(
+            (p.n_c[-1] + p.n_t[-1])
+            / (p.n_c[at_day(p, p.day[-1] - horizon_days)] + p.n_t[at_day(p, p.day[-1] - horizon_days)])
+            - 1
+        )
+        * 100
+    )
+    f["margin_pct"] = cfg.guardrails[0].max_relative_drop * 100 if cfg.guardrails else 0.0
+    return f
 
 
 # ----------------------------------------------------------------------------- output
@@ -662,4 +720,6 @@ def summary_json(r: Readout) -> dict[str, Any]:
         "bayes_prob_positive": r.bayes.prob_positive,
         "bayes_post_mean_relative": r.bayes.post_mean / r.rows[0]["raw"].control,
         "sequential": r.sequential_summary,
+        "trajectory_facts": r.facts,
+        "pm_note": r.pm_note,
     }

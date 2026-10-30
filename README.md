@@ -20,13 +20,19 @@ sample-ratio check passes (p = 0.999). A naive dashboard reports conversions
    labels" was applied. Re-balancing residue would be fixed by adjusting for features. Sampling on the outcome would not:
    it only preserves odds ratios. The data fit neither story alone. Among *non-visitors* the treatment share still rises,
    from 84.82% to
-   85.16%, which pure outcome sampling cannot produce.
+   85.16%. Pure outcome sampling cannot produce that *if ads never
+   lower visit propensity*. The evidence is one decile (z = 4.1 vs 85%;
+   decile 9 is z = 1.2).
 3. **So the size of the effect is not identified from the released data.** Feature-adjusted estimates of the
    conversion lift range from +46.0% (CUPAC) to +47.3%
    (CUPED). Re-weighting non-visitors ×1 to ×20, to undo an unknown negative-sampling rate, moves the post-stratified lift
    from +46.8% to
-   +59.8% (right panel; visits:
-   +17.4% to +25.7%).
+   +59.8% if visits were the sampled label (right panel; visits:
+   +17.4% to +25.7%). If
+   conversions were the sampled label, it is only +46.8% to
+   +50.0%. The upper end is essentially the raw estimate. None of
+   these levels is a plausible real ad effect: Criteo distorted them on purpose so "the original incrementality level
+   cannot be deduced".
    On the odds-ratio scale, which outcome-dependent sampling does not distort, the crude vs stratified
    (Mantel–Haenszel) gap is small for visits (1.285 vs
    1.261) and moderate for conversions (1.596 vs
@@ -37,8 +43,9 @@ sample-ratio check passes (p = 0.999). A naive dashboard reports conversions
    assignment is investigated, and not budgeting on any single number ([decision memo](docs/decision_memo.md)).
 
 A synthetic test (`tests/test_selection_on_outcome.py`) shows the mechanism. It randomizes a treatment, then keeps
-only 20% of the non-converters. That creates exactly this kind of feature imbalance, X-adjustment misses the true lift
-badly, and the Mantel–Haenszel odds ratio recovers it.
+only 20% of the non-converters. That creates exactly this kind of feature imbalance, and X-adjustment misses the true lift
+badly. The Mantel–Haenszel odds ratio recovers the true *odds ratio*. The *lift* is recovered only by re-weighting with
+the known keep rate, which the released data do not provide.
 
 ## Three headline numbers
 
@@ -46,7 +53,7 @@ badly, and the Mantel–Haenszel odds ratio recovers it.
 |---|---|---|
 | Assignment check | SRM p = 0.999 (passes); balance χ² = 5,945 on 12 df (fails) → **HOLD**; conversion lift +46.8% to +59.8% across sampling scenarios | `results/balance.json`, `results/scorecard_criteo.json` |
 | Calibration on real units | 10,000 A/A re-randomizations of 2,096,937 real control users: false-positive rate 4.6%–5.0% (50/50) and 4.6%–5.4% (85/15) for Welch, CUPED, CUPAC and delta-method tests | `results/aa_tests*.json` |
-| Peeking on real experiments | On 361 real ASOS trajectories, daily peeking flagged 218 as significant and reversed sign 33 times. A Brownian model fitted to the same portfolio expects 162 flags and 8 reversals: real experiments drift more than textbook simulations assume | `results/asos_portfolio.json` |
+| Peeking on real experiments | On 361 real ASOS trajectories, daily peeking flagged 218 as significant and reversed sign 33 times. A Brownian model fitted to the same portfolio expects 163 flags and 9 reversals. O'Brien–Fleming cut reversals to 4, but it also crossed 136 times vs 100 expected (1.36×, about the same excess as naive peeking's 1.34×). Real experiments drift more than textbook simulations assume | `results/asos_portfolio.json` |
 
 ## What the platform does
 
@@ -70,11 +77,11 @@ badly, and the Mantel–Haenszel odds ratio recovers it.
 | Question | Answer |
 |---|---|
 | Variance reduction (CUPAC, 2-fold cross-fitted LightGBM) | conversions 12.9% (linear CUPED 10.7%); visits 30.8% (25.2%) |
-| Per exposed user (one-sided non-compliance, 3.60% of treated users exposed) | conversions 2.50 pp and visits 18.3 pp (2SLS with the CUPAC covariate; the unadjusted Wald gives 28.7 pp for visits). Sharp IV inequalities: 0 of 40 violated |
+| Per exposed user (one-sided non-compliance, 3.60% of treated users exposed) | conversions 2.50 pp and visits 18.3 pp (2SLS with the CUPAC covariate; Wald on the CUPAC-adjusted ITT gives 2.47 pp / 17.6 pp; the unadjusted Wald gives 28.7 pp for visits). Sharp IV inequalities: 0 of 40 violated. Levels inherit Criteo's sampling distortion |
 | Ghost-ads triggering would need | 8.1× fewer users for visits, 2.3× for conversions |
-| Winner's curse (99 ASOS treatments, NPMLE prior) | a reported +0.6% win on metric 1 is really about +0.33% (90% CI +0.24% to +0.41%); small winners are overstated ×1.34–×1.85 (median) |
+| Winner's curse (99 ASOS treatments) | a reported +0.6% win on metric 1 is really about +0.33% (discrete NPMLE prior) to +0.57% (normal prior), so forecast winners with a range, not a rule. The NPMLE is lumpy: on the same metric a +1.0% result moves *up* to +1.36% |
 | Ship-rule policy (ASOS metric 1, scored under the NPMLE truth model) | the p-value rule ships 16 with 0.7 expected harmful launches; a fixed 0.1% expected-loss rule ships 66 with 25.1 |
-| Targeting (top 20% by conversion uplift, IPW, shared denominator) | 87.4% of incremental conversions on 69.1% of exposures (1.26× efficiency). A plain response model does better here: 95.0% on 73.5% |
+| Targeting (top 20% by conversion uplift, shared denominator) | 81%–87% of incremental conversions depending on adjustment (unweighted / IPW, which assumes selection on observables) on 69.1% of exposures. A plain response model does better here: 95.0% on 73.5% (IPW) |
 
 Details, methods and every other table are in the [appendix](docs/appendix.md). Acceptance criteria and their
 PASS/FAIL status, including the misses, are in [`docs/ACCEPTANCE.md`](docs/ACCEPTANCE.md).

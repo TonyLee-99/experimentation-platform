@@ -182,6 +182,11 @@ def evaluate_scores(boot_reps: int = 100) -> dict[str, Any]:
                 ("rank_by_conversion_x_learner", c["conversion__x_learner"]),
             )
         },
+        "outcome_conversion_unweighted": {
+            "rank_by_conversion_x_learner": targeting_with_ci(
+                c["conversion__x_learner"], th, c["conversion"], expo, np.ones(th.size), boot_reps=boot_reps, seed=SEED
+            )
+        },
         "total_ipw_incremental_conversions_holdout": float(
             (
                 np.average(c["conversion"][th == 1], weights=ipw[th == 1])

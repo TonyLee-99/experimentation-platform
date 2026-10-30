@@ -90,13 +90,19 @@ naive daily peeking {{ NS.naive.fpr|pct }}, OBF {{ NS.obf.fpr|pct(2) }}, mSPRT {
 | mSPRT | {{ PK.msprt.declared_significant }} | {{ PK.msprt.declared_but_final_does_not_support }} | {{ PK.msprt.sign_reversals }} | {{ PK.msprt.strong_reversals_final_significant_opposite }} | {{ PK.msprt.detection_rate_among_final_significant|pct(0) }} |
 | *naive, model expectation (true effects from the fitted NPMLE prior)* | {{ MB.npmle_effects.declared|f(0) }} | {{ MB.npmle_effects.unsupported|f(0) }} | {{ MB.npmle_effects.sign_reversals|f(0) }} | | |
 | *naive, model expectation (pure null)* | {{ MB.null.declared|f(0) }} | {{ MB.null.unsupported|f(0) }} | {{ MB.null.sign_reversals|f(0) }} | | |
+| *OBF, model expectation (true effects from the fitted NPMLE prior)* | {{ MB.npmle_effects.obf_declared|f(0) }} | {{ MB.npmle_effects.obf_unsupported|f(0) }} | {{ MB.npmle_effects.obf_sign_reversals|f(1) }} | | |
 
 "Final does not support" is not the same as "false positive". In the model, about
 {{ MB.npmle_effects.unsupported_but_true_effect_same_sign|f(0) }} of the {{ MB.npmle_effects.unsupported|f(0) }} unsupported naive
 calls are real effects (|lift| > 0.1%, right sign) that the final test failed to confirm. The interesting result is the
 excess: the real portfolio crosses and reverses far more often than the model allows. That is consistent with
 non-Brownian dynamics (novelty, weekly cycles, telemetry spikes), and it means the real naive error rate is
-plausibly above the model's {{ NS.naive.fpr|pct }}. OBF had {{ PK.obf.strong_reversals_final_significant_opposite }} strong reversals.
+plausibly above the model's {{ NS.naive.fpr|pct }}. OBF is not immune: it crossed {{ PK.obf.declared_significant }} times vs
+{{ MB.npmle_effects.obf_declared|f(0) }} expected ({{ (PK.obf.declared_significant / MB.npmle_effects.obf_declared)|f(2) }}×, about the same relative excess as naive
+peeking's {{ (PK.naive.declared_significant / MB.npmle_effects.declared)|f(2) }}×). It reversed {{ PK.obf.sign_reversals }} times vs ≈{{ MB.npmle_effects.obf_sign_reversals|f(1) }} expected. So OBF
+cuts reversals sharply, but its boundaries are not validated on drifting real metrics. The final look is always
+treated as an information look: when information fell at the end, earlier looks above the final information are
+dropped, so the last boundary is evaluated on the final day.
 
 **Stopping time, compared fairly.** On the {{ PK.stopping_on_common_set.n_detected_by_both_msprt_and_obf }} trajectories that
 both mSPRT and OBF detect, the median stop is day {{ PK.stopping_on_common_set.median_stop_day_msprt|g }} (mSPRT) vs day
@@ -117,14 +123,21 @@ mSPRT {{ R.criteo_peeking.fpr.msprt.fpr|pct(2) }}.
 | {{ m[-1] }} | {{ e.n_winners }} | {{ e.winners.exaggeration_ratio_of_means_npmle|x }} | {{ e.winners.small_winners_median_ratio_npmle|x }} ({{ e.winners.n_small_winners_under_1pct }}) | {{ e.winners.fdr_normal|pct }} / {{ e.winners.fdr_npmle|pct }} | {{ e.npmle_prior["p_true_lift_gt_0.1pct"]|pct(0) }} [{{ e.npmle_prior["p_true_lift_gt_0.1pct_ci90"][0]|pct(0) }}, {{ e.npmle_prior["p_true_lift_gt_0.1pct_ci90"][1]|pct(0) }}] | {{ e.npmle_prior.excess_kurtosis|f(1) }} [{{ e.npmle_prior.excess_kurtosis_ci90[0]|f(1) }}, {{ e.npmle_prior.excess_kurtosis_ci90[1]|f(1) }}] | {{ e.simulation_check.truth_npmle.coverage_95_among_winners|pct(0) }} |
 {% endfor %}
 
-**PM haircut** (NPMLE posterior mean for a result reported at the metric's median SE; 90% bootstrap interval over prior refits):
+**PM haircut**: posterior mean for a result reported at the metric's median SE, under the discrete NPMLE prior and
+under the normal prior.
 
 | metric | reported +0.3% | reported +0.6% | reported +1.0% | reported +2.0% |
 |---|---|---|---|---|
 {% for m, e in A.eb.items() %}
-| {{ m[-1] }} |{% for h in e.haircut_at_median_se %} {{ h.posterior_mean|spct(2) }} [{{ h.posterior_mean_bootstrap_ci90[0]|spct(2) }}, {{ h.posterior_mean_bootstrap_ci90[1]|spct(2) }}] |{% endfor %}
+| {{ m[-1] }} |{% for h in e.haircut_at_median_se %} {{ h.posterior_mean|spct(2) }} (NPMLE) / {{ h.posterior_mean_normal_prior|spct(2) }} (normal) |{% endfor %}
 
 {% endfor %}
+
+Quote these as a range: on metric 1, a reported +0.6% is about {{ D.eb.haircut06.metric_1.posterior_mean|spct(2) }} to
+{{ D.eb.haircut06.metric_1.posterior_mean_normal_prior|spct(2) }}. The NPMLE prior is a handful of atoms, so its posterior mean is lumpy.
+Results between two atoms are pulled to the nearest one, which can even move a result *up* (+1.0% → {{ A.eb.metric_1.haircut_at_median_se[2].posterior_mean|spct(2) }} on
+metric 1). The bootstrap over prior refits covers resampling noise only, not this model choice. A smoothed g-model
+(Efron 2016) would be needed before quoting any single number as a rule.
 
 Notes. The NPMLE log-likelihood is always at least the normal one because the NPMLE nests it, so it is not evidence of
 non-normality. The fat-tail reading rests on the fitted shape and its (wide) bootstrap intervals. 0.1% is below the
@@ -194,6 +207,10 @@ exposure share = share of exposed treated users; efficiency = increment share / 
 {% endfor %}
 {% endfor %}
 {% endfor %}
+
+Without propensity weights, the conversion X-learner's top 20% keeps {{ D.top20.conv_x_unweighted.share_of_incremental|pct }} (vs
+{{ D.top20.conv_x.share_of_incremental|pct }} with IPW). The IPW weights come from the same propensity model that shows imbalance, so they assume
+selection on observables. Quote the targeting gain as a range.
 
 The uplift and response rankings both concentrate the increment where ads are actually served. On conversions the
 response model beats the uplift models (standard Qini {{ H.qini_conversion.response_model.qini_coefficient|f(3) }} vs

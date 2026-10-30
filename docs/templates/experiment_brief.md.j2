@@ -24,18 +24,20 @@ reduction). Traffic and prices are assumptions and are marked as such.*
 | {{ r.mde_rel|pct(0) }} | {{ r.n_raw|int }} | {{ r.n_cupac|int }} | {{ (r.n_cupac / 500000)|f(1) }} |
 {% endfor %}
 
-Recommendation: target a **10%** relative MDE. It is far below the effect this campaign type produced in the Criteo test,
-so it is a conservative design target, and 5% needs {{ (Bf.rows[0].n_cupac / Bf.rows[1].n_cupac)|f(1) }}× the traffic. Whether an
-effect of a given size *pays* depends on the cost per exposed user (break-even table in the [decision memo](decision_memo.md)). Run at least **14 days** in any case, to cover
-two weekly cycles and the 14-day conversion window.
+Plan: enroll for **{{ Bf.enroll_days }} days** (two weekly cycles) at an assumed {{ Bf.traffic|int }} eligible users/day,
+i.e. {{ Bf.n_enrolled|int }} users. That detects about {{ Bf.mde_rel_at_enrollment|pct(1) }} relative with CUPAC, comfortably below the 10%
+design target; 5% would need {{ (Bf.rows[0].n_cupac / Bf.rows[1].n_cupac)|f(1) }}× the users of the 10% design. Each user's
+conversion window is 14 days, so the final read is on **day {{ Bf.enroll_days + 14 }}**. Whether an effect of a given size *pays*
+depends on the cost per exposed user (break-even table in the [decision memo](decision_memo.md)).
 
 ## Stopping rule
 
-O'Brien–Fleming (Lan–DeMets) with four weekly looks at information fractions {{ Bf.looks|join(", ") }}. Stop for benefit
-only if |z| exceeds {% for b in Bf.obf %}{{ b|f(2) }}{% if not loop.last %} / {% endif %}{% endfor %} at looks 1–4
-(the last one is close to 1.96). Stop for harm at any look if a guardrail is significantly worse than its margin. The
-dashboard's daily p-value is not a stopping rule: on real ASOS experiments, daily peeking flagged
-{{ R.asos_portfolio.real_peeking.summary.naive.declared_significant }} of
+O'Brien–Fleming (Lan–DeMets, two-sided form α(t) = 2 − 2Φ(1.96/√t)) with two looks: an interim read on day
+{{ Bf.enroll_days + 7 }}, when the first enrollment week's windows are complete (information ≈ {{ Bf.looks[0] }}), and the final read on day
+{{ Bf.enroll_days + 14 }}. Stop for benefit only if |z| exceeds {% for b in Bf.obf %}{{ b|f(2) }}{% if not loop.last %} / {% endif %}{% endfor %}.
+(gsDesign's per-side convention gives slightly different bounds; both control α.) Stop for harm at any look if a
+guardrail is significantly worse than its margin. The dashboard's daily p-value is not a stopping rule: on real ASOS
+experiments, daily peeking flagged {{ R.asos_portfolio.real_peeking.summary.naive.declared_significant }} of
 {{ R.asos_portfolio.real_peeking.summary.n_trajectories }} metric trajectories, against
 {{ R.asos_portfolio.real_peeking.summary.n_final_significant }} that were significant at the end.
 

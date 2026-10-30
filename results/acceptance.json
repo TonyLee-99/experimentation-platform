@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-29 16:34",
+  "generated": "2026-10-29 20:46",
   "rows": [
     {
       "id": "D1",
@@ -94,7 +94,7 @@
     {
       "id": "V6",
       "status": "PASS",
-      "evidence": "MODEL-BASED (Brownian null on real look schedules, variance-based information; OBF ~5% by construction): naive 24.9%, mSPRT 1.22%, OBF 5.06%, fixed 5.05%"
+      "evidence": "MODEL-BASED (Brownian null on real look schedules, variance-based information; OBF ~5% by construction): naive 24.8%, mSPRT 1.21%, OBF 4.94%, fixed 4.98%"
     },
     {
       "id": "V7",
@@ -169,7 +169,7 @@
     {
       "id": "P1",
       "status": "PASS",
-      "evidence": "real trajectories (n=361): naive declared 218, not supported by final 116, sign reversals 33 vs MODEL expectation (NPMLE effects) 162 / 60 / 8; OBF 38 unsupported, 4 reversals; mSPRT 32, 9"
+      "evidence": "real trajectories (n=361): naive declared 218, not supported by final 116, sign reversals 33 vs MODEL expectation (NPMLE effects) 163 / 61 / 9; OBF declared 136 (model 100), 38 unsupported, 4 reversals (model 0.0); mSPRT 32, 9"
     },
     {
       "id": "P2",

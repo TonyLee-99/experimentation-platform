@@ -8,17 +8,20 @@
 ## Recommendation
 
 **Keep the campaign on.** Conversions go up under every way of estimating it. **But hold any budget increase until
-we know why the test groups differ.** The platform's verdict is **HOLD — balance check failed** (rule R1b): the
-direction is solid, the magnitude is not.
+we know why the test groups differ.** The platform's verdict is **HOLD — balance check failed** (rule R1b). HOLD means
+*keep the current state*: the campaign keeps running, but don't scale it up and don't claim a lift number. It does not
+mean "pause". The direction is solid; the magnitude is not.
 
 | How the lift is estimated | Conversion lift | 95% CI |
 |---|---|---|
 | What a dashboard shows (raw difference) | +59.4% | +54.3% to +64.6% |
 | Adjusted for pre-campaign user features (CUPAC) | +46.0% | +42.7% to +49.2% |
-| Adjusted, assuming the published sample over-kept converters (×20 correction) | +59.8% | ±12.3% |
+| Adjusted, re-weighting non-visitors ×20 (if the published sample under-kept non-visitors) | +59.8% | ±12.3 pp (to +72%) |
 
 The honest planning range is **+46% to
-+60%**, not a single number.
++60%** (with sampling error up to +72%), not a single number.
+These levels are not a plausible real ad effect. Criteo distorted the released sample on purpose so that "the original
+incrementality level cannot be deduced". They are useful for the decision's direction, and for the method.
 
 ## Why the number is uncertain
 
@@ -28,11 +31,25 @@ documentation describes two processing steps that could cause this, and they imp
 engineering tells us which one applied, any single lift number is an assumption. What does not depend on the
 assumption: the effect is positive, and its odds ratio is about 1.47–1.60.
 
+| If engineering finds… | Then plan on | Action |
+|---|---|---|
+| per-test re-balancing residue (assignment depended on user features) | the feature-adjusted lift, +46% | keep the campaign; budget on the adjusted number |
+| visit-label negative sampling at a known rate | re-weight by that rate: up to +60% | keep; re-run the readout with the real rate |
+| conversion-label negative sampling | about +47% to +50% | keep; re-run with the real rate |
+
+In every branch: keep the campaign as long as cost per exposed user < value per conversion × 2.47 pp.
+
+Caveat on the evidence. The data do not fit pure outcome sampling, because the ad group's share also rises among
+*non-visitors* in the top decile. That argument assumes ads never *lower* anyone's visit propensity, and it rests on a
+single decile (z = 4.1).
+
 ## Is it worth the money? (prices are assumptions; we have no cost data)
 
 Only 3.6% of eligible users actually saw an ad. For each user who saw one, conversions rose by about
-**2.47 pp**, so it takes about **40 exposed users per extra
-conversion**.
+**2.47 pp** (Wald on the feature-adjusted lift; 2SLS with the same covariate gives
+2.50 pp), so it takes about **40 exposed users per extra
+conversion**. This level inherits the deliberate distortion above. Treat the table as a template, and plug in the lift from
+a clean holdout.
 
 | Value of a conversion | $0.25 / exposed user | $0.50 | $1.00 | $2.00 |
 |---|---|---|---|---|
@@ -46,8 +63,9 @@ exactly where the data-integrity question matters.
 
 ## Where to spend
 
-If we only show ads to the 20% of users the model ranks highest, we keep **87%**
-of the extra conversions (90% CI 85%–91%)
+If we only show ads to the 20% of users the model ranks highest, we keep **81%–87%**
+of the extra conversions, depending on adjustment (unweighted vs propensity-weighted; the weighted figure has a 90% CI of
+85%–91% and assumes selection on observables)
 while buying **69%** of today's ad exposures. The exposures we would cut
 deliver conversions at about 0.41× the average rate, so cutting them pays off
 whenever the campaign's average iROAS is below about 2.4. A simpler "who is likely to
@@ -61,4 +79,5 @@ against today's policy in a holdout before moving budget.
    label-dependent negative sampling. That decides which number in the table above is right.
 2. **Log counterfactual exposure in the control group** (ghost ads). It would detect the same effect with about
    8× fewer users for visits and measure "the effect of seeing an ad" cleanly.
-3. **Targeting holdout** for the top-30% policy, with conversions as the primary metric and spend as the guardrail.
+3. **Targeting holdout** for the top-20% policy analysed above, with conversions as the primary
+   metric and spend as the guardrail.

@@ -14,6 +14,7 @@ from typing import Any
 
 import numpy as np
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
+from scipy import stats
 
 from expkit.data import ROOT
 from expkit.stats.power import total_sample_size
@@ -85,13 +86,23 @@ def derived(R: dict[str, Any]) -> dict[str, Any]:
     for rel in (0.05, 0.10, 0.20):
         n_raw = total_sample_size(rel * base, var, share_t=0.85)
         brief.append({"mde_rel": rel, "n_raw": n_raw, "n_cupac": n_raw * (1 - vr)})
-    looks = np.array([0.25, 0.5, 0.75, 1.0])
+    # schedule: enroll 14 days at an assumed 500k eligible users/day; 14-day outcome window; interim read on day 21
+    # (first enrollment week's windows complete, information ~0.5) and final read on day 28
+    traffic, enroll_days = 500_000, 14
+    n_enrolled = traffic * enroll_days
+    kz = (stats.norm.ppf(0.975) + stats.norm.ppf(0.8)) ** 2
+    mde_abs = math.sqrt(kz * var * (1 - vr) * (1 / 0.85 + 1 / 0.15) / n_enrolled)
+    looks = np.array([0.5, 1.0])
     d["brief"] = {
         "baseline": base,
         "vr": vr,
         "rows": brief,
         "looks": looks.tolist(),
         "obf": gsd_boundaries(looks).z_bounds.tolist(),
+        "traffic": traffic,
+        "enroll_days": enroll_days,
+        "n_enrolled": n_enrolled,
+        "mde_rel_at_enrollment": mde_abs / base,
     }
     # EB ranges across the four ASOS metrics
     eb = R["asos_portfolio"]["eb"]
@@ -115,6 +126,9 @@ def derived(R: dict[str, Any]) -> dict[str, Any]:
         "conv_resp": next(r for r in t["outcome_conversion"]["rank_by_conversion_response_model"] if r["top"] == 0.2),
         "conv_by_visit_x": next(r for r in t["outcome_conversion"]["rank_by_visit_x_learner"] if r["top"] == 0.2),
         "visit_x": next(r for r in t["outcome_visit"]["rank_by_visit_x_learner"] if r["top"] == 0.2),
+        "conv_x_unweighted": next(
+            r for r in t["outcome_conversion_unweighted"]["rank_by_conversion_x_learner"] if r["top"] == 0.2
+        ),
     }
     return d
 

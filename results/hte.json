@@ -460,6 +460,70 @@
         }
       ]
     },
+    "outcome_conversion_unweighted": {
+      "rank_by_conversion_x_learner": [
+        {
+          "top": 0.1,
+          "share_of_incremental": 0.6807747830819624,
+          "share_of_incremental_ci90": [
+            0.6492775496452554,
+            0.7204547441401175
+          ],
+          "share_of_exposures": 0.5299986014638012,
+          "efficiency": 1.2844841122254531,
+          "efficiency_ci90": [
+            1.2244040304036312,
+            1.3577239628570816
+          ],
+          "tail_marginal_efficiency": 0.6792005681520358
+        },
+        {
+          "top": 0.2,
+          "share_of_incremental": 0.8057855206124007,
+          "share_of_incremental_ci90": [
+            0.7798245211374718,
+            0.8336526189314433
+          ],
+          "share_of_exposures": 0.6911379422870728,
+          "efficiency": 1.165882338836648,
+          "efficiency_ci90": [
+            1.1273715949583512,
+            1.2052269195297236
+          ],
+          "tail_marginal_efficiency": 0.6288065320348042
+        },
+        {
+          "top": 0.3,
+          "share_of_incremental": 0.8598250551652667,
+          "share_of_incremental_ci90": [
+            0.8381712078469727,
+            0.88223684440744
+          ],
+          "share_of_exposures": 0.7506736282690784,
+          "efficiency": 1.1454046376291018,
+          "efficiency_ci90": [
+            1.1165493897022565,
+            1.1743211838592258
+          ],
+          "tail_marginal_efficiency": 0.5622146741300718
+        },
+        {
+          "top": 0.5,
+          "share_of_incremental": 0.910848590874151,
+          "share_of_incremental_ci90": [
+            0.8927436853266734,
+            0.9293157785332806
+          ],
+          "share_of_exposures": 0.8052258635961027,
+          "efficiency": 1.1311715532910753,
+          "efficiency_ci90": [
+            1.1088569281688387,
+            1.1545871499997802
+          ],
+          "tail_marginal_efficiency": 0.45771687541193024
+        }
+      ]
+    },
     "total_ipw_incremental_conversions_holdout": 6850.661995042038
   },
   "n_train": 6989354,

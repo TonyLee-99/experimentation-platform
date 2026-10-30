@@ -12,14 +12,14 @@
     "flagged": [
       "54a85a-v0",
       "64dc88-v2",
-      "c3d89d-v2",
-      "834947-v1",
       "329386-v1",
+      "c3d89d-v2",
+      "329386-v2",
+      "834947-v1",
       "81761c-v2",
       "a68bf4-v1",
       "26bd38-v1",
       "64dc88-v1",
-      "329386-v2",
       "eeefa3-v3"
     ],
     "treatment_share_quantiles": [
@@ -211,6 +211,7 @@
           "observed": 0.003,
           "z": 1.9828984865670054,
           "posterior_mean": 0.0021861838742775574,
+          "posterior_mean_normal_prior": 0.0028901277758777797,
           "posterior_mean_bootstrap_ci90": [
             0.0012110687038183502,
             0.002774346221195803
@@ -220,6 +221,7 @@
           "observed": 0.006,
           "z": 3.965796973134011,
           "posterior_mean": 0.003327116204448586,
+          "posterior_mean_normal_prior": 0.0057164078955076435,
           "posterior_mean_bootstrap_ci90": [
             0.0023637599655487724,
             0.0040954822095973665
@@ -229,6 +231,7 @@
           "observed": 0.01,
           "z": 6.609661621890018,
           "posterior_mean": 0.013581496681219685,
+          "posterior_mean_normal_prior": 0.009484781388347463,
           "posterior_mean_bootstrap_ci90": [
             0.0039043118109993347,
             0.01379611642021397
@@ -238,6 +241,7 @@
           "observed": 0.02,
           "z": 13.219323243780035,
           "posterior_mean": 0.01914409145564682,
+          "posterior_mean_normal_prior": 0.01890571512044701,
           "posterior_mean_bootstrap_ci90": [
             0.016868216851297246,
             0.023866359808131867
@@ -474,6 +478,7 @@
           "observed": 0.003,
           "z": 1.4362800355551126,
           "posterior_mean": 0.001386389275436856,
+          "posterior_mean_normal_prior": 0.0028691913227295567,
           "posterior_mean_bootstrap_ci90": [
             0.0003485609566490034,
             0.002224771521651656
@@ -483,6 +488,7 @@
           "observed": 0.006,
           "z": 2.8725600711102253,
           "posterior_mean": 0.0039018090820447746,
+          "posterior_mean_normal_prior": 0.005673593225012025,
           "posterior_mean_bootstrap_ci90": [
             0.0014276891629417458,
             0.0049981244150862775
@@ -492,6 +498,7 @@
           "observed": 0.01,
           "z": 4.787600118517042,
           "posterior_mean": 0.006365589075675991,
+          "posterior_mean_normal_prior": 0.009412795761388648,
           "posterior_mean_bootstrap_ci90": [
             0.003491012499600578,
             0.014084645199120355
@@ -501,6 +508,7 @@
           "observed": 0.02,
           "z": 9.575200237034084,
           "posterior_mean": 0.02131935559636756,
+          "posterior_mean_normal_prior": 0.01876080210233021,
           "posterior_mean_bootstrap_ci90": [
             0.016061178510460523,
             0.022926830613528362
@@ -737,6 +745,7 @@
           "observed": 0.003,
           "z": 1.2024345645487813,
           "posterior_mean": 0.001538061764766887,
+          "posterior_mean_normal_prior": 0.0027582150586099663,
           "posterior_mean_bootstrap_ci90": [
             0.0007497446790378304,
             0.00218508482822398
@@ -746,6 +755,7 @@
           "observed": 0.006,
           "z": 2.4048691290975626,
           "posterior_mean": 0.0028758701832622894,
+          "posterior_mean_normal_prior": 0.005476042358840965,
           "posterior_mean_bootstrap_ci90": [
             0.001441326669905555,
             0.004061964370011583
@@ -755,6 +765,7 @@
           "observed": 0.01,
           "z": 4.008115215162604,
           "posterior_mean": 0.009626476307654033,
+          "posterior_mean_normal_prior": 0.009099812092482297,
           "posterior_mean_bootstrap_ci90": [
             0.00382422810364787,
             0.011461366231529619
@@ -764,6 +775,7 @@
           "observed": 0.02,
           "z": 8.016230430325209,
           "posterior_mean": 0.020871861753497443,
+          "posterior_mean_normal_prior": 0.018159236426585627,
           "posterior_mean_bootstrap_ci90": [
             0.012019261550435407,
             0.02215096469908354
@@ -1032,6 +1044,7 @@
           "observed": 0.003,
           "z": 1.137329018720548,
           "posterior_mean": 0.0018549668382617246,
+          "posterior_mean_normal_prior": 0.0027453065224740123,
           "posterior_mean_bootstrap_ci90": [
             0.0010947040425548138,
             0.0026266540833472926
@@ -1041,6 +1054,7 @@
           "observed": 0.006,
           "z": 2.274658037441096,
           "posterior_mean": 0.0027697976039492804,
+          "posterior_mean_normal_prior": 0.005409917274005989,
           "posterior_mean_bootstrap_ci90": [
             0.0018562675625077966,
             0.003675397281871567
@@ -1050,6 +1064,7 @@
           "observed": 0.01,
           "z": 3.791096729068493,
           "posterior_mean": 0.008842409463918751,
+          "posterior_mean_normal_prior": 0.00896273160938196,
           "posterior_mean_bootstrap_ci90": [
             0.003223582943910115,
             0.011116476346472658
@@ -1059,6 +1074,7 @@
           "observed": 0.02,
           "z": 7.582193458136986,
           "posterior_mean": 0.019763198348571834,
+          "posterior_mean_normal_prior": 0.01784476744782188,
           "posterior_mean_bootstrap_ci90": [
             0.013639406481626154,
             0.023596513986096163
@@ -1227,7 +1243,7 @@
         "metric": 3,
         "days": 77.0,
         "final_sig": false,
-        "n_to_var_info_max_abs_gap": 0.26423468567191477,
+        "n_to_var_info_max_abs_gap": 0.2643282649712808,
         "naive_stop_day": 7.0,
         "naive_unsupported": true,
         "naive_sign_reversal": false,
@@ -1968,7 +1984,7 @@
         "metric": 2,
         "days": 92.0,
         "final_sig": false,
-        "n_to_var_info_max_abs_gap": 0.029416308568691152,
+        "n_to_var_info_max_abs_gap": 0.02941630856869082,
         "naive_stop_day": null,
         "naive_unsupported": false,
         "naive_sign_reversal": false,
@@ -2006,7 +2022,7 @@
         "metric": 4,
         "days": 92.0,
         "final_sig": false,
-        "n_to_var_info_max_abs_gap": 0.07872854323837686,
+        "n_to_var_info_max_abs_gap": 0.0772374421921922,
         "naive_stop_day": null,
         "naive_unsupported": false,
         "naive_sign_reversal": false,
@@ -2044,7 +2060,7 @@
         "metric": 2,
         "days": 92.0,
         "final_sig": false,
-        "n_to_var_info_max_abs_gap": 0.025239149789629933,
+        "n_to_var_info_max_abs_gap": 0.025982756562207054,
         "naive_stop_day": null,
         "naive_unsupported": false,
         "naive_sign_reversal": false,
@@ -2063,7 +2079,7 @@
         "metric": 3,
         "days": 92.0,
         "final_sig": false,
-        "n_to_var_info_max_abs_gap": 0.05749724680851831,
+        "n_to_var_info_max_abs_gap": 0.057217120737875216,
         "naive_stop_day": null,
         "naive_unsupported": false,
         "naive_sign_reversal": false,
@@ -2082,7 +2098,7 @@
         "metric": 4,
         "days": 92.0,
         "final_sig": false,
-        "n_to_var_info_max_abs_gap": 0.07343974553240118,
+        "n_to_var_info_max_abs_gap": 0.07205908237359504,
         "naive_stop_day": null,
         "naive_unsupported": false,
         "naive_sign_reversal": false,
@@ -2709,7 +2725,7 @@
         "metric": 2,
         "days": 29.0,
         "final_sig": true,
-        "n_to_var_info_max_abs_gap": 0.07168127912501782,
+        "n_to_var_info_max_abs_gap": 0.07168127912501779,
         "naive_stop_day": 3.0,
         "naive_unsupported": false,
         "naive_sign_reversal": false,
@@ -2747,7 +2763,7 @@
         "metric": 4,
         "days": 29.0,
         "final_sig": true,
-        "n_to_var_info_max_abs_gap": 0.07936521566231206,
+        "n_to_var_info_max_abs_gap": 0.07810145843145944,
         "naive_stop_day": 4.0,
         "naive_unsupported": false,
         "naive_sign_reversal": false,
@@ -3241,7 +3257,7 @@
         "metric": 2,
         "days": 56.0,
         "final_sig": false,
-        "n_to_var_info_max_abs_gap": 0.06558508637966015,
+        "n_to_var_info_max_abs_gap": 0.06389144109428468,
         "naive_stop_day": null,
         "naive_unsupported": false,
         "naive_sign_reversal": false,
@@ -3336,7 +3352,7 @@
         "metric": 3,
         "days": 56.0,
         "final_sig": true,
-        "n_to_var_info_max_abs_gap": 0.12910595208731712,
+        "n_to_var_info_max_abs_gap": 0.12939799033561766,
         "naive_stop_day": 20.0,
         "naive_unsupported": false,
         "naive_sign_reversal": false,
@@ -3431,7 +3447,7 @@
         "metric": 4,
         "days": 56.0,
         "final_sig": false,
-        "n_to_var_info_max_abs_gap": 0.11938192522870417,
+        "n_to_var_info_max_abs_gap": 0.11892567213092409,
         "naive_stop_day": 7.0,
         "naive_unsupported": true,
         "naive_sign_reversal": false,
@@ -4419,7 +4435,7 @@
         "metric": 4,
         "days": 119.0,
         "final_sig": false,
-        "n_to_var_info_max_abs_gap": 0.11400892651418607,
+        "n_to_var_info_max_abs_gap": 0.11398890299714531,
         "naive_stop_day": null,
         "naive_unsupported": false,
         "naive_sign_reversal": false,
@@ -4476,7 +4492,7 @@
         "metric": 3,
         "days": 119.0,
         "final_sig": true,
-        "n_to_var_info_max_abs_gap": 0.11069265103615344,
+        "n_to_var_info_max_abs_gap": 0.11078771517185104,
         "naive_stop_day": 35.0,
         "naive_unsupported": false,
         "naive_sign_reversal": false,
@@ -4685,7 +4701,7 @@
         "metric": 2,
         "days": 40.0,
         "final_sig": false,
-        "n_to_var_info_max_abs_gap": 0.20961213892417258,
+        "n_to_var_info_max_abs_gap": 0.20961213892417263,
         "naive_stop_day": 3.0,
         "naive_unsupported": true,
         "naive_sign_reversal": false,
@@ -4704,7 +4720,7 @@
         "metric": 3,
         "days": 40.0,
         "final_sig": false,
-        "n_to_var_info_max_abs_gap": 0.24910294803016297,
+        "n_to_var_info_max_abs_gap": 0.24882514643116466,
         "naive_stop_day": null,
         "naive_unsupported": false,
         "naive_sign_reversal": false,
@@ -4723,7 +4739,7 @@
         "metric": 4,
         "days": 40.0,
         "final_sig": false,
-        "n_to_var_info_max_abs_gap": 0.24232221664865233,
+        "n_to_var_info_max_abs_gap": 0.24163399617764064,
         "naive_stop_day": null,
         "naive_unsupported": false,
         "naive_sign_reversal": false,
@@ -5293,7 +5309,7 @@
         "metric": 2,
         "days": 90.0,
         "final_sig": true,
-        "n_to_var_info_max_abs_gap": 0.09097925721803046,
+        "n_to_var_info_max_abs_gap": 0.0911104868806121,
         "naive_stop_day": 8.0,
         "naive_unsupported": false,
         "naive_sign_reversal": false,
@@ -7839,7 +7855,7 @@
         "metric": 2,
         "days": 26.0,
         "final_sig": false,
-        "n_to_var_info_max_abs_gap": 0.14567045595014466,
+        "n_to_var_info_max_abs_gap": 0.16020495800891293,
         "naive_stop_day": 2.0,
         "naive_unsupported": true,
         "naive_sign_reversal": false,
@@ -7858,7 +7874,7 @@
         "metric": 3,
         "days": 26.0,
         "final_sig": false,
-        "n_to_var_info_max_abs_gap": 0.0422526119670984,
+        "n_to_var_info_max_abs_gap": 0.04547180130225681,
         "naive_stop_day": 2.0,
         "naive_unsupported": true,
         "naive_sign_reversal": true,
@@ -7877,7 +7893,7 @@
         "metric": 4,
         "days": 26.0,
         "final_sig": false,
-        "n_to_var_info_max_abs_gap": 0.028923215230632682,
+        "n_to_var_info_max_abs_gap": 0.03897358842463694,
         "naive_stop_day": 5.0,
         "naive_unsupported": true,
         "naive_sign_reversal": false,
@@ -7915,7 +7931,7 @@
         "metric": 2,
         "days": 55.0,
         "final_sig": false,
-        "n_to_var_info_max_abs_gap": 0.15172991104101405,
+        "n_to_var_info_max_abs_gap": 0.15152973039805334,
         "naive_stop_day": 6.0,
         "naive_unsupported": true,
         "naive_sign_reversal": true,
@@ -8050,16 +8066,22 @@
     "reps": 50,
     "expected_per_361": {
       "null": {
-        "declared": 91.86000000000004,
-        "unsupported": 73.05999999999999,
-        "sign_reversals": 11.719999999999967,
-        "unsupported_but_true_effect_same_sign": 0.0
+        "declared": 91.86000000000008,
+        "unsupported": 73.22000000000001,
+        "sign_reversals": 12.019999999999959,
+        "unsupported_but_true_effect_same_sign": 0.0,
+        "obf_declared": 18.459999999999926,
+        "obf_unsupported": 4.499999999999997,
+        "obf_sign_reversals": 0.0
       },
       "npmle_effects": {
-        "declared": 161.70000000000005,
-        "unsupported": 59.85999999999996,
-        "sign_reversals": 8.219999999999974,
-        "unsupported_but_true_effect_same_sign": 25.339999999999904
+        "declared": 163.05999999999995,
+        "unsupported": 60.71999999999995,
+        "sign_reversals": 8.639999999999976,
+        "unsupported_but_true_effect_same_sign": 25.95999999999993,
+        "obf_declared": 99.86000000000013,
+        "obf_unsupported": 5.179999999999993,
+        "obf_sign_reversals": 0.02
       }
     }
   },
@@ -8070,34 +8092,34 @@
     "median_looks": 39.0,
     "fpr": {
       "naive": {
-        "fpr": 0.24887534626038782,
+        "fpr": 0.24828808864265928,
         "ci95": [
-          0.24605711723695062,
-          0.2517097240408999
+          0.24547210726876345,
+          0.25112025657087245
         ]
       },
       "msprt": {
-        "fpr": 0.012155124653739613,
+        "fpr": 0.012066481994459834,
         "ci95": [
-          0.0114503920619683,
-          0.012891467418003023
+          0.011364331989217847,
+          0.01280024907112725
         ]
       },
       "obf": {
-        "fpr": 0.050559556786703604,
+        "fpr": 0.04936288088642659,
         "ci95": [
-          0.049139059557636394,
-          0.05200902852299528
+          0.04795854983180634,
+          0.05079626528480393
         ]
       },
       "fixed_horizon": {
-        "fpr": 0.05045983379501385,
+        "fpr": 0.04981717451523546,
         "ci95": [
-          0.04904067516007954,
-          0.0519079735042017
+          0.048406679666022696,
+          0.05125669277116501
         ]
       }
     }
   },
-  "seconds": 278.4
+  "seconds": 504.0
 }

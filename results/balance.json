@@ -6,6 +6,7 @@
       "visit_rate": 0.00043592759163963893,
       "treatment_share_all": 0.8491862327051634,
       "treatment_share_nonvisitors": 0.8491841949224155,
+      "nonvisitor_share_z_vs_0.85": -2.699840437382741,
       "treatment_share_visitors": 0.8538587848932676
     },
     {
@@ -14,6 +15,7 @@
       "visit_rate": 0.0005297901501930052,
       "treatment_share_all": 0.849375155058352,
       "treatment_share_nonvisitors": 0.8493489641082576,
+      "nonvisitor_share_z_vs_0.85": -2.1557179143098244,
       "treatment_share_visitors": 0.8987854251012146
     },
     {
@@ -22,6 +24,7 @@
       "visit_rate": 0.0007502402273507348,
       "treatment_share_all": 0.8483425566782486,
       "treatment_share_nonvisitors": 0.8483247831131597,
+      "nonvisitor_share_z_vs_0.85": -5.540208935925295,
       "treatment_share_visitors": 0.8720152817574021
     },
     {
@@ -30,6 +33,7 @@
       "visit_rate": 0.001068166288357773,
       "treatment_share_all": 0.8486117051318393,
       "treatment_share_nonvisitors": 0.848564903665741,
+      "nonvisitor_share_z_vs_0.85": -4.753792842879007,
       "treatment_share_visitors": 0.892379679144385
     },
     {
@@ -38,6 +42,7 @@
       "visit_rate": 0.0021680616127202484,
       "treatment_share_all": 0.8485160830687335,
       "treatment_share_nonvisitors": 0.8484313888538428,
+      "nonvisitor_share_z_vs_0.85": -5.188550676037835,
       "treatment_share_visitors": 0.8874958759485319
     },
     {
@@ -46,6 +51,7 @@
       "visit_rate": 0.004209387707214335,
       "treatment_share_all": 0.8467393699367877,
       "treatment_share_nonvisitors": 0.8466375084055106,
+      "nonvisitor_share_z_vs_0.85": -11.110075151560396,
       "treatment_share_visitors": 0.8708361658735554
     },
     {
@@ -54,6 +60,7 @@
       "visit_rate": 0.007582201929247568,
       "treatment_share_all": 0.8470195249927204,
       "treatment_share_nonvisitors": 0.846812418853346,
+      "nonvisitor_share_z_vs_0.85": -10.513993729032492,
       "treatment_share_visitors": 0.8741271938101529
     },
     {
@@ -62,6 +69,7 @@
       "visit_rate": 0.018444500226345792,
       "treatment_share_all": 0.8485836045549499,
       "treatment_share_nonvisitors": 0.8481033317012893,
+      "nonvisitor_share_z_vs_0.85": -6.222922152754725,
       "treatment_share_visitors": 0.8741421426078865
     },
     {
@@ -70,6 +78,7 @@
       "visit_rate": 0.06784891402394491,
       "treatment_share_all": 0.8523991046947729,
       "treatment_share_nonvisitors": 0.8503624792707287,
+      "nonvisitor_share_z_vs_0.85": 1.1588265989784494,
       "treatment_share_visitors": 0.8803795466526094
     },
     {
@@ -78,6 +87,7 @@
       "visit_rate": 0.3668788806546682,
       "treatment_share_all": 0.8612270737360154,
       "treatment_share_nonvisitors": 0.851561105348907,
+      "nonvisitor_share_z_vs_0.85": 4.113086966834534,
       "treatment_share_visitors": 0.8779075888800932
     }
   ],
@@ -179,6 +189,48 @@
       "conversion_poststrat_relative_se": 0.0628043877288346
     }
   ],
+  "conversion_label_sensitivity": [
+    {
+      "k_upweight_nonconverters": 1.0,
+      "conversion_poststrat_relative": 0.4680126408980432,
+      "conversion_poststrat_relative_se": 0.018333903060933236
+    },
+    {
+      "k_upweight_nonconverters": 1.5,
+      "conversion_poststrat_relative": 0.47835648306612405,
+      "conversion_poststrat_relative_se": 0.02233063863409719
+    },
+    {
+      "k_upweight_nonconverters": 2.0,
+      "conversion_poststrat_relative": 0.48386167286128284,
+      "conversion_poststrat_relative_se": 0.025709551154491472
+    },
+    {
+      "k_upweight_nonconverters": 3.0,
+      "conversion_poststrat_relative": 0.48961056944933823,
+      "conversion_poststrat_relative_se": 0.03139127019039177
+    },
+    {
+      "k_upweight_nonconverters": 5.0,
+      "conversion_poststrat_relative": 0.49439733151975596,
+      "conversion_poststrat_relative_se": 0.040422773514302346
+    },
+    {
+      "k_upweight_nonconverters": 8.0,
+      "conversion_poststrat_relative": 0.49716732671122005,
+      "conversion_poststrat_relative_se": 0.051055912754867594
+    },
+    {
+      "k_upweight_nonconverters": 12.0,
+      "conversion_poststrat_relative": 0.49873122104447754,
+      "conversion_poststrat_relative_se": 0.06247849156874752
+    },
+    {
+      "k_upweight_nonconverters": 20.0,
+      "conversion_poststrat_relative": 0.49999549282214023,
+      "conversion_poststrat_relative_se": 0.08060520517476502
+    }
+  ],
   "sensitivity_interval": {
     "visit_poststrat_relative": [
       0.174242898618349,
@@ -196,6 +248,11 @@
       0.5944881177252619,
       0.6109118129622402
     ],
+    "conversion_poststrat_relative_if_conversion_label_sampled": [
+      0.4680126408980432,
+      0.49999549282214023
+    ],
+    "k20_upper_ci_conversion": 0.7213526329741053,
     "k_range": [
       1.0,
       20.0
@@ -221,6 +278,9 @@
     "a_rebalancing_residue": "assignment depends on X only; X-adjustment fixes it; imbalance also among non-visitors",
     "b_outcome_dependent_negative_sampling": "selection on Y; X-adjustment does not fix it; only the OR is invariant; pure Y-selection predicts treatment share <= 0.85 among non-visitors",
     "observed_nonvisitor_share_top_decile": 0.851561105348907,
+    "observed_nonvisitor_share_top_decile_z": 4.113086966834534,
+    "observed_nonvisitor_share_decile9_z": 1.1588265989784494,
+    "assumption": "the argument that pure outcome sampling cannot raise the non-visitor share above 0.85 assumes ads never lower visit propensity in any cell (monotonicity); the evidence is one decile",
     "observed_nonvisitor_share_deciles_1_8_mean": 0.8481759367029453
   },
   "source_note": "Diemert et al. 2021 (arXiv:2111.10106) \u00a73 and Table 3: their permutation C2ST (300 permutation draws; classifier log-loss 0.42307 vs constant 0.42269, p = 0.137) did not reject."

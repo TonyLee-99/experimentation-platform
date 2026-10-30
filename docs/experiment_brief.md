@@ -23,18 +23,20 @@ reduction). Traffic and prices are assumptions and are marked as such.*
 | 10% | 3,170,982 | 2,762,138 | 5.5 |
 | 20% | 792,745 | 690,534 | 1.4 |
 
-Recommendation: target a **10%** relative MDE. It is far below the effect this campaign type produced in the Criteo test,
-so it is a conservative design target, and 5% needs 4.0× the traffic. Whether an
-effect of a given size *pays* depends on the cost per exposed user (break-even table in the [decision memo](decision_memo.md)). Run at least **14 days** in any case, to cover
-two weekly cycles and the 14-day conversion window.
+Plan: enroll for **14 days** (two weekly cycles) at an assumed 500,000 eligible users/day,
+i.e. 7,000,000 users. That detects about 6.3% relative with CUPAC, comfortably below the 10%
+design target; 5% would need 4.0× the users of the 10% design. Each user's
+conversion window is 14 days, so the final read is on **day 28**. Whether an effect of a given size *pays*
+depends on the cost per exposed user (break-even table in the [decision memo](decision_memo.md)).
 
 ## Stopping rule
 
-O'Brien–Fleming (Lan–DeMets) with four weekly looks at information fractions 0.25, 0.5, 0.75, 1.0. Stop for benefit
-only if |z| exceeds 3.92 / 2.77 / 2.30 / 2.04 at looks 1–4
-(the last one is close to 1.96). Stop for harm at any look if a guardrail is significantly worse than its margin. The
-dashboard's daily p-value is not a stopping rule: on real ASOS experiments, daily peeking flagged
-218 of
+O'Brien–Fleming (Lan–DeMets, two-sided form α(t) = 2 − 2Φ(1.96/√t)) with two looks: an interim read on day
+21, when the first enrollment week's windows are complete (information ≈ 0.5), and the final read on day
+28. Stop for benefit only if |z| exceeds 2.77 / 1.98.
+(gsDesign's per-side convention gives slightly different bounds; both control α.) Stop for harm at any look if a
+guardrail is significantly worse than its margin. The dashboard's daily p-value is not a stopping rule: on real ASOS
+experiments, daily peeking flagged 218 of
 361 metric trajectories, against
 105 that were significant at the end.
 

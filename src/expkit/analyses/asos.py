@@ -103,7 +103,11 @@ class Trajectory:
         run_max = np.maximum.accumulate(info)
         # a look counts only if information grows by > 0.1% (near-duplicate looks add nothing but numerical noise)
         keep = (info >= run_max) & np.concatenate([[True], np.diff(run_max) / run_max[1:] > 1e-3])
-        frac = info / info[keep][-1]
+        # The final look is always the analysis look. If information fell at the end, drop earlier looks whose
+        # information is not clearly below the final one, so fractions stay increasing and end at t = 1.
+        keep[-1] = True
+        keep[:-1] &= info[:-1] < info[-1] * (1 - 1e-3)
+        frac = info / info[-1]
         return keep, frac
 
     def final_relative(self) -> tuple[float, float]:
@@ -271,14 +275,18 @@ def portfolio_eb(trajs: list[Trajectory], n_sim: int = 200, n_boot: int = 100) -
                     for i in np.flatnonzero(winners)
                 ],
             }
-        # PM haircut: a hypothetical observed lift at this metric's median SE -> NPMLE posterior mean, with a 90%
-        # bootstrap interval over prior refits (the discrete NPMLE's own posterior intervals are too narrow to quote)
+        # PM haircut: a hypothetical observed lift at this metric's median SE -> posterior mean under the NPMLE prior
+        # (90% bootstrap interval over prior refits) and under the normal prior. The NPMLE is a discrete prior with a
+        # few atoms, so its posterior mean is lumpy (results between atoms get pulled to the nearest atom, which can
+        # even move a result *up*); quote the two priors as a range, not one number as a rule.
         pm_grid, _ = npmle.posterior(obs_grid, np.full(obs_grid.size, med))
+        pm_grid_normal, _ = normal.posterior(obs_grid, np.full(obs_grid.size, med))
         haircut = [
             {
                 "observed": float(obs),
                 "z": float(obs / med),
                 "posterior_mean": float(pm_grid[j]),
+                "posterior_mean_normal_prior": float(pm_grid_normal[j]),
                 "posterior_mean_bootstrap_ci90": [float(hair_ci[0, j]), float(hair_ci[1, j])],
             }
             for j, obs in enumerate(obs_grid)
@@ -466,13 +474,31 @@ def model_benchmark(
     rng = np.random.default_rng(SEED + 11)
     res: dict[str, dict[str, float]] = {}
     for label in ("null", "npmle_effects"):
-        acc = {"declared": 0.0, "unsupported": 0.0, "sign_reversals": 0.0, "unsupported_but_true_effect_same_sign": 0.0}
+        acc = {
+            "declared": 0.0,
+            "unsupported": 0.0,
+            "sign_reversals": 0.0,
+            "unsupported_but_true_effect_same_sign": 0.0,
+            "obf_declared": 0.0,
+            "obf_unsupported": 0.0,
+            "obf_sign_reversals": 0.0,
+        }
         for t in trajs:
             if t.day.size < 3:
                 continue
             g = priors[t.metric]
             theta = np.zeros(reps) if label == "null" else rng.choice(g.support, reps, p=g.weights)
             Zp = _simulate_paths(t, theta, rng)
+            keep, frac = t.variance_info()
+            b = gsd_boundaries(frac[keep]).z_bounds
+            ohit = np.abs(Zp) >= b
+            odecl = ohit.any(axis=1)
+            ok = np.argmax(ohit, axis=1)
+            osign = np.sign(Zp[np.arange(reps), ok])
+            fin_sig = np.abs(Zp[:, -1]) >= Z
+            acc["obf_declared"] += odecl.sum() / reps
+            acc["obf_unsupported"] += (odecl & ((~fin_sig) | (osign != np.sign(Zp[:, -1])))).sum() / reps
+            acc["obf_sign_reversals"] += (odecl & (osign != np.sign(Zp[:, -1]))).sum() / reps
             hit = np.abs(Zp) >= Z
             decl = hit.any(axis=1)
             k = np.argmax(hit, axis=1)
