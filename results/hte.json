@@ -473,6 +473,5 @@
     "logloss_constant": 0.42244689222523213,
     "n_test": 6990238,
     "paper_reference": "Diemert et al. (2021) report a C2ST on 300 samples with p = 0.137"
-  },
-  "seconds_total": 1003.6
+  }
 }

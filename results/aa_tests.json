@@ -1,5 +1,6 @@
 {
-  "label": "SIMULATION: A/A re-randomization of real Criteo control units",
+  "label": "SIMULATION: A/A re-randomization of real Criteo control units (50% 'treatment')",
+  "share_treatment": 0.5,
   "n_units": 2096937,
   "n_reps": 10000,
   "alpha": 0.05,
@@ -78,5 +79,5 @@
     "conversion_cuped_analytic": 0.11056680428485499,
     "conversion_cupac_analytic": 0.13220485277937521
   },
-  "seconds": 384.9
+  "seconds": 81.2
 }

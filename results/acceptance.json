@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-29 16:06",
+  "generated": "2026-10-29 16:34",
   "rows": [
     {
       "id": "D1",
@@ -204,17 +204,17 @@
     {
       "id": "E3",
       "status": "PASS",
-      "evidence": "make all exit 0 in 71.3 min"
+      "evidence": "make all exit 0 in 25.1 min"
     },
     {
       "id": "E4",
-      "status": "FAIL",
-      "evidence": "ruff check exit 1, ruff format --check exit 1, mypy src exit 0"
+      "status": "PASS",
+      "evidence": "ruff check exit 0, ruff format --check exit 0, mypy src exit 0"
     },
     {
       "id": "E5",
       "status": "PASS",
-      "evidence": "41 tests, 0 failed; coverage of expkit/stats = 92.1%"
+      "evidence": "42 tests, 0 failed; coverage of expkit/stats = 92.1%"
     },
     {
       "id": "E6",
@@ -223,8 +223,8 @@
     },
     {
       "id": "E7",
-      "status": "FAIL",
-      "evidence": "71.3 min wall clock (shared host)"
+      "status": "PASS",
+      "evidence": "25.1 min wall clock (shared host)"
     },
     {
       "id": "R1",
@@ -248,8 +248,8 @@
     },
     {
       "id": "R5",
-      "status": "FAIL",
-      "evidence": "test_rendered_docs_match_results=MISSING"
+      "status": "PASS",
+      "evidence": "test_rendered_docs_match_results=PASS"
     }
   ]
 }
