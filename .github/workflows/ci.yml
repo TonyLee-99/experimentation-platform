@@ -11,7 +11,7 @@ jobs:
       - name: lint
         run: .venv/bin/ruff check src tests && .venv/bin/ruff format --check src tests && .venv/bin/mypy src
       - name: unit, property and cross-check tests (real-data tests skip without data)
-        run: .venv/bin/pytest -m "not data" --cov=expkit/stats --cov-fail-under=90
+        run: .venv/bin/pytest -m "not data" --cov=expkit.stats --cov-fail-under=90
   reproduce:
     # Full pipeline incl. 0.3 GB download; manual trigger only.
     if: github.event_name == 'workflow_dispatch'
