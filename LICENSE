@@ -20,7 +20,3 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
----
-The MIT license covers the code. Datasets, and data files derived from them
-(for example review text samples, labels and recorded model outputs), remain
-under their original licenses, listed in the Data section of the README.

@@ -483,7 +483,10 @@ def e5() -> tuple[str, str]:
 
 def e6() -> tuple[str, str]:
     have = (ROOT / "Dockerfile").exists() and (ROOT / ".github/workflows/ci.yml").exists()
-    return _ok(have), "Dockerfile + .github/workflows/ci.yml included; CI passes on GitHub Actions; Docker image not built (no local Docker daemon)"
+    return _ok(have), (
+        "Dockerfile + .github/workflows/ci.yml included; CI passes on GitHub Actions; "
+        "Docker image not built (no local Docker daemon)"
+    )
 
 
 def e7() -> tuple[str, str]:

@@ -117,6 +117,8 @@ and `.github/workflows/ci.yml` runs lint and tests on every push. Every number i
 | ASOS Digital Experiments: 78 experiments, 99 treatments, 4 metrics, cumulative snapshots | 24,153 | [OSF 64jsb](https://osf.io/64jsb/) | CC BY 4.0 |
 | Hillstrom MineThatData email RCT (heavy-tail study, appendix) | 64,000 | [minethatdata.com](http://www.minethatdata.com/blog/2008/03/minethatdata-e-mail-analytics-and-data.html) | public challenge data |
 
+Code is MIT-licensed ([LICENSE](LICENSE)). Data, and files derived from it, keep the source licenses above.
+
 Simulation is used only for validation and is labeled in every output: re-randomizing real units, injecting known
 effects, or model-based paths on real look schedules.
 
